@@ -1,17 +1,14 @@
 
-// Mavlink interface
-#include "../GCS_MAVLink/include/mavlink/v1.0/common/mavlink.h"// Mavlink interface
-#include "../GCS_MAVLink/include/mavlink/v1.0/ardupilotmega/ardupilotmega.h"
-#include "../GCS_MAVLink/include/mavlink/v1.0/ardupilotmega/mavlink.h"
-#include "../GCS_MAVLink/include/mavlink/v1.0/common/common.h"
 #include <TinyGPS.h>
 
+#include <TinyGPS.h>
 #include "fml.h"
 
-
-FmlDrone rover("Emax",1,1,1,1);
-FmlDrone multirotor_1("F550",2,2,2,10);
-FmlDrone multirotor_2("F550",3,2,2,20);
+//class FmlDrone(char* name,int id, int type, int autopilot, int gcs_id, int serial_port)
+FmlDrone rover("Emax",1,1,1,1,3);
+FmlDrone multirotor_1("F550",2,2,2,10,1);
+FmlDrone multirotor_2("F550",3,2,2,20,2);
+Nav navigator("ATmega2560");
 
 void setup() {
   
@@ -24,8 +21,8 @@ void setup() {
 
 void loop() {  
  
-  send_heartbeat_1();
-  send_heartbeat_2();
+  navigator.sendHeartbeat(multirotor_1);
+  navigator.sendHeartbeat(multirotor_2);  
   
   delay(1000);
   /*Serial.println(rover.getName());

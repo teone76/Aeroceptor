@@ -66,7 +66,7 @@ private:
 class FmlDrone
 {
 public:
-  FmlDrone(char* name,int id, int type, int autopilot, int gcs_id);
+  FmlDrone(char* name,int id, int type, int autopilot, int gcs_id, int serial_port);
   bool encode(char c); // process one character received from GPS
  
  /* double distanceBetweenDrone(FmlDrone drone);
@@ -79,13 +79,28 @@ public:
   int getType();
   int getAutopilot();
   int getGcsId();
+  int getSerialPort();
 private:
-  //enum {MAV_PACKET_POS,MAV_PACKET_SPEED, MAV_PACKET_OTHER};
+
   char* name;
   int id;
   int type;
   int autopilot;
   int gcs_id;  
+  int serial_port;
+};
+
+
+class Nav
+{
+public:
+  Nav(char* name);
+  char* getName();
+  void sendHeartbeat(FmlDrone drone);  
+  
+private:
+
+  char* name; 
 };
 
 #endif // def(__FmlDrone_h)
