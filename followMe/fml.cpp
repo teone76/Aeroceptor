@@ -28,9 +28,10 @@ FmlDrone::FmlDrone(char* droneName,int droneId, int droneType, int droneAutopilo
 // public methods
 //
 
-bool FmlDrone::encode(char c)
+uint8_t FmlDrone::encode(char c)
 {  
-  return false;
+    //try to get a new message 
+    return mavlink_parse_char(MAVLINK_COMM_1, c, &msg, &status); 
 }
 
 char* FmlDrone::getName()
@@ -107,21 +108,19 @@ double FmlLocation::relAlt()
 //
 // costruttore
 //
-Nav::Nav(char* navName)
+FmlNav::FmlNav(char* navName)
 {
   name = navName; 
 }
 
-char* Nav::getName()
+char* FmlNav::getName()
 {
   return name;
 }
 
-void Nav::sendHeartbeat(FmlDrone drone)
+void FmlNav::sendHeartbeat(FmlDrone drone)
 {
-        // Define items for heartbeat
-      mavlink_message_t msg;
-      mavlink_heartbeat_t heartbeat;
+      // Define items for heartbeat
       uint8_t buf[MAVLINK_MAX_PACKET_LEN];
       
       heartbeat.base_mode = 0; 
@@ -145,4 +144,5 @@ void Nav::sendHeartbeat(FmlDrone drone)
     //Serial.println("Serial port error"); 
       }    
 }
+
 

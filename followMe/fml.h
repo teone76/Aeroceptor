@@ -1,6 +1,12 @@
 /*
 */
 
+// Mavlink interface
+#include "../GCS_MAVLink/include/mavlink/v1.0/common/mavlink.h"// Mavlink interface
+#include "../GCS_MAVLink/include/mavlink/v1.0/ardupilotmega/ardupilotmega.h"
+#include "../GCS_MAVLink/include/mavlink/v1.0/ardupilotmega/mavlink.h"
+#include "../GCS_MAVLink/include/mavlink/v1.0/common/common.h"
+
 #ifndef __Fml_h
 #define __Fml_h
 
@@ -67,7 +73,7 @@ class FmlDrone
 {
 public:
   FmlDrone(char* name,int id, int type, int autopilot, int gcs_id, int serial_port);
-  bool encode(char c); // process one character received from GPS
+  uint8_t encode(char c); // process one character received from GPS
  
  /* double distanceBetweenDrone(FmlDrone drone);
   double courseTo(FmlDrone drone);*/
@@ -80,6 +86,7 @@ public:
   int getAutopilot();
   int getGcsId();
   int getSerialPort();
+
 private:
 
   char* name;
@@ -88,19 +95,23 @@ private:
   int autopilot;
   int gcs_id;  
   int serial_port;
+  mavlink_message_t msg;
+  mavlink_status_t status;
 };
 
 
-class Nav
+class FmlNav
 {
 public:
-  Nav(char* name);
+  FmlNav(char* name);
   char* getName();
   void sendHeartbeat(FmlDrone drone);  
-  
+
 private:
 
   char* name; 
+  mavlink_message_t msg;  
+  mavlink_heartbeat_t heartbeat;
 };
 
 #endif // def(__FmlDrone_h)

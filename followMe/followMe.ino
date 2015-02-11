@@ -7,7 +7,7 @@
 FmlDrone rover("Emax",1,1,1,1,3);
 FmlDrone multirotor_1("F550",2,2,2,10,1);
 FmlDrone multirotor_2("F550",3,2,2,20,2);
-Nav navigator("ATmega2560");
+FmlNav navigator("ATmega2560");
 
 void setup() {
   
@@ -27,14 +27,44 @@ void loop() {
   /*Serial.println(rover.getName());
   Serial.println(multirotor_1.getName());
   Serial.println(multirotor_2.getName());*/
-  checkAvailableDataOnSerial_1();
-  checkAvailableDataOnSerial_2();
-  checkAvailableDataOnSerial_3();
+  
+//checkAvailableDataOnSerial_1();
+//checkAvailableDataOnSerial_2();
+//checkAvailableDataOnSerial_3();
+  checkAvailableDataOnSerial(); 
 }
 
 //////// FUNCTIONS /////////
 
+void checkAvailableDataOnSerial()
+{
+  while(Serial1.available() > 0) multirotor_1.encode(Serial1.read());
+  while(Serial2.available() > 0) multirotor_2.encode(Serial2.read());
+  while(Serial3.available() > 0) rover.encode(Serial3.read());
+}
 
+/*  if(drone.getSerialPort()==1) {
+    while(Serial1.available() > 0) { 
+	//try to get a new message 
+	mavlink_parse_char(MAVLINK_COMM_1, Serial1.read(), &drone.getMsg(), &drone.getStatus()); }
+  }
+  else if(drone.getSerialPort()==2) {
+    while(Serial2.available() > 0) { 
+	//try to get a new message 
+	mavlink_parse_char(MAVLINK_COMM_2, Serial2.read(), &drone.getMsg(), &drone.getStatus()); }
+  }
+  else if(drone.getSerialPort()==3) {
+    while(Serial3.available() > 0) { 
+	//try to get a new message 
+	mavlink_parse_char(MAVLINK_COMM_2, Serial3.read(), &drone.getMsg(), &drone.getStatus()); }
+  }  
+  else {
+    //Serial.println("Serial port error"); 
+  }
+}  */
+
+
+/*
 void checkAvailableDataOnSerial_1() {
   while(Serial1.available() > 0) multirotor_1.encode(Serial1.read());
  }
@@ -45,5 +75,5 @@ void checkAvailableDataOnSerial_2() {
  
 void checkAvailableDataOnSerial_3() { 
   while(Serial3.available() > 0) rover.encode(Serial3.read());
- }
-  
+ }*/
+
