@@ -18,61 +18,67 @@
 
 struct FmlLocation
 {
-   friend class FmlDrone;
+   friend class FmlDroneInterface;
 
 public:
    bool isValid() const    { return valid; }
    bool isUpdated() const  { return updated; }
    uint32_t age() const    { return valid ? millis() - lastCommitTime : (uint32_t)ULONG_MAX; }
-   double lat();
-   double lng();
-   double relAlt();
-
+   float lat();
+   float lng();
+   float relAlt();
+   float rif_lat();
+   float rif_lng();
+   float rif_relAlt();
    FmlLocation() : valid(false), updated(false)
    {}
 
 private:
    bool valid, updated;
-   double latData, lngData, relAltData; 
+   float latData, lngData, relAltData, rif_latData, rif_lngData, rif_relAltData; 
    uint32_t lastCommitTime;
    
    void commit();
-   void setLatitude(double latitude);
-   void setLongitude(double longitude);
-   void setRelativeAltitude(double relativeAltitude);
+   void setLatitude(float latitude);
+   void setLongitude(float longitude);
+   void setRelativeAltitude(float relativeAltitude);
+   void rif_setLatitude(float rif_latitude);
+   void rif_setLongitude(float rif_longitude);
+   void rif_setRelativeAltitude(float rif_relativeAltitude);
 };
 
 struct FmlOther
 {
-   friend class FmlDrone;
+   friend class FmlDroneInterface;
 
 public:
    bool isValid() const    { return valid; }
    bool isUpdated() const  { return updated; }
    uint32_t age() const    { return valid ? millis() - lastCommitTime : (uint32_t)ULONG_MAX; }
-   double groundSpeed();
-   double heading();
+   float gs();
+   float hdg();
 
    FmlOther() : valid(false), updated(false)
    {}
 
 private:
    bool valid, updated;
-   double groundSpeedData, headingData; 
+   float groundSpeedData, headingData; 
    uint32_t lastCommitTime;
    
    void commit();
-   void groundSpeed(double groundSpeed);
-   void setheading(double heading);
+   void setGroundSpeed(float groundspeed);
+   void setHeading(float heading);
 };
 
 
 
 
-class FmlDrone
+class FmlDroneInterface
 {
 public:
-  FmlDrone(char* name,int id, int type, int autopilot, int gcs_id, int serial_port);
+
+  FmlDroneInterface(char* name,int id, int type, int autopilot, int gcs_id, int serial_port);
   uint8_t encode(char c); // process one character received from GPS
  
  /* double distanceBetweenDrone(FmlDrone drone);
@@ -86,7 +92,10 @@ public:
   int getAutopilot();
   int getGcsId();
   int getSerialPort();
-
+  void identifyMavMsg();
+  void sendMavMsgHeartbeat();
+  void send_mission_item_nav_waypoint(float rif_latitude, float rif_longitude, float rif_relativeAltitude);
+  
 private:
 
   char* name;
@@ -97,21 +106,23 @@ private:
   int serial_port;
   mavlink_message_t msg;
   mavlink_status_t status;
+  mavlink_heartbeat_t heartbeat;
+  mavlink_global_position_int_t global_position_int;
+  mavlink_vfr_hud_t vfr_hud; 
+  mavlink_mission_item_t mission_item; 
 };
 
 
 class FmlNav
 {
 public:
+
   FmlNav(char* name);
   char* getName();
-  void sendHeartbeat(FmlDrone drone);  
-
+  
 private:
 
-  char* name; 
-  mavlink_message_t msg;  
-  mavlink_heartbeat_t heartbeat;
+  char* name;  
 };
 
 #endif // def(__FmlDrone_h)
