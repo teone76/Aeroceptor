@@ -27,9 +27,6 @@ public:
    float lat();
    float lng();
    float relAlt();
-   float rif_lat();
-   float rif_lng();
-   float rif_relAlt();
    FmlLocation() : valid(false), updated(false)
    {}
 
@@ -42,9 +39,6 @@ private:
    void setLatitude(float latitude);
    void setLongitude(float longitude);
    void setRelativeAltitude(float relativeAltitude);
-   void rif_setLatitude(float rif_latitude);
-   void rif_setLongitude(float rif_longitude);
-   void rif_setRelativeAltitude(float rif_relativeAltitude);
 };
 
 struct FmlOther
@@ -79,12 +73,13 @@ class FmlDroneInterface
 public:
 
   FmlDroneInterface(char* name,int id, int type, int autopilot, int gcs_id, int serial_port);
-  uint8_t encode(char c); // process one character received from GPS
+  void encode(char c); // process one character received from GPS
  
  /* double distanceBetweenDrone(FmlDrone drone);
   double courseTo(FmlDrone drone);*/
 
   FmlLocation location;
+  FmlLocation rif_location;
   FmlOther other;
   char* getName();
   int getId();
@@ -94,7 +89,7 @@ public:
   int getSerialPort();
   void identifyMavMsg();
   void sendMavMsgHeartbeat();
-  void send_mission_item_nav_waypoint(float rif_latitude, float rif_longitude, float rif_relativeAltitude);
+  void sendMissionItemNavWaypoint();
   
 private:
 

@@ -27,7 +27,6 @@ void setup() {
 void loop() {  
 
   checkAvailableDataOnSerial(); 
-  updateData();
 
   if(millis() - timer > interval)
   { 
@@ -45,13 +44,6 @@ void checkAvailableDataOnSerial()
   while(Serial3.available() > 0) rover.encode(Serial3.read());
   while(Serial1.available() > 0) multirotor_1.encode(Serial1.read());
   while(Serial2.available() > 0) multirotor_2.encode(Serial2.read());  
-}
-
-void updateData()
-{
-  rover.identifyMavMsg();
-  multirotor_1.identifyMavMsg();
-  multirotor_2.identifyMavMsg(); 
 }
 
 void sendHeartbeat()
@@ -84,17 +76,17 @@ void calculateNewDronePosition()
  //SIMULINK_FUNCTION()..
   
  //OUTPUTS:
-  multirotor_1.location.rif_setLatitude(simulink_outputs ----> float rif1_latitude);
-  multirotor_1.location.rif_setLongitude(simulink_outputs ----> float rif1_longitude);
-  multirotor_1.location.rif_setRelativeAltitude(simulink_outputs ----> float rif1_relativeAltitude);
+  multirotor_1.rif_location.setLatitude(simulink_outputs ----> float rif1_latitude);
+  multirotor_1.rif_location.setLongitude(simulink_outputs ----> float rif1_longitude);
+  multirotor_1.rif_location.setRelativeAltitude(simulink_outputs ----> float rif1_relativeAltitude);
 
-  multirotor_2.location.rif_setLatitude(simulink_outputs ----> float rif2_latitude);
-  multirotor_2.location.rif_setLongitude(simulink_outputs ----> float rif2_longitude);
-  multirotor_2.location.rif_setRelativeAltitude(simulink_outputs ----> float rif2_relativeAltitude); */
+  multirotor_2.rif_location.setLatitude(simulink_outputs ----> float rif2_latitude);
+  multirotor_2.rif_location.setLongitude(simulink_outputs ----> float rif2_longitude);
+  multirotor_2.rif_location.setRelativeAltitude(simulink_outputs ----> float rif2_relativeAltitude); */
 }
 
 void sendWaypoints()
 {
-  multirotor_1.send_mission_item_nav_waypoint(multirotor_1.location.rif_lat(), multirotor_1.location.rif_lng(), multirotor_1.location.rif_relAlt());
-  multirotor_2.send_mission_item_nav_waypoint(multirotor_2.location.rif_lat(), multirotor_2.location.rif_lng(), multirotor_2.location.rif_relAlt());
+  multirotor_1.sendMissionItemNavWaypoint();
+  multirotor_2.sendMissionItemNavWaypoint();
 }

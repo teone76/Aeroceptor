@@ -28,10 +28,10 @@ FmlDroneInterface::FmlDroneInterface(char* droneName,int droneId, int droneType,
 // public methods
 //
 
-uint8_t FmlDroneInterface::encode(char c)
+void FmlDroneInterface::encode(char c)
 {  
     //try to get a new message 
-    return mavlink_parse_char(MAVLINK_COMM_1, c, &msg, &status); 
+    if (mavlink_parse_char(MAVLINK_COMM_1, c, &msg, &status)) {this->identifyMavMsg();}
 }
 
 char* FmlDroneInterface::getName()
@@ -119,7 +119,7 @@ void FmlDroneInterface::sendMavMsgHeartbeat()
       }    
 }
 
-void FmlDroneInterface::send_mission_item_nav_waypoint(float rif_latitude, float rif_longitude, float rif_relativeAltitude)
+void FmlDroneInterface::sendMissionItemNavWaypoint()
 {
     uint8_t buf[MAVLINK_MAX_PACKET_LEN];
     //Define items for mission_item messages
@@ -133,9 +133,9 @@ void FmlDroneInterface::send_mission_item_nav_waypoint(float rif_latitude, float
     mission_item.param3 = 0; // 0 to pass through the WP, if > 0 radius in meters to pass by WP. Positive value for clockwise orbit, negative value for counter-clockwise orbit. Allows trajectory control.
     mission_item.param4 = 0; // Desired yaw angle at MISSION (rotary wing)   
     
-    mission_item.x = rif_latitude;
-    mission_item.y = rif_longitude;    
-    mission_item.z = rif_relativeAltitude; //meters
+    mission_item.x = rif_location.lat();
+    mission_item.y = rif_location.lng();    
+    mission_item.z = rif_location.relAlt(); //meters
     
     // Pack the message
     // uint16_t mavlink_msg_mission_item_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg, uint8_t target_system, uint8_t target_component, uint16_t seq, uint8_t frame,
@@ -177,21 +177,6 @@ void FmlLocation::setRelativeAltitude(float relativeAltitude)
   relAltData = relativeAltitude;
 }
 
-void FmlLocation::rif_setLatitude(float rif_latitude)
-{
-   rif_latData = rif_latitude;
-}
-
-void FmlLocation::rif_setLongitude(float rif_longitude)
-{
-  rif_lngData = rif_longitude;
-}
-
-void FmlLocation::rif_setRelativeAltitude(float rif_relativeAltitude)
-{
-  rif_relAltData = rif_relativeAltitude;
-}
-
 float FmlLocation::lat()
 {
    updated = false;
@@ -208,24 +193,6 @@ float FmlLocation::relAlt()
 {
    updated = false;
    return relAltData;
-}
-
-float FmlLocation::rif_lat()
-{
-   updated = false;
-   return rif_latData;
-}
-
-float FmlLocation::rif_lng()
-{
-   updated = false;
-   return rif_lngData;
-}
-
-float FmlLocation::rif_relAlt()
-{
-   updated = false;
-   return rif_relAltData;
 }
 
 void FmlOther::commit()
