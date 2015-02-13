@@ -96,12 +96,12 @@ float FmlDroneInterface::getHeading(){
   return other.hdg();
 }
 
-
 void FmlDroneInterface::identifyMavMsg()
 {
    switch(msg.msgid) {
         case MAVLINK_MSG_ID_HEARTBEAT: {
-                  //time..
+                  Serial.println("");
+                  Serial.println("receive heartbeat");
         }
 	break;
         case MAVLINK_MSG_ID_GLOBAL_POSITION_INT: {  
@@ -110,7 +110,15 @@ void FmlDroneInterface::identifyMavMsg()
              
              location.setLatitude(((float)global_position_int.lat)*0.0000001);                      //latitude     
              location.setLongitude(((float)global_position_int.lon)*0.0000001);                     //longitude
-             location.setRelativeAltitude(((float)global_position_int.relative_alt)*0.001);         // Altitude above ground in meters        
+             location.setRelativeAltitude(((float)global_position_int.relative_alt)*0.001);         // Altitude above ground in meters    
+             Serial.println("");
+             Serial.println("receive global position int");
+             Serial.print("LAT: ");
+             Serial.println(getLatitude());
+             Serial.print("LNG: ");
+             Serial.println(getLongitude());
+             Serial.print("REL ALT: "); 
+             Serial.println(getRelativeAltitude());   
         }
         break;
         case MAVLINK_MSG_ID_VFR_HUD: {
@@ -118,6 +126,12 @@ void FmlDroneInterface::identifyMavMsg()
              
              other.setGroundSpeed(vfr_hud.groundspeed);          ///< Current ground speed in m/s
              other.setHeading((float)vfr_hud.heading);           ///< Current heading in degrees, in compass units (0..360, 0=north)
+             Serial.println("");
+             Serial.println("receive vfr hud");
+             Serial.print("GND SPD: ");
+             Serial.println(getGroundSpeed());
+             Serial.print("HDG: ");
+             Serial.println(getHeading());
         }
         break;
         default:
@@ -144,9 +158,13 @@ void FmlDroneInterface::sendMavMsgHeartbeat()
 
       // Send the message (.write sends as bytes) 	
       if(serial_port == 1) {
-        Serial1.write(buf, len); }
+        Serial1.write(buf, len); 
+        Serial.println("");
+        Serial.println("send heartbeat to serial1"); }
       else if(serial_port == 2) { 
-        Serial2.write(buf, len); }
+        Serial2.write(buf, len); 
+        Serial.println("");
+        Serial.println("send heartbeat to serial2"); }
       else {
     //Serial.println("Serial port error"); 
       }    
@@ -180,9 +198,13 @@ void FmlDroneInterface::sendMissionItemNavWaypoint()
 	
     // Send the message (.write sends as bytes) 	
     if(serial_port == 1) {
-      Serial1.write(buf, len); }
+      Serial1.write(buf, len); 
+      Serial.println("");
+      Serial.println("send waypoint to serial1"); }     
     else if(serial_port == 2) { 
-      Serial2.write(buf, len); }
+      Serial2.write(buf, len); 
+      Serial.println("");
+      Serial.println("send waypoint to serial2"); }      
     else {
     //Serial.println("Serial port error"); 
     }   

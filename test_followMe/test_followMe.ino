@@ -24,9 +24,11 @@ void setup() {
   Serial2.begin(57600);  // Multicopter 2
   Serial3.begin(57600);  // Rover
   
-/*Serial.println(rover.getName());
+  Serial.println("Serial ready..");
+  Serial.println("");
+  Serial.println(rover.getName());
   Serial.println(multirotor_1.getName());
-  Serial.println(multirotor_2.getName()); */
+  Serial.println(multirotor_2.getName()); 
 }
 
 void loop() {  
@@ -76,13 +78,13 @@ void calculateNewDronePosition()
   navigationLawInput[6] = multirotor_1.getLongitude();
   navigationLawInput[7] = multirotor_1.getRelativeAltitude();
   navigationLawInput[8] = multirotor_1.getGroundSpeed();
-  navigationLawInput[9] = multirotor_1.getHeading();   
+  navigationLawInput[9] = multirotor_1.getHeading();  
 
   navigationLawInput[10] = multirotor_2.getLatitude();
   navigationLawInput[11] = multirotor_2.getLongitude();
   navigationLawInput[12] = multirotor_2.getRelativeAltitude();
   navigationLawInput[13] = multirotor_2.getGroundSpeed();
-  navigationLawInput[14] = multirotor_2.getHeading();   
+  navigationLawInput[14] = multirotor_2.getHeading();  
 
  // Navigation Control Law
  navigationLawOutput[0] =  navigationLawInput[0];
