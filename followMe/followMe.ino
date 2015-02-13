@@ -12,6 +12,11 @@ unsigned long timer = millis();
 unsigned long interval = 1000;
 
 
+
+float navigationLawInput [15];
+float navigationLawOutput [6];
+
+
 void setup() {
 
   Serial.begin(115200);  // Debug
@@ -27,12 +32,18 @@ void setup() {
 void loop() {  
 
   checkAvailableDataOnSerial(); 
-
+  
+  // 
   if(millis() - timer > interval)
   { 
     timer = millis();
-    sendHeartbeat();   
+    // Invio del heatbeat a tutti i multirotori
+    sendHeartbeat();  
+    
+    // Calcolo della nuova posizione e settaggio della nuovo riferimento di posizione dei due multirotori
     calculateNewDronePosition();
+    
+    // 
     sendWaypoints();
   }    
 }
@@ -53,36 +64,42 @@ void sendHeartbeat()
 }
 
 void calculateNewDronePosition()
-{/*
- //INPUTS:
-  rover.location.lat();
-  rover.location.lng();
-  rover.location.relAlt();
-  rover.other.gs();
-  rover.other.hdg();
+{
+  // Set navigatio law INPUTS
+  navigationLawInput[0] = rover.getLatitude();
+  navigationLawInput[1] = rover.getLongitude();
+  navigationLawInput[2] = rover.getRelativeAltitude();
+  navigationLawInput[3] = rover.other.gs();
+  navigationLawInput[4] = rover.other.hdg();
   
-  multirotor_1.location.lat();
-  multirotor_1.location.lng();
-  multirotor_1.location.relAlt();
-  multirotor_1.other.gs();
-  multirotor_1.other.hdg();  
+  navigationLawInput[5] = multirotor_1.getLatitude();
+  navigationLawInput[6] = multirotor_1.getLongitude();
+  navigationLawInput[7] = multirotor_1.getRelativeAltitude();
+  navigationLawInput[8] = multirotor_1.other.gs();
+  navigationLawInput[9] = multirotor_1.other.hdg();  
 
-  multirotor_2.location.lat();
-  multirotor_2.location.lng();
-  multirotor_2.location.relAlt();
-  multirotor_2.other.gs();
-  multirotor_2.other.hdg();  
+  navigationLawInput[10] = multirotor_2.getLatitude();
+  navigationLawInput[11] = multirotor_2.getLongitude();
+  navigationLawInput[12] = multirotor_2.getRelativeAltitude();
+  navigationLawInput[13] = multirotor_2.other.gs();
+  navigationLawInput[14] = multirotor_2.other.hdg();  
 
- //SIMULINK_FUNCTION()..
+ // Navigation Control Law
+ navigationLawOutput[0] =  navigationLawInput[0];
+ navigationLawOutput[1] =  navigationLawInput[1];
+ navigationLawOutput[2] =  navigationLawInput[2];
+ navigationLawOutput[3] =  navigationLawInput[0];
+ navigationLawOutput[4] =  navigationLawInput[1];
+ navigationLawOutput[5] =  navigationLawInput[2]; 
   
  //OUTPUTS:
-  multirotor_1.rif_location.setLatitude(simulink_outputs ----> float rif1_latitude);
-  multirotor_1.rif_location.setLongitude(simulink_outputs ----> float rif1_longitude);
-  multirotor_1.rif_location.setRelativeAltitude(simulink_outputs ----> float rif1_relativeAltitude);
+  multirotor_1.setRifLatitude(navigationLawOutput[0]);
+  multirotor_1.setRifLongitude(navigationLawOutput[1]);
+  multirotor_1.setRifRelAltitude(navigationLawOutput[2]);
 
-  multirotor_2.rif_location.setLatitude(simulink_outputs ----> float rif2_latitude);
-  multirotor_2.rif_location.setLongitude(simulink_outputs ----> float rif2_longitude);
-  multirotor_2.rif_location.setRelativeAltitude(simulink_outputs ----> float rif2_relativeAltitude); */
+  multirotor_1.setRifLatitude(navigationLawOutput[0]);
+  multirotor_1.setRifLongitude(navigationLawOutput[1]);
+  multirotor_1.setRifRelAltitude(navigationLawOutput[2]);
 }
 
 void sendWaypoints()

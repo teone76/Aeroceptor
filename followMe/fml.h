@@ -32,7 +32,7 @@ public:
 
 private:
    bool valid, updated;
-   float latData, lngData, relAltData, rif_latData, rif_lngData, rif_relAltData; 
+   float latData, lngData, relAltData; 
    uint32_t lastCommitTime;
    
    void commit();
@@ -78,8 +78,7 @@ public:
  /* double distanceBetweenDrone(FmlDrone drone);
   double courseTo(FmlDrone drone);*/
 
-  FmlLocation location;
-  FmlLocation rif_location;
+  
   FmlOther other;
   char* getName();
   int getId();
@@ -87,12 +86,19 @@ public:
   int getAutopilot();
   int getGcsId();
   int getSerialPort();
-  void identifyMavMsg();
   void sendMavMsgHeartbeat();
   void sendMissionItemNavWaypoint();
+  void setRifLatitude(float rifLatitude);
+  void setRifLongitude(float rifLongitude);
+  void setRifRelAltitude(float rifAltitude);
+  
+  float getLatitude();
+  float getLongitude();
+  float getRelativeAltitude();
   
 private:
-
+  FmlLocation location;
+  FmlLocation rif_location;
   char* name;
   int id;
   int type;
@@ -105,6 +111,7 @@ private:
   mavlink_global_position_int_t global_position_int;
   mavlink_vfr_hud_t vfr_hud; 
   mavlink_mission_item_t mission_item; 
+  void identifyMavMsg();
 };
 
 

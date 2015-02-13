@@ -64,6 +64,31 @@ int FmlDroneInterface::getSerialPort()
   return serial_port;
 }
 
+void FmlDroneInterface::setRifLatitude(float rifLatitude){
+  rif_location.latData = rifLatitude;
+}
+
+void FmlDroneInterface::setRifLongitude(float rifLongitude){
+  rif_location.lngData = rifLongitude;
+}
+
+void FmlDroneInterface::setRifRelAltitude(float rifRelAltitude){
+  rif_location.relAltData = rifRelAltitude;
+}
+  
+float FmlDroneInterface::getLatitude(){
+  return location.lat();
+}
+
+float FmlDroneInterface::getLongitude(){
+  return location.lng();
+}
+
+float FmlDroneInterface::getRelativeAltitude(){
+  return location.relAlt();
+} 
+  
+
 void FmlDroneInterface::identifyMavMsg()
 {
    switch(msg.msgid) {
