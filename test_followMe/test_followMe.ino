@@ -10,12 +10,14 @@ FmlDroneInterface multirotor_2("F550",3,2,2,20,2);
 FmlNav navigator("ATmega2560");
 unsigned long timer = millis();
 unsigned long interval = 1000;
-
+unsigned long pwmin = 0;
 
 
 float navigationLawInput [15];
 float navigationLawOutput [6];
 
+//pin input from RX
+int pin = 13;
 
 void setup() {
 
@@ -23,6 +25,8 @@ void setup() {
   Serial1.begin(57600);  // Multicopter 1
   Serial2.begin(57600);  // Multicopter 2
   Serial3.begin(57600);  // Rover
+  
+  pinMode(pin, INPUT);  
   
   Serial.println("Serial ready..");
   Serial.println("");
@@ -44,9 +48,14 @@ void loop() {
     
     // Calcolo della nuova posizione e settaggio della nuovo riferimento di posizione dei due multirotori
     calculateNewDronePosition();
-    
+
+    // Command input from RX 
+    pwmin = pulseIn(pin, HIGH, 20000);
+    Serial.println(pwmin);
+    if(pwmin < 1200) {     
     // 
-    sendWaypoints();
+      sendWaypoints();
+    }
   }    
 }
 

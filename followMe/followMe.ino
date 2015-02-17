@@ -11,11 +11,15 @@ FmlNav navigator("ATmega2560");
 unsigned long timer = millis();
 unsigned long interval = 1000;
 
+//pwm input from RX, pulse duration in microseconds
+unsigned long pwmin = 0;
 
 
 float navigationLawInput [15];
 float navigationLawOutput [6];
 
+//pin input from RX
+int pin = 13;
 
 void setup() {
 
@@ -23,28 +27,34 @@ void setup() {
   Serial1.begin(57600);  // Multicopter 1
   Serial2.begin(57600);  // Multicopter 2
   Serial3.begin(57600);  // Rover
-  
+
+  pinMode(pin, INPUT);  
 /*Serial.println(rover.getName());
   Serial.println(multirotor_1.getName());
   Serial.println(multirotor_2.getName()); */
 }
 
 void loop() {  
-
+  // Check and save new data from serials
   checkAvailableDataOnSerial(); 
   
-  // 
+  // Once per second..
   if(millis() - timer > interval)
   { 
     timer = millis();
-    // Invio del heatbeat a tutti i multirotori
+    // Send heartbeat to multirotors
     sendHeartbeat();  
     
-    // Calcolo della nuova posizione e settaggio della nuovo riferimento di posizione dei due multirotori
+    // Calculate new waypoints
     calculateNewDronePosition();
     
-    // 
-    sendWaypoints();
+    // Command input from RX 
+    pwmin = pulseIn(pin, HIGH, 20000);    
+
+    // Send waypoints to the drones
+    if(pwmin < 1200) { 
+      sendWaypoints();
+    }        
   }    
 }
 
