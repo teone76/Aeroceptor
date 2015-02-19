@@ -152,6 +152,29 @@ void FmlDroneInterface::sendMavMsgHeartbeat()
       }    
 }
 
+void FmlDroneInterface::getDataStream() {
+
+   uint8_t buf[MAVLINK_MAX_PACKET_LEN];  
+   request_data_stream.req_stream_id = 6;
+   request_data_stream.req_message_rate = 3;
+   request_data_stream.start_stop = 1;    
+    mavlink_msg_request_data_stream_pack(gcs_id, gcs_id, &msg, id, id, request_data_stream.req_stream_id, request_data_stream.req_message_rate, request_data_stream.start_stop);    
+   
+   // Copy the message to send buffer 
+    uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
+	
+    // Send the message (.write sends as bytes) 	
+    if(serial_port == 1) {
+      Serial1.write(buf, len); 
+    }     
+    else if(serial_port == 2) { 
+      Serial2.write(buf, len);      
+    }      
+    else {
+    //Serial.println("Serial port error"); 
+    }
+ }
+
 void FmlDroneInterface::sendMissionItemNavWaypoint()
 {
     uint8_t buf[MAVLINK_MAX_PACKET_LEN];

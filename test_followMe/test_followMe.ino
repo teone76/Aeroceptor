@@ -2,7 +2,7 @@
 
 #include <TinyGPS.h>
 #include "fml.h"
-
+TinyGPS gps;
 //class FmlDrone(char* name,int id, int type, int autopilot, int gcs_id, int serial_port)
 FmlDroneInterface rover("Emax",1,1,1,1,3);
 FmlDroneInterface multirotor_1("F550",2,2,2,10,1);
@@ -45,7 +45,7 @@ void loop() {
     timer = millis();
     // Invio del heatbeat a tutti i multirotori
     sendHeartbeat();  
-    
+    sendRequest();
     // Calcolo della nuova posizione e settaggio della nuovo riferimento di posizione dei due multirotori
     calculateNewDronePosition();
 
@@ -56,6 +56,13 @@ void loop() {
     // 
       sendWaypoints();
     }
+   Serial.println("");
+   Serial.print("distanza drone_1 : ");
+   Serial.print(gps.distance_between(rover.getLatitude(), rover.getLongitude(), multirotor_1.getLatitude(), multirotor_1.getLongitude()));
+   Serial.println(" metri");
+   Serial.print("distanza drone_2 : ");
+   Serial.print(gps.distance_between(rover.getLatitude(), rover.getLongitude(), multirotor_2.getLatitude(), multirotor_2.getLongitude()));
+   Serial.println(" metri");
   }    
 }
 
@@ -66,6 +73,12 @@ void checkAvailableDataOnSerial()
   while(Serial3.available() > 0) rover.encode(Serial3.read());
   while(Serial1.available() > 0) multirotor_1.encode(Serial1.read());
   while(Serial2.available() > 0) multirotor_2.encode(Serial2.read());  
+}
+
+void  sendRequest()
+{
+  multirotor_1.getDataStream();
+  multirotor_2.getDataStream();
 }
 
 void sendHeartbeat()

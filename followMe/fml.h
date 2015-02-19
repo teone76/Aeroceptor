@@ -87,6 +87,7 @@ public:
   int getSerialPort();
   void sendMavMsgHeartbeat();
   void sendMissionItemNavWaypoint();
+  void getDataStream();  
   void setRifLatitude(float rifLatitude);
   void setRifLongitude(float rifLongitude);
   void setRifRelAltitude(float rifAltitude);
@@ -113,6 +114,7 @@ private:
   mavlink_global_position_int_t global_position_int;
   mavlink_vfr_hud_t vfr_hud; 
   mavlink_mission_item_t mission_item; 
+  mavlink_request_data_stream_t request_data_stream;
   void identifyMavMsg();
 };
 

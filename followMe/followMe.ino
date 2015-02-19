@@ -44,7 +44,7 @@ void loop() {
     timer = millis();
     // Send heartbeat to multirotors
     sendHeartbeat();  
-    
+    sendRequest();    
     // Calculate new waypoints
     calculateNewDronePosition();
     
@@ -71,6 +71,12 @@ void sendHeartbeat()
 {
   multirotor_1.sendMavMsgHeartbeat();
   multirotor_2.sendMavMsgHeartbeat();   
+}
+
+void  sendRequest()
+{
+  multirotor_1.getDataStream();
+  multirotor_2.getDataStream();
 }
 
 void calculateNewDronePosition()
