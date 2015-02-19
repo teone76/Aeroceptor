@@ -200,11 +200,25 @@ void FmlDroneInterface::sendMissionItemNavWaypoint()
     if(serial_port == 1) {
       Serial1.write(buf, len); 
       Serial.println("");
-      Serial.println("send waypoint to serial1"); }     
+      Serial.println("send waypoint to serial1");
+      Serial.println("lat    lng    rel_alt");
+      Serial.print(mission_item.x);
+      Serial.print("    ");
+      Serial.print(mission_item.y);
+      Serial.print("    ");
+      Serial.println(mission_item.z);
+    }     
     else if(serial_port == 2) { 
       Serial2.write(buf, len); 
       Serial.println("");
-      Serial.println("send waypoint to serial2"); }      
+      Serial.println("send waypoint to serial2"); 
+      Serial.println("lat    lng    rel_alt");
+      Serial.print(mission_item.x);
+      Serial.print("    ");
+      Serial.print(mission_item.y);
+      Serial.print("    ");
+      Serial.println(mission_item.z);      
+    }      
     else {
     //Serial.println("Serial port error"); 
     }   
