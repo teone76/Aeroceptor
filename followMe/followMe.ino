@@ -19,7 +19,7 @@ float navigationLawInput [15];
 float navigationLawOutput [6];
 
 //pin input from RX
-int pin = 13;
+int pin = 12;
 
 void setup() {
 
