@@ -30,9 +30,22 @@ void setup() {
   
   Serial.println("Serial ready..");
   Serial.println("");
-  Serial.println(rover.getName());
-  Serial.println(multirotor_1.getName());
-  Serial.println(multirotor_2.getName()); 
+  Serial.print(rover.getName());
+  Serial.print(" on serial3, ");  
+  Serial.print(multirotor_1.getName());
+  Serial.println(" on serial1, ");
+//  Serial.println(multirotor_2.getName());
+  Serial.println("");
+  Serial.print("   LAT_1      ");
+  Serial.print("LNG_1    ");
+  Serial.print("REL_ALT_1    ");
+  Serial.print("LAT_3      ");
+  Serial.print("LNG_3    ");
+  Serial.print("REL_ALT_3  ");
+  Serial.print("GND_SPD_3    ");
+  Serial.print("HDG_3      ");
+  Serial.print("DIST   ");
+  Serial.println("CRS    ");
 }
 
 void loop() {  
@@ -51,18 +64,30 @@ void loop() {
 
     // Command input from RX 
     pwmin = pulseIn(pin, HIGH, 20000);
-    Serial.println(pwmin);
+    //Serial.println(pwmin);
     if(pwmin < 1200) {     
     // 
       sendWaypoints();
-    }
-   Serial.println("");
-   Serial.print("distanza drone_1 : ");
+    } 
+   Serial.print(multirotor_1.getLatitude(), 7);
+   Serial.print(", ");
+   Serial.print(multirotor_1.getLongitude(), 7);
+   Serial.print(", ");
+   Serial.print(multirotor_1.getRelativeAltitude(), 7);    
+   Serial.print(", ");
+   Serial.print(rover.getLatitude(), 7);
+   Serial.print(", ");   
+   Serial.print(rover.getLongitude(), 7);
+   Serial.print(", ");
+   Serial.print(rover.getRelativeAltitude(), 7);
+   Serial.print(", ");
+   Serial.print(rover.getGroundSpeed(), 7);
+   Serial.print(", ");
+   Serial.print(rover.getHeading(), 7);
+   Serial.print(", ");   
    Serial.print(gps.distance_between(rover.getLatitude(), rover.getLongitude(), multirotor_1.getLatitude(), multirotor_1.getLongitude()));
-   Serial.println(" metri");
-   Serial.print("distanza drone_2 : ");
-   Serial.print(gps.distance_between(rover.getLatitude(), rover.getLongitude(), multirotor_2.getLatitude(), multirotor_2.getLongitude()));
-   Serial.println(" metri");
+   Serial.print(", ");
+   Serial.println(gps.course_to(rover.getLatitude(), rover.getLongitude(), multirotor_1.getLatitude(), multirotor_1.getLongitude()));
   }    
 }
 

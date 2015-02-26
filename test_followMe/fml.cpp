@@ -100,8 +100,8 @@ void FmlDroneInterface::identifyMavMsg()
 {
    switch(msg.msgid) {
         case MAVLINK_MSG_ID_HEARTBEAT: {
-                  Serial.println("");
-                  Serial.println("receive heartbeat");
+                  //Serial.println("");
+                  //Serial.println("receive heartbeat");
         }
 	break;
         case MAVLINK_MSG_ID_GLOBAL_POSITION_INT: {  
@@ -111,15 +111,14 @@ void FmlDroneInterface::identifyMavMsg()
              location.setLatitude(((float)global_position_int.lat)*0.0000001);                      //latitude     
              location.setLongitude(((float)global_position_int.lon)*0.0000001);                     //longitude
              location.setRelativeAltitude(((float)global_position_int.relative_alt)*0.001);         // Altitude above ground in meters    
-             Serial.println("");
-             Serial.print("receive global position int from serial port ");
-             Serial.println(serial_port);
-             Serial.print("LAT: ");
-             Serial.println(getLatitude(), 7);
-             Serial.print("LNG: ");
-             Serial.println(getLongitude(), 7);
-             Serial.print("REL ALT: "); 
-             Serial.println(getRelativeAltitude(), 7);   
+             /*Serial.print("receive from serial port ");
+             Serial.print(serial_port);
+             Serial.print(" LAT: ");
+             Serial.print(getLatitude(), 7);
+             Serial.print(" LNG: ");
+             Serial.print(getLongitude(), 7);
+             Serial.print(" REL ALT: "); 
+             Serial.print(getRelativeAltitude(), 7);   */
         }
         break;
         case MAVLINK_MSG_ID_VFR_HUD: {
@@ -127,13 +126,12 @@ void FmlDroneInterface::identifyMavMsg()
              
              other.setGroundSpeed(vfr_hud.groundspeed);          ///< Current ground speed in m/s
              other.setHeading((float)vfr_hud.heading);           ///< Current heading in degrees, in compass units (0..360, 0=north)
-             Serial.println("");
-             Serial.println("receive vfr hud from serial port ");
+             /*Serial.println("receive vfr hud from serial port ");
              Serial.println(serial_port);
              Serial.print("GND SPD: ");
              Serial.println(getGroundSpeed(), 7);
              Serial.print("HDG: ");
-             Serial.println(getHeading(), 7);
+             Serial.println(getHeading(), 7);*/
         }
         break;
         default:
@@ -161,12 +159,12 @@ void FmlDroneInterface::sendMavMsgHeartbeat()
       // Send the message (.write sends as bytes) 	
       if(serial_port == 1) {
         Serial1.write(buf, len); 
-        Serial.println("");
-        Serial.println("send heartbeat to serial1"); }
+        /*Serial.println("");
+        Serial.println("send heartbeat to serial1");*/ }
       else if(serial_port == 2) { 
         Serial2.write(buf, len); 
-        Serial.println("");
-        Serial.println("send heartbeat to serial2"); }
+        /*Serial.println("");
+        Serial.println("send heartbeat to serial2"); */}
       else {
     //Serial.println("Serial port error"); 
       }    
@@ -186,13 +184,13 @@ void FmlDroneInterface::getDataStream() {
     // Send the message (.write sends as bytes) 	
     if(serial_port == 1) {
       Serial1.write(buf, len); 
-      Serial.println("");
-      Serial.println("send data request to serial1");
+      /*Serial.println("");
+      Serial.println("send data request to serial1");*/
     }     
     else if(serial_port == 2) { 
       Serial2.write(buf, len); 
-      Serial.println("");
-      Serial.println("send data request to serial2");      
+      /*Serial.println("");
+      Serial.println("send data request to serial2");*/      
     }      
     else {
     //Serial.println("Serial port error"); 
@@ -228,25 +226,25 @@ void FmlDroneInterface::sendMissionItemNavWaypoint()
     // Send the message (.write sends as bytes) 	
     if(serial_port == 1) {
       Serial1.write(buf, len); 
-      Serial.println("");
+      /*Serial.println("");
       Serial.println("send waypoint to serial1");
       Serial.println("lat    lng    rel_alt");
       Serial.print(mission_item.x, 7);
       Serial.print("    ");
       Serial.print(mission_item.y, 7);
       Serial.print("    ");
-      Serial.println(mission_item.z, 7);
+      Serial.println(mission_item.z, 7);*/
     }     
     else if(serial_port == 2) { 
       Serial2.write(buf, len); 
-      Serial.println("");
+      /*Serial.println("");
       Serial.println("send waypoint to serial2"); 
       Serial.println("lat    lng    rel_alt");
       Serial.print(mission_item.x, 7);
       Serial.print("    ");
       Serial.print(mission_item.y, 7);
       Serial.print("    ");
-      Serial.println(mission_item.z, 7);      
+      Serial.println(mission_item.z, 7);*/      
     }      
     else {
     //Serial.println("Serial port error"); 
