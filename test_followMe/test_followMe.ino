@@ -59,16 +59,8 @@ void loop() {
     // Invio del heatbeat a tutti i multirotori
     sendHeartbeat();  
     sendRequest();
-    // Calcolo della nuova posizione e settaggio della nuovo riferimento di posizione dei due multirotori
-    calculateNewDronePosition();
-
-    // Command input from RX 
-    pwmin = pulseIn(pin, HIGH, 20000);
-    //Serial.println(pwmin);
-    if(pwmin < 1200) {     
-    // 
-      sendWaypoints();
-    } 
+       
+    
    Serial.print(multirotor_1.getLatitude(), 7);
    Serial.print(", ");
    Serial.print(multirotor_1.getLongitude(), 7);
@@ -88,9 +80,25 @@ void loop() {
    Serial.print(gps.distance_between(rover.getLatitude(), rover.getLongitude(), multirotor_1.getLatitude(), multirotor_1.getLongitude()));
    Serial.print(", ");
    Serial.println(gps.course_to(rover.getLatitude(), rover.getLongitude(), multirotor_1.getLatitude(), multirotor_1.getLongitude()));
-  }    
-}
+  }  
 
+     
+  // 
+  if(rover.isLocationUpdated())
+  { 
+    // Calcolo della nuova posizione e settaggio della nuovo riferimento di posizione dei due multirotori
+    calculateNewDronePosition();
+
+    // Command input from RX 
+    pwmin = pulseIn(pin, HIGH, 20000);
+    //Serial.println(pwmin);
+    if(pwmin < 1200) {     
+    // 
+      sendWaypoints();
+      Serial.println("///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
+    }         
+}
+}
 //////// FUNCTIONS /////////
 
 void checkAvailableDataOnSerial()

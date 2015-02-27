@@ -86,6 +86,7 @@ public:
   int getAutopilot();
   int getGcsId();
   int getSerialPort();
+  bool isLocationUpdated();
   void sendMavMsgHeartbeat();
   void sendMissionItemNavWaypoint();
   void getDataStream();

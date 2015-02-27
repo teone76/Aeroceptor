@@ -77,19 +77,26 @@ void FmlDroneInterface::setRifRelAltitude(float rifRelAltitude){
 }
   
 float FmlDroneInterface::getLatitude(){
+  location.updated = false;
   return location.lat();
 }
 
 float FmlDroneInterface::getLongitude(){
+  location.updated = false;
   return location.lng();
 }
 
 float FmlDroneInterface::getRelativeAltitude(){
+  location.updated = false;
   return location.relAlt();
 } 
   
 float FmlDroneInterface::getGroundSpeed(){
   return other.gs();
+}
+
+bool FmlDroneInterface::isLocationUpdated(){
+  return location.isUpdated();
 }
 
 float FmlDroneInterface::getHeading(){
@@ -110,7 +117,8 @@ void FmlDroneInterface::identifyMavMsg()
              
              location.setLatitude(((float)global_position_int.lat)*0.0000001);                      //latitude     
              location.setLongitude(((float)global_position_int.lon)*0.0000001);                     //longitude
-             location.setRelativeAltitude(((float)global_position_int.relative_alt)*0.001);         // Altitude above ground in meters    
+             location.setRelativeAltitude(((float)global_position_int.relative_alt)*0.001);         // Altitude above ground in meters   
+             location.updated = true; 
              /*Serial.print("receive from serial port ");
              Serial.print(serial_port);
              Serial.print(" LAT: ");
