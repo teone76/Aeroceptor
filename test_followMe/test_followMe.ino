@@ -136,19 +136,19 @@ void calculateNewDronePosition()
  // Navigation Control Law
  navigationLawOutput[0] =  navigationLawInput[0];
  navigationLawOutput[1] =  navigationLawInput[1];
- navigationLawOutput[2] =  navigationLawInput[2];
+ navigationLawOutput[2] =  navigationLawInput[7];
  navigationLawOutput[3] =  navigationLawInput[0];
  navigationLawOutput[4] =  navigationLawInput[1];
- navigationLawOutput[5] =  navigationLawInput[2]; 
+ navigationLawOutput[5] =  navigationLawInput[12]; 
   
  //OUTPUTS:
   multirotor_1.setRifLatitude(navigationLawOutput[0]);
   multirotor_1.setRifLongitude(navigationLawOutput[1]);
   multirotor_1.setRifRelAltitude(navigationLawOutput[2]);
 
-  multirotor_1.setRifLatitude(navigationLawOutput[0]);
-  multirotor_1.setRifLongitude(navigationLawOutput[1]);
-  multirotor_1.setRifRelAltitude(navigationLawOutput[2]);
+  /*multirotor_2.setRifLatitude(navigationLawOutput[3]); 
+  multirotor_2.setRifLongitude(navigationLawOutput[4]);
+  multirotor_2.setRifRelAltitude(navigationLawOutput[5]);*/
 }
 
 void sendWaypoints()
