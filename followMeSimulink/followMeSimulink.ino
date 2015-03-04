@@ -94,7 +94,6 @@ void loop() {
   
   // Navigation Control Law - Step the model 
   navigator_step();
-  
   }
   
   // MAVLINK TASK - 1 HZ 
@@ -131,16 +130,15 @@ void loop() {
   if(rover.isLocationUpdated())
   { 
     // Aggiornamento dei reference point dei multirotore
-    updateDroneReference();
+    updateDronePositionReference();
     
     // Command input from RX 
     pwmin = pulseIn(pin, HIGH, 20000);
   
     //Serial.println(pwmin);
-    if(pwmin < 1200) {     
-     
-    sendWaypoints();
-    //Serial.println("///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
+    if(pwmin < 1200) {          
+      sendWaypoints();
+      //Serial.println("///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
     }         
   }
 }
@@ -167,16 +165,16 @@ void sendHeartbeat()
 }
 
 
-void updateDroneReference()
+void updateDronePositionReference()
 {
   //OUTPUTS:
   multirotor_1.setRifLatitude(navigator_Y.Out[0]);
   multirotor_1.setRifLongitude(navigator_Y.Out[1]);
   multirotor_1.setRifRelAltitude(navigator_Y.Out[2]);
 
-  multirotor_1.setRifLatitude(navigator_Y.Out[3]);
-  multirotor_1.setRifLongitude(navigator_Y.Out[4]);
-  multirotor_1.setRifRelAltitude(navigator_Y.Out[5]);
+  multirotor_2.setRifLatitude(navigator_Y.Out[3]);
+  multirotor_2.setRifLongitude(navigator_Y.Out[4]);
+  multirotor_2.setRifRelAltitude(navigator_Y.Out[5]);
 }
 
 
