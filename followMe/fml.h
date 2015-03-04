@@ -79,15 +79,17 @@ public:
   double courseTo(FmlDrone drone);*/
 
   
+
   char* getName();
   int getId();
   int getType();
   int getAutopilot();
   int getGcsId();
   int getSerialPort();
+  bool isLocationUpdated();
   void sendMavMsgHeartbeat();
   void sendMissionItemNavWaypoint();
-  void getDataStream();  
+  void getDataStream();
   void setRifLatitude(float rifLatitude);
   void setRifLongitude(float rifLongitude);
   void setRifRelAltitude(float rifAltitude);
@@ -96,12 +98,12 @@ public:
   float getLongitude();
   float getRelativeAltitude();
   float getGroundSpeed();
-  float getHeading();  
+  float getHeading();
   
 private:
   FmlLocation location;
   FmlLocation rif_location;
-  FmlOther other;  
+  FmlOther other;
   char* name;
   int id;
   int type;
