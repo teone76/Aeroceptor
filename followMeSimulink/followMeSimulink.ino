@@ -111,33 +111,7 @@ void loop() {
     mavTimer = millis();  
     // Invio del heatbeat a tutti i multirotori
     sendHeartbeat();  
-    sendRequest();
-   Serial.print(millis());       
-   Serial.print(multirotor_1.getLatitude(), 7);
-   Serial.print(", ");
-   Serial.print(multirotor_1.getLongitude(), 7);
-   Serial.print(", ");
-   Serial.print(multirotor_1.getRelativeAltitude(), 7);    
-   Serial.print(", ");
-   Serial.print(rover.getLatitude(), 7);
-   Serial.print(", ");   
-   Serial.print(rover.getLongitude(), 7);
-   Serial.print(", ");
-   Serial.print(rover.getRelativeAltitude(), 7);
-   Serial.print(", ");
-   Serial.print(rover.getGroundSpeed(), 7);
-   Serial.print(", ");
-   Serial.print(rover.getHeading(), 7);
-   Serial.print(", ");   
-   Serial.print(gps.distance_between(rover.getLatitude(), rover.getLongitude(), multirotor_1.getLatitude(), multirotor_1.getLongitude()));
-   Serial.print(", ");
-   Serial.print(gps.course_to(rover.getLatitude(), rover.getLongitude(), multirotor_1.getLatitude(), multirotor_1.getLongitude()));
-   Serial.print(", ");
-   Serial.print(navigator_Y.Out[0], 7);
-   Serial.print(", ");
-   Serial.print(navigator_Y.Out[1], 7);
-   Serial.print(", ");
-   Serial.println(simulinkExecutionStop - simulinkExecutionStart); 
+    sendRequest(); 
   }  
 
      
@@ -146,15 +120,16 @@ void loop() {
   { 
     // Aggiornamento dei reference point dei multirotore
     updateDronePositionReference();
-    
-    // Command input from RX 
-    pwmin = pulseIn(pin, HIGH, 20000);
-  
+      
     //Serial.println(pwmin);
     if(pwmin < 1200) {          
       sendWaypoints();
       //Serial.println("///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
-    }         
+    }
+    printAllData();   
+    
+    // Command input from RX 
+    pwmin = pulseIn(pin, HIGH, 20000); 
   }
 }
 
@@ -197,4 +172,34 @@ void sendWaypoints()
 {
   multirotor_1.sendMissionItemNavWaypoint();
   multirotor_2.sendMissionItemNavWaypoint();
+}
+
+void printAllData()
+{
+  Serial.print(millis());       
+   Serial.print(multirotor_1.getLatitude(), 7);
+   Serial.print(", ");
+   Serial.print(multirotor_1.getLongitude(), 7);
+   Serial.print(", ");
+   Serial.print(multirotor_1.getRelativeAltitude(), 7);    
+   Serial.print(", ");
+   Serial.print(rover.getLatitude(), 7);
+   Serial.print(", ");   
+   Serial.print(rover.getLongitude(), 7);
+   Serial.print(", ");
+   Serial.print(rover.getRelativeAltitude(), 7);
+   Serial.print(", ");
+   Serial.print(rover.getGroundSpeed(), 7);
+   Serial.print(", ");
+   Serial.print(rover.getHeading(), 7);
+   Serial.print(", ");   
+   Serial.print(gps.distance_between(rover.getLatitude(), rover.getLongitude(), multirotor_1.getLatitude(), multirotor_1.getLongitude()));
+   Serial.print(", ");
+   Serial.print(gps.course_to(rover.getLatitude(), rover.getLongitude(), multirotor_1.getLatitude(), multirotor_1.getLongitude()));
+   Serial.print(", ");
+   Serial.print(navigator_Y.Out[0], 7);
+   Serial.print(", ");
+   Serial.print(navigator_Y.Out[1], 7);
+   Serial.print(", ");
+   Serial.println(simulinkExecutionStop - simulinkExecutionStart);
 }
