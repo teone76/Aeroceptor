@@ -3,9 +3,9 @@
  *
  * Code generated for Simulink model 'navigator'.
  *
- * Model version                  : 1.12
+ * Model version                  : 1.13
  * Simulink Coder version         : 8.5 (R2013b) 08-Aug-2013
- * C/C++ source code generated on : Tue Mar 03 17:11:32 2015
+ * C/C++ source code generated on : Thu Mar 05 10:00:58 2015
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -139,7 +139,7 @@ struct P_navigator_T_ {
   real_T Gain1_Gain_m;                 /* Expression: pi/180
                                         * Referenced by: '<S2>/Gain1'
                                         */
-  real_T dt_Value;                     /* Expression: 1
+  real_T dt_Value;                     /* Expression: 0.5
                                         * Referenced by: '<S1>/dt'
                                         */
   real_T ref_pos_Value_n;              /* Expression: psi
@@ -148,7 +148,7 @@ struct P_navigator_T_ {
   real_T UnitConversion_Gain_f;        /* Expression: slope
                                         * Referenced by: '<S10>/Unit Conversion'
                                         */
-  real_T dt1_Value;                    /* Expression: 1
+  real_T dt1_Value;                    /* Expression: 0.5
                                         * Referenced by: '<S1>/dt1'
                                         */
   real_T Constant2_Value_f;            /* Expression: 1
@@ -309,31 +309,31 @@ extern "C" {
  * Here is the system hierarchy for this model
  *
  * '<Root>' : 'navigator'
- * '<S1>'   : 'navigator/navigation_law1'
- * '<S2>'   : 'navigator/navigation_law1/Degrees to Radians'
- * '<S3>'   : 'navigator/navigation_law1/Flat Earth to LLA'
- * '<S4>'   : 'navigator/navigation_law1/LLA_TO_earthFlat'
- * '<S5>'   : 'navigator/navigation_law1/Flat Earth to LLA/Latitude  Between  +//- 90'
- * '<S6>'   : 'navigator/navigation_law1/Flat Earth to LLA/LongLat_offset'
- * '<S7>'   : 'navigator/navigation_law1/Flat Earth to LLA/Longitude Between +//-180'
- * '<S8>'   : 'navigator/navigation_law1/Flat Earth to LLA/pos_deg'
- * '<S9>'   : 'navigator/navigation_law1/Flat Earth to LLA/LongLat_offset/Find Radian//Distance'
- * '<S10>'  : 'navigator/navigation_law1/Flat Earth to LLA/LongLat_offset/pos_deg'
- * '<S11>'  : 'navigator/navigation_law1/Flat Earth to LLA/LongLat_offset/Find Radian//Distance/Angle Conversion2'
- * '<S12>'  : 'navigator/navigation_law1/Flat Earth to LLA/LongLat_offset/Find Radian//Distance/denom'
- * '<S13>'  : 'navigator/navigation_law1/Flat Earth to LLA/LongLat_offset/Find Radian//Distance/e'
- * '<S14>'  : 'navigator/navigation_law1/Flat Earth to LLA/LongLat_offset/Find Radian//Distance/e^4'
- * '<S15>'  : 'navigator/navigation_law1/LLA_TO_earthFlat/LLA to Flat Earth'
- * '<S16>'  : 'navigator/navigation_law1/LLA_TO_earthFlat/LLA to Flat Earth/Latitude  Between  +//- 90'
- * '<S17>'  : 'navigator/navigation_law1/LLA_TO_earthFlat/LLA to Flat Earth/Longitude Between +//-180'
- * '<S18>'  : 'navigator/navigation_law1/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem'
- * '<S19>'  : 'navigator/navigation_law1/LLA_TO_earthFlat/LLA to Flat Earth/pos_rad'
- * '<S20>'  : 'navigator/navigation_law1/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance'
- * '<S21>'  : 'navigator/navigation_law1/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/pos_deg'
- * '<S22>'  : 'navigator/navigation_law1/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance/Angle Conversion2'
- * '<S23>'  : 'navigator/navigation_law1/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance/denom'
- * '<S24>'  : 'navigator/navigation_law1/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance/e'
- * '<S25>'  : 'navigator/navigation_law1/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance/e^4'
+ * '<S1>'   : 'navigator/navigation_law'
+ * '<S2>'   : 'navigator/navigation_law/Degrees to Radians'
+ * '<S3>'   : 'navigator/navigation_law/Flat Earth to LLA'
+ * '<S4>'   : 'navigator/navigation_law/LLA_TO_earthFlat'
+ * '<S5>'   : 'navigator/navigation_law/Flat Earth to LLA/Latitude  Between  +//- 90'
+ * '<S6>'   : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset'
+ * '<S7>'   : 'navigator/navigation_law/Flat Earth to LLA/Longitude Between +//-180'
+ * '<S8>'   : 'navigator/navigation_law/Flat Earth to LLA/pos_deg'
+ * '<S9>'   : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/Find Radian//Distance'
+ * '<S10>'  : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/pos_deg'
+ * '<S11>'  : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/Find Radian//Distance/Angle Conversion2'
+ * '<S12>'  : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/Find Radian//Distance/denom'
+ * '<S13>'  : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/Find Radian//Distance/e'
+ * '<S14>'  : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/Find Radian//Distance/e^4'
+ * '<S15>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth'
+ * '<S16>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Latitude  Between  +//- 90'
+ * '<S17>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Longitude Between +//-180'
+ * '<S18>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem'
+ * '<S19>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/pos_rad'
+ * '<S20>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance'
+ * '<S21>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/pos_deg'
+ * '<S22>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance/Angle Conversion2'
+ * '<S23>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance/denom'
+ * '<S24>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance/e'
+ * '<S25>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance/e^4'
  */
 #endif                                 /* RTW_HEADER_navigator_h_ */
 

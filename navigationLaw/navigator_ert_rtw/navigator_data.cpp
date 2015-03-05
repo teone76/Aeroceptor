@@ -3,9 +3,9 @@
  *
  * Code generated for Simulink model 'navigator'.
  *
- * Model version                  : 1.12
+ * Model version                  : 1.13
  * Simulink Coder version         : 8.5 (R2013b) 08-Aug-2013
- * C/C++ source code generated on : Tue Mar 03 17:11:32 2015
+ * C/C++ source code generated on : Thu Mar 05 10:00:58 2015
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -109,7 +109,7 @@ P_navigator_T navigator_P = {
   0.017453292519943295,                /* Expression: pi/180
                                         * Referenced by: '<S2>/Gain1'
                                         */
-  1.0,                                 /* Expression: 1
+  0.5,                                 /* Expression: 0.5
                                         * Referenced by: '<S1>/dt'
                                         */
   0.0,                                 /* Expression: psi
@@ -118,7 +118,7 @@ P_navigator_T navigator_P = {
   0.017453292519943295,                /* Expression: slope
                                         * Referenced by: '<S10>/Unit Conversion'
                                         */
-  1.0,                                 /* Expression: 1
+  0.5,                                 /* Expression: 0.5
                                         * Referenced by: '<S1>/dt1'
                                         */
   1.0,                                 /* Expression: 1

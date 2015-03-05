@@ -3,9 +3,9 @@
  *
  * Code generated for Simulink model 'navigator'.
  *
- * Model version                  : 1.12
+ * Model version                  : 1.13
  * Simulink Coder version         : 8.5 (R2013b) 08-Aug-2013
- * C/C++ source code generated on : Tue Mar 03 17:11:32 2015
+ * C/C++ source code generated on : Thu Mar 05 10:00:58 2015
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Atmel->AVR
