@@ -2,6 +2,7 @@
 #include <Wire.h>
 #include <TinyGPS.h>
 #include "fml.h"
+#include "fmlLed.h"
 TinyGPS gps;
 //class FmlDrone(char* name,int id, int type, int autopilot, int gcs_id, int serial_port)
 FmlDroneInterface rover("Emax",1,1,1,1,3);

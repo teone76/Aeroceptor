@@ -90,7 +90,7 @@ public:
   void getDataStream();
   void setRifLatitude(float rifLatitude);
   void setRifLongitude(float rifLongitude);
-  void setRifRelAltitude(float rifAltitude);
+  void setRifRelAltitude(float rifRelAltitude);
   
   float getLatitude();
   float getLongitude();
@@ -126,31 +126,6 @@ public:
   FmlNav(char* name);
   char* getName();
   
-private:
-
-  char* name;  
-};
-
-
-// Led
-class FmlLed
-{
-public:
-
-  FmlLed(char* name);
-  char* getName();
-  
-/* Choose a combination for your message:
-   first char is a capital char, meaning:
-   A: ....                          (4 flashes)
-   B: .........................     (25 flashes)
-   C: _________________________     (1 extended flash)
-   
-   
-   
-   1:red, 2:blue, 3:green, 4:white, 5:yellow, 6:purple, 7:azure
-  
-  void blinkStatus(char first, char second, char third, char fourth, char fifth); 
 private:
 
   char* name;  
