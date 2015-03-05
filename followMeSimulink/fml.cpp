@@ -92,6 +92,7 @@ float FmlDroneInterface::getRelativeAltitude(){
 } 
   
 float FmlDroneInterface::getGroundSpeed(){
+  other.updated = false;
   return other.gs();
 }
 
@@ -99,7 +100,12 @@ bool FmlDroneInterface::isLocationUpdated(){
   return location.isUpdated();
 }
 
+bool FmlDroneInterface::isOtherUpdated(){
+  return other.isUpdated();
+}
+
 float FmlDroneInterface::getHeading(){
+  other.updated = false;
   return other.hdg();
 }
 
@@ -134,6 +140,7 @@ void FmlDroneInterface::identifyMavMsg()
              
              other.setGroundSpeed(vfr_hud.groundspeed);          ///< Current ground speed in m/s
              other.setHeading((float)vfr_hud.heading);           ///< Current heading in degrees, in compass units (0..360, 0=north)
+             other.updated = true; 
              /*Serial.println("receive vfr hud from serial port ");
              Serial.println(serial_port);
              Serial.print("GND SPD: ");

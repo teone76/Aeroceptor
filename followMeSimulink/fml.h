@@ -87,6 +87,7 @@ public:
   int getGcsId();
   int getSerialPort();
   bool isLocationUpdated();
+  bool isOtherUpdated();
   void sendMavMsgHeartbeat();
   void sendMissionItemNavWaypoint();
   void getDataStream();

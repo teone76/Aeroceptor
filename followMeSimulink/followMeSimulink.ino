@@ -94,7 +94,7 @@ void loop() {
 
      
   // 
-  if(rover.isLocationUpdated())
+  if(rover.isLocationUpdated() && rover.isOtherUpdated())
   { 
       // Set model inputs  
   navigator_U.In[0] = rover.getLatitude();
