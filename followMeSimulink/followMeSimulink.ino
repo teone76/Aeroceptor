@@ -55,6 +55,7 @@ void setup() {
   Serial.println(" on serial1, ");
 //  Serial.println(multirotor_2.getName());
   Serial.println("");
+  Serial.print("time   ");
   Serial.print("   LAT_1      ");
   Serial.print("LNG_1    ");
   Serial.print("REL_ALT_1    ");
@@ -67,7 +68,7 @@ void setup() {
   Serial.print("CRS  ");
   Serial.print("CALC_LAT    ");
   Serial.print("CALC_LNG    ");
-  Serial.println("time");
+  Serial.println("execution time");
 }
 
 void loop() {  
