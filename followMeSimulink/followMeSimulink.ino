@@ -55,19 +55,19 @@ void setup() {
   Serial.println(" on serial1, ");
 //  Serial.println(multirotor_2.getName());
   Serial.println("");
-  Serial.print("time   ");
-  Serial.print("   LAT_1      ");
-  Serial.print("LNG_1    ");
-  Serial.print("REL_ALT_1    ");
-  Serial.print("LAT_3      ");
-  Serial.print("LNG_3    ");
-  Serial.print("REL_ALT_3  ");
-  Serial.print("GND_SPD_3    ");
-  Serial.print("HDG_3     ");
-  Serial.print("DIST   ");
-  Serial.print("CRS  ");
-  Serial.print("CALC_LAT    ");
-  Serial.print("CALC_LNG    ");
+  Serial.print("time , ");
+  Serial.print("LAT_1 , ");
+  Serial.print("LNG_1 , ");
+  Serial.print("REL_ALT_1 , ");
+  Serial.print("LAT_3 , ");
+  Serial.print("LNG_3 , ");
+  Serial.print("REL_ALT_3 , ");
+  Serial.print("GND_SPD_3 , ");
+  Serial.print("HDG_3 , ");
+  Serial.print("DIST , ");
+  Serial.print("CRS , ");
+  Serial.print("CALC_LAT , ");
+  Serial.print("CALC_LNG , ");
   Serial.println("execution time");
 }
 
@@ -80,7 +80,23 @@ void loop() {
   { 
   simulinkTimer = millis();
 
-  // Set model inputs  
+
+  }
+  
+  // MAVLINK TASK - 1 HZ 
+  if(millis() - mavTimer > mavInterval)
+  { 
+    mavTimer = millis();  
+    // Invio del heatbeat a tutti i multirotori
+    sendHeartbeat();  
+    sendRequest(); 
+  }  
+
+     
+  // 
+  if(rover.isLocationUpdated())
+  { 
+      // Set model inputs  
   navigator_U.In[0] = rover.getLatitude();
   navigator_U.In[1] = rover.getLongitude();
   navigator_U.In[2] = rover.getRelativeAltitude();
@@ -103,21 +119,7 @@ void loop() {
   // Navigation Control Law - Step the model 
   navigator_step();
   simulinkExecutionStop = micros();
-  }
   
-  // MAVLINK TASK - 1 HZ 
-  if(millis() - mavTimer > mavInterval)
-  { 
-    mavTimer = millis();  
-    // Invio del heatbeat a tutti i multirotori
-    sendHeartbeat();  
-    sendRequest(); 
-  }  
-
-     
-  // 
-  if(rover.isLocationUpdated())
-  { 
     // Aggiornamento dei reference point dei multirotore
     updateDronePositionReference();
       
@@ -176,22 +178,23 @@ void sendWaypoints()
 
 void printAllData()
 {
-  Serial.print(millis());       
+   Serial.print(millis()); 
+   Serial.print(", ");  
    Serial.print(multirotor_1.getLatitude(), 7);
    Serial.print(", ");
    Serial.print(multirotor_1.getLongitude(), 7);
    Serial.print(", ");
-   Serial.print(multirotor_1.getRelativeAltitude(), 7);    
+   Serial.print(multirotor_1.getRelativeAltitude(), 1);    
    Serial.print(", ");
    Serial.print(rover.getLatitude(), 7);
    Serial.print(", ");   
    Serial.print(rover.getLongitude(), 7);
    Serial.print(", ");
-   Serial.print(rover.getRelativeAltitude(), 7);
+   Serial.print(rover.getRelativeAltitude(), 1);
    Serial.print(", ");
-   Serial.print(rover.getGroundSpeed(), 7);
+   Serial.print(rover.getGroundSpeed(), 1);
    Serial.print(", ");
-   Serial.print(rover.getHeading(), 7);
+   Serial.print(rover.getHeading(), 1);
    Serial.print(", ");   
    Serial.print(gps.distance_between(rover.getLatitude(), rover.getLongitude(), multirotor_1.getLatitude(), multirotor_1.getLongitude()));
    Serial.print(", ");
