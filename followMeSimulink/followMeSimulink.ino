@@ -33,6 +33,9 @@ float navigationLawOutput [6];
 int pin = 12;
 unsigned long pwmin = 0;
 
+unsigned long simulinkExecutionStart = 0;
+unsigned long simulinkExecutionStop = 0;
+
 void setup() {
   /* Initialize model */
   navigator_initialize();
@@ -95,8 +98,10 @@ void loop() {
   navigator_U.In[13] = multirotor_2.getGroundSpeed();
   navigator_U.In[14] = multirotor_2.getHeading();
   
+  simulinkExecutionStart = micros();
   // Navigation Control Law - Step the model 
   navigator_step();
+  simulinkExecutionStop = micros();
   }
   
   // MAVLINK TASK - 1 HZ 
@@ -106,7 +111,7 @@ void loop() {
     // Invio del heatbeat a tutti i multirotori
     sendHeartbeat();  
     sendRequest();
-         
+   Serial.print(millis());       
    Serial.print(multirotor_1.getLatitude(), 7);
    Serial.print(", ");
    Serial.print(multirotor_1.getLongitude(), 7);
@@ -130,8 +135,8 @@ void loop() {
    Serial.print(navigator_Y.Out[0], 7);
    Serial.print(", ");
    Serial.print(navigator_Y.Out[1], 7);
-   Serial.print(", "); 
-   Serial.println(millis());   
+   Serial.print(", ");
+   Serial.println(simulinkExecutionStop - simulinkExecutionStart); 
   }  
 
      

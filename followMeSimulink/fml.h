@@ -92,7 +92,7 @@ public:
   void getDataStream();
   void setRifLatitude(float rifLatitude);
   void setRifLongitude(float rifLongitude);
-  void setRifRelAltitude(float rifAltitude);
+  void setRifRelAltitude(float rifRelAltitude);
   
   float getLatitude();
   float getLongitude();
