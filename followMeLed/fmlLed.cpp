@@ -22,23 +22,52 @@ char* FmlLed::getName()
 
 void FmlLed::blinkMessage(char first, char second, char third, char fourth, char fifth)
 {
-  Wire.beginTransmission(0x04);
-  ledMessage[0] = ('$');
-  ledMessage[1] = first;
-  ledMessage[2] = second;
-  ledMessage[3] = third;
-  ledMessage[4] = fourth;
-  ledMessage[5] = fifth;
+// if you don't want to change one or more blink colors: type '_' following the order 
+  if(first != '_') {ledMessage[0] = first;}
+  if(second != '_') {ledMessage[1] = second;}
+  if(third != '_') {ledMessage[2] = third;}
+  if(fourth != '_') {ledMessage[3] = fourth;}
+  if(fifth != '_') {ledMessage[4] = fifth;}
   
-  Wire.write(message,6);
+  Wire.beginTransmission(0x04);
+  Wire.write('$');
+  Wire.endTransmission();   
+  Wire.beginTransmission(0x04);  
+  Wire.write(ledMessage[0]);
   Wire.endTransmission();  
+  Wire.beginTransmission(0x04);  
+  Wire.write(ledMessage[1]);
+  Wire.endTransmission();  
+  Wire.beginTransmission(0x04);  
+  Wire.write(ledMessage[2]);
+  Wire.endTransmission();  
+  Wire.beginTransmission(0x04);  
+  Wire.write(ledMessage[3]);
+  Wire.endTransmission();  
+  Wire.beginTransmission(0x04);  
+  Wire.write(ledMessage[4]);
+  Wire.endTransmission();    
 }
 
-void FmlLed::blinkStatus()
+void FmlLed::blinkMessage()
 {
   Wire.beginTransmission(0x04);
-  ledMessage[0] = ('$');  
-  Wire.write(message,6);
+  Wire.write('$');
+  Wire.endTransmission();   
+  Wire.beginTransmission(0x04);  
+  Wire.write(ledMessage[0]);
   Wire.endTransmission();  
+  Wire.beginTransmission(0x04);  
+  Wire.write(ledMessage[1]);
+  Wire.endTransmission();  
+  Wire.beginTransmission(0x04);  
+  Wire.write(ledMessage[2]);
+  Wire.endTransmission();  
+  Wire.beginTransmission(0x04);  
+  Wire.write(ledMessage[3]);
+  Wire.endTransmission();  
+  Wire.beginTransmission(0x04);  
+  Wire.write(ledMessage[4]);
+  Wire.endTransmission(); 
 }
-
+  

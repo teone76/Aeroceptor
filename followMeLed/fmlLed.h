@@ -5,6 +5,15 @@
 #ifndef __FmlLed_h
 #define __FmlLed_h
 
+#define red '1'
+#define blue '2'
+#define green '3'
+#define white '4'
+#define yellow '5'
+#define purple '6'
+#define azure '7'
+#define none '0'
+#define previous '_'
 
 #include "Arduino.h"
 #include <limits.h>
@@ -16,8 +25,8 @@ public:
 
   FmlLed(char* name);
   char* getName();
-  char ledMessage[6];
-/* blinkStatus function --> blinkStatus(char first, char second, char third, char fourth, char fifth) 
+  char ledMessage[5];
+/* blinkStatus function --> blinkMessage(char first, char second, char third, char fourth, char fifth) 
     Inputs explanation:
      first char is a capital char, meaning:
       Normal priority:
@@ -34,14 +43,14 @@ public:
     1:red, 2:blue, 3:green, 4:white, 5:yellow, 6:purple, 7:azure
    
    examples:
-   A1234 -> red-blue-green-white    -    blinkStatus('A','1','2','3','4');
-   C2___ -> blue...for 10seconds    -    blinkStatus('C','2','_','_','_');
-   R7715 -> azure-azure-red-yellow    -    blinkStatus('R','7','7','1','5');
-   S6___ -> purple-purple-purple...25times    -    blinkStatus('T','6','_','_','_');
+   A1234 -> red-blue-green-white    -    blinkMessage('A','1','2','3','4');
+   C2___ -> blue...for 10seconds    -    blinkMessage('C','2','_','_','_');
+   R7715 -> azure-azure-red-yellow    -    blinkMessage('R','7','7','1','5');
+   S6___ -> purple-purple-purple...25times    -    blinkMessage('T','6','_','_','_');
    */
   
   void blinkMessage(char first, char second, char third, char fourth, char fifth);
-  void blinkStatus(); 
+  void blinkMessage(); 
 private:
 
   char* name;  

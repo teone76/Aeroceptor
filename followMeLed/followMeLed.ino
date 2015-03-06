@@ -49,19 +49,19 @@ void setup() {
   Serial.print("HDG_3      ");
   Serial.print("DIST   ");
   Serial.println("CRS    ");
+  
+  led.blinkMessage('A',red,red,red,red);
 }
 
 void loop() {  
   checkAvailableDataOnSerial(); 
-  
   // 
   if(millis() - timer > interval)
   { 
     timer = millis();
     // Invio del heatbeat a tutti i multirotori
     sendHeartbeat();  
-    sendRequest();
-       
+    sendRequest();    
    Serial.print(multirotor_1.getLatitude(), 7);
    Serial.print(", ");
    Serial.print(multirotor_1.getLongitude(), 7);
@@ -83,7 +83,6 @@ void loop() {
    Serial.println(gps.course_to(rover.getLatitude(), rover.getLongitude(), multirotor_1.getLatitude(), multirotor_1.getLongitude()));
   }  
 
-     
   // 
   if(rover.isLocationUpdated())
   { 
@@ -96,8 +95,9 @@ void loop() {
     if(pwmin < 1200) {     
     // 
       sendWaypoints();
-      Serial.println("///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
-    }         
+      led.blinkMessage(previous,blue,previous,previous,previous);
+    }
+    else { led.blinkMessage(previous,none,previous,previous,previous); }   
 }
 }
 //////// FUNCTIONS /////////
