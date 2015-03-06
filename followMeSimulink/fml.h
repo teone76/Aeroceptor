@@ -88,6 +88,8 @@ public:
   int getSerialPort();
   bool isLocationUpdated();
   bool isOtherUpdated();
+  bool isGpsFixed();
+  bool isDroneConnected();  
   void sendMavMsgHeartbeat();
   void sendMissionItemNavWaypoint();
   void getDataStream();
@@ -119,6 +121,7 @@ private:
   mavlink_mission_item_t mission_item; 
   mavlink_request_data_stream_t request_data_stream;
   void identifyMavMsg();
+  unsigned long lastConnectionTime;  
 };
 
 

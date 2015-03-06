@@ -104,6 +104,14 @@ bool FmlDroneInterface::isOtherUpdated(){
   return other.isUpdated();
 }
 
+bool FmlDroneInterface::isGpsFixed(){
+  return ((location.lat()!= 0) && (location.lng()!= 0));
+}
+
+bool FmlDroneInterface::isDroneConnected(){
+  return ((millis() - this->lastConnectionTime)<3000);
+}
+
 float FmlDroneInterface::getHeading(){
   other.updated = false;
   return other.hdg();
@@ -113,8 +121,7 @@ void FmlDroneInterface::identifyMavMsg()
 {
    switch(msg.msgid) {
         case MAVLINK_MSG_ID_HEARTBEAT: {
-                  //Serial.println("");
-                  //Serial.println("receive heartbeat");
+          this->lastConnectionTime = millis();                 
         }
 	break;
         case MAVLINK_MSG_ID_GLOBAL_POSITION_INT: {  
@@ -152,7 +159,7 @@ void FmlDroneInterface::identifyMavMsg()
         default:
 	     //Do nothing
         break;
- }
+ } 
 }
 
 void FmlDroneInterface::sendMavMsgHeartbeat()

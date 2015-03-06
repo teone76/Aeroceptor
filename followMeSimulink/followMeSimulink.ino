@@ -1,5 +1,5 @@
 
-
+#include <Wire.h>
 #include <TinyGPS.h>
 #include "fml.h"
 TinyGPS gps;
@@ -7,6 +7,7 @@ TinyGPS gps;
 #include <stdio.h>                     /* This ert_main.c example uses printf/fflush */
 #include "navigator.h"                 /* Model's header file */
 #include "rtwtypes.h"
+#include "fmlLed.h"
 
 //class FmlDrone(char* name,int id, int type, int autopilot, int gcs_id, int serial_port)
 FmlDroneInterface rover("Emax",1,1,1,1,3);
@@ -14,6 +15,7 @@ FmlDroneInterface multirotor_1("F550",2,2,2,10,1);
 FmlDroneInterface multirotor_2("F550",3,2,2,20,2);
 
 FmlNav navigator("ATmega2560");
+FmlLed led("MyLed");
 
 unsigned long mavTimer = millis();
 unsigned long mavInterval = 1000;
@@ -39,7 +41,7 @@ unsigned long simulinkExecutionStop = 0;
 void setup() {
   /* Initialize model */
   navigator_initialize();
-  
+  Wire.begin();          // I2C led  
   Serial.begin(115200);  // Debug
   Serial1.begin(57600);  // Multicopter 1
   Serial2.begin(57600);  // Multicopter 2
@@ -68,11 +70,13 @@ void setup() {
   Serial.print("CRS , ");
   Serial.print("CALC_LAT , ");
   Serial.print("CALC_LNG , ");
-  Serial.println("execution time");
+  Serial.print("execution time");
+  Serial.println("GPS_FIX ");
+  led.blinkMessage('A',none,none,none,none);
 }
 
-void loop() {  
-
+void loop() { 
+  
   checkAvailableDataOnSerial(); 
   
   // SIMULINK TASK - 10 HZ
@@ -124,7 +128,7 @@ void loop() {
     updateDronePositionReference();
       
     //Serial.println(pwmin);
-    if(pwmin < 1200) {          
+    if(followMeActived()) {          
       sendWaypoints();
       //Serial.println("///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
     }
@@ -132,10 +136,16 @@ void loop() {
     
     // Command input from RX 
     pwmin = pulseIn(pin, HIGH, 20000); 
+    updateLed();
   }
 }
 
 //////// FUNCTIONS /////////
+
+ bool followMeActived() {
+ if(pwmin < 1200) {return true;}
+ else {return false;} 
+}
 
 void checkAvailableDataOnSerial()
 {
@@ -204,5 +214,20 @@ void printAllData()
    Serial.print(", ");
    Serial.print(navigator_Y.Out[1], 7);
    Serial.print(", ");
-   Serial.println(simulinkExecutionStop - simulinkExecutionStart);
+   Serial.print(simulinkExecutionStop - simulinkExecutionStart);
+   Serial.print(", ");
+   Serial.println(rover.isGpsFixed());
+     
+}
+
+void updateLed() {
+  
+  if(followMeActived()) {led.blinkMessage('A',blue,previous,previous,previous);}
+  else {led.blinkMessage('A',none,previous,previous,previous);}
+  if(rover.isDroneConnected()) {led.blinkMessage('A',previous,none,previous,previous);}
+  else {led.blinkMessage('A',previous,purple,previous,previous);}
+  if(multirotor_1.isDroneConnected()) {led.blinkMessage('A',previous,previous,none,previous);}  
+  else {led.blinkMessage('A',previous,previous,yellow,previous);}
+  if(rover.isGpsFixed()) {led.blinkMessage('A',previous,previous,previous,green);}
+  else {led.blinkMessage('A',previous,previous,previous,red);}
 }
