@@ -10,6 +10,9 @@
 #ifndef __Fml_h
 #define __Fml_h
 
+#define Fml_data_stream_all 0
+#define Fml_gps_status 1
+#define Fml_global_position 6
 
 #include "Arduino.h"
 #include <limits.h>
@@ -27,21 +30,29 @@ public:
    float lat();
    float lng();
    float relAlt();
+   float vx();
+   float vy();
+   float hdg();
+   float gs();
    FmlLocation() : valid(false), updated(false)
    {}
 
 private:
    bool valid, updated;
-   float latData, lngData, relAltData; 
+   float latData, lngData, relAltData, vxData, vyData, hdgData, gsData; 
    uint32_t lastCommitTime;
    
    void commit();
    void setLatitude(float latitude);
    void setLongitude(float longitude);
    void setRelativeAltitude(float relativeAltitude);
+   void setVx(float vx);
+   void setVy(float vy);
+   void setHdg(float hdg);
+   void setGs(int16_t vx, int16_t vy);
 };
 
-struct FmlOther
+/*struct FmlOther
 {
    friend class FmlDroneInterface;
 
@@ -63,7 +74,7 @@ private:
    void commit();
    void setGroundSpeed(float groundspeed);
    void setHeading(float heading);
-};
+}; */
 
 
 
@@ -87,26 +98,29 @@ public:
   int getGcsId();
   int getSerialPort();
   bool isLocationUpdated();
-  bool isOtherUpdated();
+//  bool isOtherUpdated();
   bool isGpsFixed();
   bool isDroneConnected();  
   void sendMavMsgHeartbeat();
   void sendMissionItemNavWaypoint();
-  void getDataStream();
+  void getDataStream(int param_id);
   void setRifLatitude(float rifLatitude);
   void setRifLongitude(float rifLongitude);
   void setRifRelAltitude(float rifRelAltitude);
-  
+  void setSatVisible(int nSat);
+  int getSatVisible();
   float getLatitude();
   float getLongitude();
   float getRelativeAltitude();
+  float getVx();
+  float getVy();
   float getGroundSpeed();
   float getHeading();
   
 private:
   FmlLocation location;
   FmlLocation rif_location;
-  FmlOther other;
+//  FmlOther other;
   char* name;
   int id;
   int type;
@@ -120,8 +134,10 @@ private:
   mavlink_vfr_hud_t vfr_hud; 
   mavlink_mission_item_t mission_item; 
   mavlink_request_data_stream_t request_data_stream;
+  mavlink_gps_raw_int_t gps_raw_int;
   void identifyMavMsg();
   unsigned long lastConnectionTime;  
+  int satVisible;
 };
 
 

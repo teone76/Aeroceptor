@@ -31,7 +31,8 @@ FmlDroneInterface::FmlDroneInterface(char* droneName,int droneId, int droneType,
 void FmlDroneInterface::encode(char c)
 {  
     //try to get a new message 
-    if (mavlink_parse_char(MAVLINK_COMM_1, c, &msg, &status)) {this->identifyMavMsg();}
+    if (mavlink_parse_char(MAVLINK_COMM_1, c, &msg, &status)) {this->identifyMavMsg();
+    }
 }
 
 char* FmlDroneInterface::getName()
@@ -64,6 +65,12 @@ int FmlDroneInterface::getSerialPort()
   return serial_port;
 }
 
+int FmlDroneInterface::getSatVisible()
+{
+  return satVisible;
+}
+
+
 void FmlDroneInterface::setRifLatitude(float rifLatitude){
   rif_location.latData = rifLatitude;
 }
@@ -90,19 +97,38 @@ float FmlDroneInterface::getRelativeAltitude(){
   location.updated = false;
   return location.relAlt();
 } 
+
+float FmlDroneInterface::getVx(){
+  location.updated = false;
+  return location.vx();
+}
+
+float FmlDroneInterface::getVy(){
+  location.updated = false;
+  return location.vy();
+}
   
 float FmlDroneInterface::getGroundSpeed(){
-  other.updated = false;
-  return other.gs();
+  location.updated = false;
+  return location.gs();
+}
+
+float FmlDroneInterface::getHeading(){
+  location.updated = false;
+  return location.hdg();
+}
+
+void FmlDroneInterface::setSatVisible(int nSat){
+  satVisible = nSat;
 }
 
 bool FmlDroneInterface::isLocationUpdated(){
   return location.isUpdated();
 }
 
-bool FmlDroneInterface::isOtherUpdated(){
+/*bool FmlDroneInterface::isOtherUpdated(){
   return other.isUpdated();
-}
+}*/
 
 bool FmlDroneInterface::isGpsFixed(){
   return ((location.lat()!= 0) && (location.lng()!= 0));
@@ -112,25 +138,30 @@ bool FmlDroneInterface::isDroneConnected(){
   return ((millis() - this->lastConnectionTime)<3000);
 }
 
-float FmlDroneInterface::getHeading(){
-  other.updated = false;
-  return other.hdg();
-}
-
 void FmlDroneInterface::identifyMavMsg()
 {
    switch(msg.msgid) {
-        case MAVLINK_MSG_ID_HEARTBEAT: {
-          this->lastConnectionTime = millis();                 
+        case MAVLINK_MSG_ID_HEARTBEAT: { 
+             this->lastConnectionTime = millis();          
+        }
+	break;
+        case MAVLINK_MSG_ID_GPS_RAW_INT: {
+             mavlink_msg_gps_raw_int_decode(&msg, &gps_raw_int);  
+             setSatVisible(gps_raw_int.satellites_visible); 
         }
 	break;
         case MAVLINK_MSG_ID_GLOBAL_POSITION_INT: {  
-          
              mavlink_msg_global_position_int_decode(&msg, &global_position_int); 
              
              location.setLatitude(((float)global_position_int.lat)*0.0000001);                      //latitude     
              location.setLongitude(((float)global_position_int.lon)*0.0000001);                     //longitude
              location.setRelativeAltitude(((float)global_position_int.relative_alt)*0.001);         // Altitude above ground in meters   
+             
+             location.setVx(((float)global_position_int.vx)*0.01);             // Ground X Speed (Latitude), expressed as m/s * 100
+             location.setVy(((float)global_position_int.vy)*0.01);             // Ground Y Speed (Longitude), expressed as m/s * 100
+             location.setHdg(((float)global_position_int.hdg)*0.01);                  // Compass heading in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX
+             location.setGs(global_position_int.vx, global_position_int.vy);   // GroundSpeed expressed as m/s
+  
              location.updated = true; 
              /*Serial.print("receive from serial port ");
              Serial.print(serial_port);
@@ -142,7 +173,7 @@ void FmlDroneInterface::identifyMavMsg()
              Serial.print(getRelativeAltitude(), 7);   */
         }
         break;
-        case MAVLINK_MSG_ID_VFR_HUD: {
+       /* case MAVLINK_MSG_ID_VFR_HUD: {
              mavlink_msg_vfr_hud_decode(&msg, &vfr_hud);
              
              other.setGroundSpeed(vfr_hud.groundspeed);          ///< Current ground speed in m/s
@@ -153,9 +184,9 @@ void FmlDroneInterface::identifyMavMsg()
              Serial.print("GND SPD: ");
              Serial.println(getGroundSpeed(), 7);
              Serial.print("HDG: ");
-             Serial.println(getHeading(), 7);*/
+             Serial.println(getHeading(), 7);
         }
-        break;
+        break;*/
         default:
 	     //Do nothing
         break;
@@ -192,10 +223,10 @@ void FmlDroneInterface::sendMavMsgHeartbeat()
       }    
 }
 
-void FmlDroneInterface::getDataStream() {
+void FmlDroneInterface::getDataStream(int param_id) {
 
    uint8_t buf[MAVLINK_MAX_PACKET_LEN];  
-   request_data_stream.req_stream_id = 6;
+   request_data_stream.req_stream_id = param_id;  // 2:gps_status,  6: global position
    request_data_stream.req_message_rate = 3;
    request_data_stream.start_stop = 1;    
     mavlink_msg_request_data_stream_pack(gcs_id, gcs_id, &msg, id, id, request_data_stream.req_stream_id, request_data_stream.req_message_rate, request_data_stream.start_stop);    
@@ -213,7 +244,12 @@ void FmlDroneInterface::getDataStream() {
       Serial2.write(buf, len); 
       /*Serial.println("");
       Serial.println("send data request to serial2");*/      
-    }      
+    }  
+    else if(serial_port == 3) { 
+      Serial3.write(buf, len); 
+      /*Serial.println("");
+      Serial.println("send data request to serial2");*/      
+    }          
     else {
     //Serial.println("Serial port error"); 
     }
@@ -295,6 +331,29 @@ void FmlLocation::setRelativeAltitude(float relativeAltitude)
   relAltData = relativeAltitude;
 }
 
+void FmlLocation::setVx(float vx)
+{
+  vxData = vx;
+}
+
+void FmlLocation::setVy(float vy)
+{
+  vyData = vy;
+}
+
+void FmlLocation::setHdg(float hdg)
+{
+  hdgData = hdg;
+}
+
+void FmlLocation::setGs(int16_t vx, int16_t vy)
+{
+  vx = (float)vx;
+  vy = (float)vy;
+  double gsDat = sqrt((sq(vx)) + (sq(vy)));
+  gsData = (float)gsDat*0.01;
+}
+
 float FmlLocation::lat()
 {
    updated = false;
@@ -313,7 +372,31 @@ float FmlLocation::relAlt()
    return relAltData;
 }
 
-void FmlOther::commit()
+float FmlLocation::vx()
+{
+   updated = false;
+   return vxData;
+}
+
+float FmlLocation::vy()
+{
+   updated = false;
+   return vyData;
+}
+
+float FmlLocation::hdg()
+{
+   updated = false;
+   return hdgData;
+}
+
+float FmlLocation::gs()
+{
+   updated = false;
+   return gsData;
+}
+
+/*void FmlOther::commit()
 {
    lastCommitTime = millis();
    valid = updated = true;
@@ -339,7 +422,7 @@ float FmlOther::hdg()
 {
    updated = false;
    return headingData;
-}
+}*/
 
 //
 // costruttore

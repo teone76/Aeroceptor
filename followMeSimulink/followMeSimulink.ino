@@ -7,7 +7,7 @@ TinyGPS gps;
 #include <stdio.h>                     /* This ert_main.c example uses printf/fflush */
 #include "navigator.h"                 /* Model's header file */
 #include "rtwtypes.h"
-#include "fmlLed.h"
+#include "fmlMsgLed.h"
 
 //class FmlDrone(char* name,int id, int type, int autopilot, int gcs_id, int serial_port)
 FmlDroneInterface rover("Emax",1,1,1,1,3);
@@ -15,10 +15,13 @@ FmlDroneInterface multirotor_1("F550",2,2,2,10,1);
 FmlDroneInterface multirotor_2("F550",3,2,2,20,2);
 
 FmlNav navigator("ATmega2560");
-FmlLed led("MyLed");
+FmlMsgLed ledMessage1("mLed1");
 
 unsigned long mavTimer = millis();
 unsigned long mavInterval = 1000;
+
+unsigned long ledTimer = millis();
+unsigned long ledInterval = 500;
 
 unsigned long simulinkTimer = millis();
 unsigned long simulinkInterval = 100;
@@ -49,30 +52,33 @@ void setup() {
   
   pinMode(pin, INPUT);  
   
-  Serial.println("Serial ready..");
+ /* Serial.println("Serial ready..");
   Serial.println("");
   Serial.print(rover.getName());
   Serial.print(" on serial3, ");  
   Serial.print(multirotor_1.getName());
   Serial.println(" on serial1, ");
 //  Serial.println(multirotor_2.getName());
-  Serial.println("");
-  Serial.print("time , ");
-  Serial.print("LAT_1 , ");
-  Serial.print("LNG_1 , ");
-  Serial.print("REL_ALT_1 , ");
-  Serial.print("LAT_3 , ");
-  Serial.print("LNG_3 , ");
-  Serial.print("REL_ALT_3 , ");
-  Serial.print("GND_SPD_3 , ");
-  Serial.print("HDG_3 , ");
+  Serial.println("");*/
+  Serial.print("time_stamp , ");
+  Serial.print("LAT_M , ");
+  Serial.print("LNG_M , ");
+  Serial.print("REL_ALT_M , ");
+  Serial.print("LAT_R , ");
+  Serial.print("LNG_R , ");
+  Serial.print("REL_ALT_R , ");
+  Serial.print("GND_SPD_R , ");
+  Serial.print("HDG_R , ");
   Serial.print("DIST , ");
   Serial.print("CRS , ");
   Serial.print("CALC_LAT , ");
   Serial.print("CALC_LNG , ");
-  Serial.print("execution time");
-  Serial.println("GPS_FIX ");
-  led.blinkMessage('A',none,none,none,none);
+  Serial.print("execution time , ");
+  Serial.print("GPS_FIX , ");
+  Serial.print("n_sat ,  ");
+  Serial.print("vx ,  ");
+  Serial.println("vy");
+  ledMessage1.blinkMessage('B',red,none,none,none);
 }
 
 void loop() { 
@@ -98,7 +104,7 @@ void loop() {
 
      
   // 
-  if(rover.isLocationUpdated() && rover.isOtherUpdated())
+  if(rover.isLocationUpdated() /*&& rover.isOtherUpdated()*/)
   { 
       // Set model inputs  
   navigator_U.In[0] = rover.getLatitude();
@@ -136,7 +142,13 @@ void loop() {
     
     // Command input from RX 
     pwmin = pulseIn(pin, HIGH, 20000); 
-    updateLed();
+  }
+  
+    // LED TASK - 2 HZ 
+  if(millis() - ledTimer > ledInterval)
+  { 
+    ledTimer = millis();  
+    updateLed(); 
   }
 }
 
@@ -156,8 +168,11 @@ void checkAvailableDataOnSerial()
 
 void  sendRequest()
 {
-  multirotor_1.getDataStream();
-  multirotor_2.getDataStream();
+  //rover.getDataStream(Fml_data_stream_all);
+  multirotor_1.getDataStream(Fml_gps_status);
+  multirotor_1.getDataStream(Fml_global_position);
+  multirotor_2.getDataStream(Fml_gps_status);
+  multirotor_2.getDataStream(Fml_global_position);
 }
 
 void sendHeartbeat()
@@ -203,7 +218,7 @@ void printAllData()
    Serial.print(rover.getRelativeAltitude(), 1);
    Serial.print(", ");
    Serial.print(rover.getGroundSpeed(), 1);
-   Serial.print(", ");
+   Serial.print(", ");  
    Serial.print(rover.getHeading(), 1);
    Serial.print(", ");   
    Serial.print(gps.distance_between(rover.getLatitude(), rover.getLongitude(), multirotor_1.getLatitude(), multirotor_1.getLongitude()));
@@ -216,18 +231,29 @@ void printAllData()
    Serial.print(", ");
    Serial.print(simulinkExecutionStop - simulinkExecutionStart);
    Serial.print(", ");
-   Serial.println(rover.isGpsFixed());
+   Serial.print(rover.isGpsFixed());
+   Serial.print(", ");
+   Serial.print(rover.getSatVisible());
+   Serial.print(", ");
+   Serial.print(rover.getVx(), 2);
+   Serial.print(", ");
+   Serial.println(rover.getVy(), 2);
      
 }
 
 void updateLed() {
   
-  if(followMeActived()) {led.blinkMessage('A',blue,previous,previous,previous);}
-  else {led.blinkMessage('A',none,previous,previous,previous);}
-  if(rover.isDroneConnected()) {led.blinkMessage('A',previous,none,previous,previous);}
-  else {led.blinkMessage('A',previous,purple,previous,previous);}
-  if(multirotor_1.isDroneConnected()) {led.blinkMessage('A',previous,previous,none,previous);}  
-  else {led.blinkMessage('A',previous,previous,yellow,previous);}
-  if(rover.isGpsFixed()) {led.blinkMessage('A',previous,previous,previous,green);}
-  else {led.blinkMessage('A',previous,previous,previous,red);}
+  if(followMeActived()) {ledMessage1.setMessage('A',blue,previous,previous,previous);}
+  else {ledMessage1.setMessage('A',none,previous,previous,previous);}
+  if(rover.isDroneConnected()) {ledMessage1.setMessage('A',previous,none,previous,previous);}
+  else {ledMessage1.setMessage('A',previous,white,previous,previous);}
+  if(multirotor_1.isDroneConnected()) {ledMessage1.setMessage('A',previous,previous,none,previous);}  
+  else {ledMessage1.setMessage('A',previous,previous,purple,previous);} 
+  if(rover.isGpsFixed()) 
+  {
+    if(rover.getSatVisible()<=4) {ledMessage1.setMessage('A',previous,previous,previous,yellow);} 
+    else if(rover.getSatVisible()>4) {ledMessage1.setMessage('A',previous,previous,previous,green);} 
+  }
+  else {ledMessage1.setMessage('A',previous,previous,previous,red);}
+  ledMessage1.blinkMessage();  
 }

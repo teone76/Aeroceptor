@@ -2,8 +2,8 @@
 */
 #include <Wire.h>
 
-#ifndef __FmlLed_h
-#define __FmlLed_h
+#ifndef __FmlMsgLed_h
+#define __FmlMsgLed_h
 
 #define red '1'
 #define blue '2'
@@ -19,11 +19,11 @@
 #include <limits.h>
 
 // Led
-class FmlLed
+class FmlMsgLed
 {
 public:
 
-  FmlLed(char* name);
+  FmlMsgLed(char* name);
   char* getName();
   char ledMessage[5];
 /* blinkStatus function --> blinkMessage(char first, char second, char third, char fourth, char fifth) 
@@ -50,7 +50,8 @@ public:
    */
   
   void blinkMessage(char first, char second, char third, char fourth, char fifth);
-  void blinkMessage(); 
+  void blinkMessage();
+  void setMessage(char first, char second, char third, char fourth, char fifth);  
 private:
 
   char* name;  

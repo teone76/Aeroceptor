@@ -3,9 +3,9 @@
  *
  * Code generated for Simulink model 'navigator'.
  *
- * Model version                  : 1.14
+ * Model version                  : 1.15
  * Simulink Coder version         : 8.5 (R2013b) 08-Aug-2013
- * C/C++ source code generated on : Thu Mar 05 10:30:34 2015
+ * C/C++ source code generated on : Fri Mar 06 16:20:22 2015
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -219,12 +219,6 @@ struct P_navigator_T_ {
                                         */
   real_T Gain_Gain_j;                  /* Expression: 360
                                         * Referenced by: '<S7>/Gain'
-                                        */
-  real32_T Constant_Value_ci;          /* Computed Parameter: Constant_Value_ci
-                                        * Referenced by: '<S1>/Constant'
-                                        */
-  real32_T Constant_Value_f;           /* Computed Parameter: Constant_Value_f
-                                        * Referenced by: '<S4>/Constant'
                                         */
 };
 

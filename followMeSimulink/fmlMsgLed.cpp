@@ -1,12 +1,12 @@
 #include <Wire.h>
-#include "fmlLed.h"
+#include "fmlMsgLed.h"
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
 //
 // costruttore
 //
-FmlLed::FmlLed(char* ledName)
+FmlMsgLed::FmlMsgLed(char* ledName)
 {
   name = ledName; 
 }
@@ -15,12 +15,12 @@ FmlLed::FmlLed(char* ledName)
 // public methods
 //
 
-char* FmlLed::getName()
+char* FmlMsgLed::getName()
 {
   return name;
 }
 
-void FmlLed::blinkMessage(char first, char second, char third, char fourth, char fifth)
+void FmlMsgLed::blinkMessage(char first, char second, char third, char fourth, char fifth)
 {
 // if you don't want to change one or more blink colors: type '_' following the order 
   if(first != '_') {ledMessage[0] = first;}
@@ -49,7 +49,7 @@ void FmlLed::blinkMessage(char first, char second, char third, char fourth, char
   Wire.endTransmission();    
 }
 
-void FmlLed::blinkMessage()
+void FmlMsgLed::blinkMessage()
 {
   Wire.beginTransmission(0x04);
   Wire.write('$');
@@ -70,4 +70,13 @@ void FmlLed::blinkMessage()
   Wire.write(ledMessage[4]);
   Wire.endTransmission(); 
 }
-  
+
+void FmlMsgLed::setMessage(char first, char second, char third, char fourth, char fifth)
+{
+// if you don't want to change one or more blink colors: type '_' following the order 
+  if(first != '_') {ledMessage[0] = first;}
+  if(second != '_') {ledMessage[1] = second;}
+  if(third != '_') {ledMessage[2] = third;}
+  if(fourth != '_') {ledMessage[3] = fourth;}
+  if(fifth != '_') {ledMessage[4] = fifth;}
+}  

@@ -3,9 +3,9 @@
  *
  * Code generated for Simulink model 'navigator'.
  *
- * Model version                  : 1.14
+ * Model version                  : 1.15
  * Simulink Coder version         : 8.5 (R2013b) 08-Aug-2013
- * C/C++ source code generated on : Thu Mar 05 10:30:34 2015
+ * C/C++ source code generated on : Fri Mar 06 16:20:22 2015
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -117,13 +117,12 @@ void navigator_step(void)
   real_T rtb_UnitConversion_eg;
   real_T rtb_radlat;
   real_T rtb_Sum1_g;
-  real_T rtb_Sum1_o1;
+  real_T rtb_RoundingFunction;
   real_T rtb_Sum2;
   real_T rtb_Sum2_g;
   int16_T i;
   real_T rtb_Sum_o_idx;
   real_T rtb_Sum_o_idx_0;
-  real32_T rtb_DataTypeConversion_idx;
 
   /* DataTypeConversion: '<S1>/Data Type Conversion1' incorporates:
    *  Inport: '<Root>/In'
@@ -316,8 +315,9 @@ void navigator_step(void)
    *  Sum: '<S18>/Sum2'
    *  Trigonometry: '<S1>/Trigonometric Function'
    */
-  rtb_Sum1_o1 = (rtb_UnitConversion_eg * rtb_Sum1_g + rtb_radlat * rtb_Rn) +
-    rtb_DataTypeConversion1[3] * cos(rtb_Sum1_j) * navigator_P.dt_Value;
+  rtb_RoundingFunction = (rtb_UnitConversion_eg * rtb_Sum1_g + rtb_radlat *
+    rtb_Rn) + rtb_DataTypeConversion1[3] * cos(rtb_Sum1_j) *
+    navigator_P.dt_Value;
 
   /* Gain: '<S10>/Unit Conversion' incorporates:
    *  Constant: '<S6>/ref_pos'
@@ -388,7 +388,7 @@ void navigator_step(void)
    *  Trigonometry: '<S9>/Trigonometric Function'
    *  Trigonometry: '<S9>/Trigonometric Function2'
    */
-  rtb_Sum_o_idx_0 = (rtb_Sum1_o1 * rtb_Sum2_g + rtb_Sum1_g * rtb_Sum2) *
+  rtb_Sum_o_idx_0 = (rtb_RoundingFunction * rtb_Sum2_g + rtb_Sum1_g * rtb_Sum2) *
     rt_atan2d_snf(navigator_P.Constant3_Value_jt, rtb_Rn * cos
                   (rtb_UnitConversion_eg)) * navigator_P.UnitConversion_Gain_g +
     navigator_P.initial_pos_Value[1];
@@ -411,7 +411,7 @@ void navigator_step(void)
    */
   rtb_Sum2 = rt_remd_snf(rt_atan2d_snf(navigator_P.Constant2_Value_f,
     (navigator_P.Constant_Value_c - rtb_radlat * rtb_radlat) * rtb_Rn /
-    rtb_Sum1_j) * (rtb_Sum1_o1 * rtb_Sum2 - rtb_Sum1_g * rtb_Sum2_g) *
+    rtb_Sum1_j) * (rtb_RoundingFunction * rtb_Sum2 - rtb_Sum1_g * rtb_Sum2_g) *
     navigator_P.UnitConversion_Gain_g + navigator_P.initial_pos_Value[0],
     navigator_P.Constant5_Value_e);
 
@@ -504,26 +504,15 @@ void navigator_step(void)
    */
   rtb_Sum2_g -= navigator_P.Gain_Gain_j * rtb_Sum_o_idx;
 
-  /* DataTypeConversion: '<S1>/Data Type Conversion' incorporates:
-   *  Constant: '<S1>/Constant'
-   *  Constant: '<S4>/Constant'
-   *  Sum: '<S15>/Sum'
-   *  Sum: '<S3>/Sum1'
-   *  UnaryMinus: '<S15>/Ze2height'
-   *  UnaryMinus: '<S3>/Ze2height'
-   */
-  rtb_DataTypeConversion_idx = (real32_T)(-(-(rtb_DataTypeConversion1[2] +
-    navigator_P.Constant_Value_f)) - navigator_P.Constant_Value_ci);
-
   /* Outport: '<Root>/Out' incorporates:
    *  DataTypeConversion: '<S1>/Data Type Conversion'
    */
   navigator_Y.Out[0] = (real32_T)rtb_Sum2;
   navigator_Y.Out[1] = (real32_T)rtb_Sum2_g;
-  navigator_Y.Out[2] = rtb_DataTypeConversion_idx;
+  navigator_Y.Out[2] = (real32_T)rtb_DataTypeConversion1[7];
   navigator_Y.Out[3] = (real32_T)rtb_Sum2;
   navigator_Y.Out[4] = (real32_T)rtb_Sum2_g;
-  navigator_Y.Out[5] = rtb_DataTypeConversion_idx;
+  navigator_Y.Out[5] = (real32_T)rtb_DataTypeConversion1[7];
 }
 
 /* Model initialize function */
