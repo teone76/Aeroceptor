@@ -131,7 +131,7 @@ bool FmlDroneInterface::isLocationUpdated(){
 }*/
 
 bool FmlDroneInterface::isGpsFixed(){
-  return ((location.lat()!= 0) && (location.lng()!= 0));
+  return ((location.lat()!= 0) && (location.lng()!= 0) && (getSatVisible() > 0));
 }
 
 bool FmlDroneInterface::isDroneConnected(){

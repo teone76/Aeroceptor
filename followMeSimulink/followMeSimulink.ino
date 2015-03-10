@@ -75,8 +75,8 @@ void setup() {
   Serial.print("CALC_LNG , ");
   Serial.print("execution time , ");
   Serial.print("GPS_FIX , ");
-  Serial.print("n_sat ,  ");
-  Serial.print("vx ,  ");
+  Serial.print("n_sat , ");
+  Serial.print("vx, ");
   Serial.println("vy");
   ledMessage1.blinkMessage('B',red,none,none,none);
 }
