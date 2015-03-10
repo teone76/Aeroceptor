@@ -348,10 +348,7 @@ void FmlLocation::setHdg(float hdg)
 
 void FmlLocation::setGs(int16_t vx, int16_t vy)
 {
-  vx = (float)vx;
-  vy = (float)vy;
-  double gsDat = sqrt((sq(vx)) + (sq(vy)));
-  gsData = (float)gsDat*0.01;
+  gsData = (float) (sqrt((long)vx * (long)vx + (long)vy * (long)vy )*0.01);
 }
 
 float FmlLocation::lat()
