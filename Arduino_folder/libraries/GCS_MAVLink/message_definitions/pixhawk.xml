@@ -8,6 +8,21 @@
                <entry value="2" name="DATA_TYPE_RAW_IMAGE"/>
                <entry value="3" name="DATA_TYPE_KINECT"/>
           </enum>
+          <enum name="MAV_CMD">
+               <!-- 1-10000 reserved for common commands -->
+               <entry value="10001" name="MAV_CMD_DO_START_SEARCH">
+                    <description>Starts a search</description>
+                    <param index="1">1 to arm, 0 to disarm</param>
+               </entry>
+               <entry value="10002" name="MAV_CMD_DO_FINISH_SEARCH">
+                    <description>Starts a search</description>
+                    <param index="1">1 to arm, 0 to disarm</param>
+               </entry>
+               <entry value="10003" name="MAV_CMD_NAV_SWEEP">
+                    <description>Starts a search</description>
+                    <param index="1">1 to arm, 0 to disarm</param>
+               </entry>
+          </enum>
      </enums>
      <messages>
           <message id="151" name="SET_CAM_SHUTTER">
@@ -60,41 +75,7 @@
                <field type="float" name="ground_y">Ground truth Y</field>
                <field type="float" name="ground_z">Ground truth Z</field>
           </message>
-          <message id="156" name="VISION_POSITION_ESTIMATE">
-               <field type="uint64_t" name="usec">Timestamp (milliseconds)</field>
-               <field type="float" name="x">Global X position</field>
-               <field type="float" name="y">Global Y position</field>
-               <field type="float" name="z">Global Z position</field>
-               <field type="float" name="roll">Roll angle in rad</field>
-               <field type="float" name="pitch">Pitch angle in rad</field>
-               <field type="float" name="yaw">Yaw angle in rad</field>
-          </message>
-          <message id="157" name="VICON_POSITION_ESTIMATE">
-               <field type="uint64_t" name="usec">Timestamp (milliseconds)</field>
-               <field type="float" name="x">Global X position</field>
-               <field type="float" name="y">Global Y position</field>
-               <field type="float" name="z">Global Z position</field>
-               <field type="float" name="roll">Roll angle in rad</field>
-               <field type="float" name="pitch">Pitch angle in rad</field>
-               <field type="float" name="yaw">Yaw angle in rad</field>
-          </message>
-          <message id="158" name="VISION_SPEED_ESTIMATE">
-               <field type="uint64_t" name="usec">Timestamp (milliseconds)</field>
-               <field type="float" name="x">Global X speed</field>
-               <field type="float" name="y">Global Y speed</field>
-               <field type="float" name="z">Global Z speed</field>
-          </message>
-          <message id="159" name="POSITION_CONTROL_SETPOINT_SET">
-               <description>Message sent to the MAV to set a new position as reference for the controller</description>
-               <field type="uint8_t" name="target_system">System ID</field>
-               <field type="uint8_t" name="target_component">Component ID</field>
-               <field type="uint16_t" name="id">ID of waypoint, 0 for plain position</field>
-               <field type="float" name="x">x position</field>
-               <field type="float" name="y">y position</field>
-               <field type="float" name="z">z position</field>
-               <field type="float" name="yaw">yaw orientation in radians, 0 = NORTH</field>
-          </message>
-          <message id="160" name="POSITION_CONTROL_OFFSET_SET">
+          <message id="160" name="SET_POSITION_CONTROL_OFFSET">
                <description>Message sent to the MAV to set a new offset from the currently controlled position</description>
                <field type="uint8_t" name="target_system">System ID</field>
                <field type="uint8_t" name="target_component">Component ID</field>
@@ -191,17 +172,6 @@
                <field type="float" name="zp2">Z2 Position</field>
                <field type="char[26]" name="name">POI connection name</field>
           </message>
-          <message id="193" name="DATA_TRANSMISSION_HANDSHAKE">
-               <field type="uint8_t" name="type">type of requested/acknowledged data (as defined in ENUM DATA_TYPES in mavlink/include/mavlink_types.h)</field>
-               <field type="uint32_t" name="size">total data size in bytes (set on ACK only)</field>
-               <field type="uint8_t" name="packets">number of packets beeing sent (set on ACK only)</field>
-               <field type="uint8_t" name="payload">payload size per packet (normally 253 byte, see DATA field size in message ENCAPSULATED_DATA) (set on ACK only)</field>
-               <field type="uint8_t" name="jpg_quality">JPEG quality out of [1,100]</field>
-          </message>
-          <message id="194" name="ENCAPSULATED_DATA">
-               <field type="uint16_t" name="seqnr">sequence number (starting with 0 on every transmission)</field>
-               <field type="uint8_t[253]" name="data">image data bytes</field>
-          </message>
           <message id="195" name="BRIEF_FEATURE">
                <field type="float" name="x">x position in m</field>
                <field type="float" name="y">y position in m</field>
@@ -212,7 +182,7 @@
                <field type="uint8_t[32]" name="descriptor">Descriptor</field>
                <field type="float" name="response">Harris operator response at this location</field>
           </message>
-                    <message id="200" name="ATTITUDE_CONTROL">
+          <message id="200" name="ATTITUDE_CONTROL">
                <field type="uint8_t" name="target">The system to be controlled</field>
                <field type="float" name="roll">roll</field>
                <field type="float" name="pitch">pitch</field>
@@ -222,6 +192,36 @@
                <field type="uint8_t" name="pitch_manual">pitch auto:0, manual:1</field>
                <field type="uint8_t" name="yaw_manual">yaw auto:0, manual:1</field>
                <field type="uint8_t" name="thrust_manual">thrust auto:0, manual:1</field>
+          </message>
+          <message id="205" name="DETECTION_STATS">
+               <field type="uint32_t" name="detections">Number of detections</field>
+               <field type="uint32_t" name="cluster_iters">Number of cluster iterations</field>
+               <field type="float" name="best_score">Best score</field>
+               <field type="int32_t" name="best_lat">Latitude of the best detection * 1E7</field>
+               <field type="int32_t" name="best_lon">Longitude of the best detection * 1E7</field>
+               <field type="int32_t" name="best_alt">Altitude of the best detection * 1E3</field>
+               <field type="uint32_t" name="best_detection_id">Best detection ID</field>
+               <field type="uint32_t" name="best_cluster_id">Best cluster ID</field>
+               <field type="uint32_t" name="best_cluster_iter_id">Best cluster ID</field>
+               <field type="uint32_t" name="images_done">Number of images already processed</field>
+               <field type="uint32_t" name="images_todo">Number of images still to process</field>
+               <field type="float" name="fps">Average images per seconds processed</field>
+          </message>
+          <message id="206" name="ONBOARD_HEALTH">
+               <field type="uint32_t" name="uptime">Uptime of system</field>
+               <field type="uint16_t" name="cpu_freq">CPU frequency</field>
+               <field type="uint8_t" name="cpu_load">CPU load in percent</field>
+               <field type="uint8_t" name="ram_usage">RAM usage in percent</field>
+               <field type="float" name="ram_total">RAM size in GiB</field>
+               <field type="uint8_t" name="swap_usage">Swap usage in percent</field>
+               <field type="float" name="swap_total">Swap size in GiB</field>
+               <field type="int8_t" name="disk_health">Disk health (-1: N/A, 0: ERR, 1: RO, 2: RW)</field>
+               <field type="uint8_t" name="disk_usage">Disk usage in percent</field>
+               <field type="float" name="disk_total">Disk total in GiB</field>
+               <field type="float" name="temp">Temperature</field>
+               <field type="float" name="voltage">Supply voltage V</field>
+               <field type="float" name="network_load_in">Network load inbound KiB/s</field>
+               <field type="float" name="network_load_out">Network load outbound in KiB/s </field>
           </message>
      </messages>
 </mavlink>
