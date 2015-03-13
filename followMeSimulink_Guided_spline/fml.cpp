@@ -220,6 +220,29 @@ void FmlDroneInterface::identifyMavMsg()
              Serial.println(getHeading(), 7);
         }
         break;*/
+        case MAVLINK_MSG_ID_COMMAND_ACK: {
+                     mavlink_msg_command_ack_decode(&msg, &command_ack);
+                     Serial.print("COMMAND ACK: command: ");
+                     Serial.println(command_ack.command);
+                     switch (command_ack.result) {
+                       case 0:
+                       Serial.println("Command ACCEPTED and EXECUTED");
+                       break;
+                       case 1:
+                       Serial.println("Command TEMPORARY REJECTED/DENIED");
+                       break;
+                       case 2:
+                       Serial.println("Command PERMANENTLY DENIED");
+                       break;                       
+                       case 3:
+                       Serial.println("Command UNKNOWN/UNSUPPORTED");
+                       break;                       
+                       case 4:
+                       Serial.println("Command executed, but failed");
+                       break;    
+                     }
+                }
+                break; 
         default:
 	     //Do nothing
         break;
@@ -291,10 +314,10 @@ void FmlDroneInterface::getDataStream(int param_id) {
 void FmlDroneInterface::sendPositionTargetGlobalInt()
 {
     uint8_t buf[MAVLINK_MAX_PACKET_LEN];
-    
+    //Serial.print(MAVLINK_MAX_PACKET_LEN);
  position_target_global_int.time_boot_ms = millis(); ///< Timestamp in milliseconds since system boot. The rationale for the timestamp in the setpoint is to allow the system to compensate for the transport delay of the setpoint. This allows the system to compensate processing latency.
- position_target_global_int.lat_int = rif_location.lat(); ///< X Position in WGS84 frame in 1e7 * meters
- position_target_global_int.lon_int = rif_location.lng(); ///< Y Position in WGS84 frame in 1e7 * meters
+ position_target_global_int.lat_int = 44,12345;//rif_location.lat(); ///< X Position in WGS84 frame in 1e7 * meters
+ position_target_global_int.lon_int = 12,11111;//rif_location.lng(); ///< Y Position in WGS84 frame in 1e7 * meters
  position_target_global_int.alt = rif_location.relAlt(); ///< Altitude in meters in WGS84 altitude, not AMSL if absolute or relative, above terrain if GLOBAL_TERRAIN_ALT_INT
  position_target_global_int.vx = 0; //rif_location.vx();   ///< X velocity in NED frame in meter / s
  position_target_global_int.vy = 0; //rif_location.vy();   ///< Y velocity in NED frame in meter / s
@@ -316,10 +339,32 @@ void FmlDroneInterface::sendPositionTargetGlobalInt()
       
     // Copy the message to send buffer 
     uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
-	
+    
+    
+       /* switch(msg.msgid) {
+        case MAVLINK_MSG_ID_SET_POSITION_TARGET_GLOBAL_INT: {
+          mavlink_msg_set_position_target_global_int_decode(&msg, &packet);
+          
+        bool pos_ignore      = packet.type_mask & 0b111;  //001 | 010 | 100 ->  0000000000000111 
+        bool vel_ignore      = packet.type_mask & 0b111000;
+        bool acc_ignore      = packet.type_mask & 0b111000000;          
+        Serial.println(pos_ignore);
+        Serial.println(vel_ignore);
+        Serial.println(acc_ignore);
+        Serial.println(packet.lat_int);
+         Serial.println(packet.lon_int);
+        Serial.println(packet.type_mask, BIN);
+        }
+        break;
+        default:
+	     //Do nothing
+        break;
+      } 	*/
     // Send the message (.write sends as bytes) 	
     if(serial_port == 1) {
-      Serial1.write(buf, len); 
+      Serial1.write(buf, len);
+      //Serial.print(len);
+      //Serial.println("MESSAGGIO INVIATO"); 
       /*Serial.println("");
       Serial.println("send waypoint to serial1");
       Serial.println("lat    lng    rel_alt");

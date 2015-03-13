@@ -144,8 +144,10 @@ private:
   mavlink_global_position_int_t global_position_int;
   mavlink_vfr_hud_t vfr_hud; 
   mavlink_set_position_target_global_int_t position_target_global_int; 
+  mavlink_set_position_target_global_int_t packet;
   mavlink_request_data_stream_t request_data_stream;
   mavlink_gps_raw_int_t gps_raw_int;
+  mavlink_command_ack_t command_ack;
   void identifyMavMsg();
   unsigned long lastConnectionTime;  
   int satVisible;
