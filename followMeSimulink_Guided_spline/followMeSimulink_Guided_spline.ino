@@ -221,16 +221,16 @@ void updateDronePositionReference()
   multirotor_1.setRifLatitude(navigator_Y.Out[0]);
   multirotor_1.setRifLongitude(navigator_Y.Out[1]);
   multirotor_1.setRifRelAltitude(navigator_Y.Out[2]);
-  multirotor_1.setRifVx(navigator_Y.Out[3]);
-  multirotor_1.setRifVy(navigator_Y.Out[4]);
+  multirotor_1.setRifVx(0.5*navigator_Y.Out[3] + rover.getVx());
+  multirotor_1.setRifVy(0.5*navigator_Y.Out[4] + rover.getVy());
   
   //multirotor_2.setRifLatitude(navigator_Y.Out[3]);
   //multirotor_2.setRifLongitude(navigator_Y.Out[4]);
   //multirotor_2.setRifRelAltitude(navigator_Y.Out[5]);
   
   //Vx Vy Yaw OUTPUTS:
-  multirotor_1.setRifVx(rover.getVx());
-  multirotor_1.setRifVy(rover.getVy());
+  /*multirotor_1.setRifVx(rover.getVx());
+  multirotor_1.setRifVy(rover.getVy());*/
   multirotor_1.setRifYaw(rover.getHeading());
   
   //multirotor_2.setRifVx(rover.getVx());
