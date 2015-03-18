@@ -81,7 +81,9 @@ void setup() {
   Serial.print("vx, ");
   Serial.print("vy, ");
   Serial.print("rif_vx, ");
-  Serial.println("rif_vy");  
+  Serial.print("rif_vy, ");  
+  Serial.print("dLat, ");  
+  Serial.println("dLon");   
   ledMessage1.blinkMessage('B',red,none,none,none);
 }
 
@@ -112,14 +114,14 @@ void loop() {
   if(rover.isLocationUpdated() /*&& rover.isOtherUpdated()*/)
   { 
       // Set model inputs  
-  navigator_U.In[0] = rover.getLatitude();
-  navigator_U.In[1] = rover.getLongitude();
+  navigator_U.In[0] = rover.getLatitude() - dLat;
+  navigator_U.In[1] = rover.getLongitude() - dLon;
   navigator_U.In[2] = rover.getRelativeAltitude();
   navigator_U.In[3] = rover.getGroundSpeed();
   navigator_U.In[4] = rover.getHeading();
   
-  navigator_U.In[5] = multirotor_1.getLatitude() + dLat;
-  navigator_U.In[6] = multirotor_1.getLongitude() + dLon;
+  navigator_U.In[5] = multirotor_1.getLatitude();
+  navigator_U.In[6] = multirotor_1.getLongitude();
   navigator_U.In[7] = multirotor_1.getRelativeAltitude();
   navigator_U.In[8] = multirotor_1.getGroundSpeed();
   navigator_U.In[9] = multirotor_1.getHeading();  
@@ -149,7 +151,7 @@ void loop() {
     
     // Command input from RX 
     pwmIn = pulseIn(pin, HIGH, 20000); 
-    if switchedToState2() {
+    if (switchedToState2()) {
       dLat = rover.getLatitude() - multirotor_1.getLatitude();
       dLon = rover.getLongitude() - multirotor_1.getLongitude();
     }
@@ -166,7 +168,7 @@ void loop() {
 //////// FUNCTIONS /////////
 
 bool switchedToState2() {
-  if (pwmIn > 1700) {
+  if (pwmIn > 1300) {
     if (state != 2){ 
       state = 2;
       return true;    
@@ -286,7 +288,11 @@ void printAllData()
    Serial.print(", ");
    Serial.print(multirotor_1.getRifVx(), 2);
    Serial.print(", ");
-   Serial.println(multirotor_1.getRifVy(), 2);     
+   Serial.print(multirotor_1.getRifVy(), 2); 
+   Serial.print(", ");
+   Serial.print(dLat, 7);
+   Serial.print(", ");
+   Serial.println(dLon, 7);
 }
 
 void updateLed() {

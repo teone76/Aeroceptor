@@ -421,11 +421,11 @@ void FmlDroneInterface::sendPositionTargetGlobalInt()
     uint8_t buf[MAVLINK_MAX_PACKET_LEN];
     //Serial.print(MAVLINK_MAX_PACKET_LEN); 
  position_target_global_int.time_boot_ms = 0; //millis(); ///< Timestamp in milliseconds since system boot. The rationale for the timestamp in the setpoint is to allow the system to compensate for the transport delay of the setpoint. This allows the system to compensate processing latency.
- position_target_global_int.lat_int = 0; //rif_location.lat(); ///< X Position in WGS84 frame in 1e7 * meters
- position_target_global_int.lon_int = 0; //rif_location.lng(); ///< Y Position in WGS84 frame in 1e7 * meters
- position_target_global_int.alt = 0; //rif_location.relAlt(); ///< Altitude in meters in WGS84 altitude, not AMSL if absolute or relative, above terrain if GLOBAL_TERRAIN_ALT_INT
- position_target_global_int.vx = 1; //rif_location.vx();   ///< X velocity in NED frame in meter / s
- position_target_global_int.vy = 0; //rif_location.vy();   ///< Y velocity in NED frame in meter / s
+ position_target_global_int.lat_int = rif_location.lat(); ///< X Position in WGS84 frame in 1e7 * meters
+ position_target_global_int.lon_int = rif_location.lng(); ///< Y Position in WGS84 frame in 1e7 * meters
+ position_target_global_int.alt = rif_location.relAlt(); ///< Altitude in meters in WGS84 altitude, not AMSL if absolute or relative, above terrain if GLOBAL_TERRAIN_ALT_INT
+ position_target_global_int.vx = rif_location.vx();   ///< X velocity in NED frame in meter / s
+ position_target_global_int.vy = rif_location.vy();   ///< Y velocity in NED frame in meter / s
  position_target_global_int.vz = 0; ///< Z velocity in NED frame in meter / s
  position_target_global_int.afx = 0; ///< X acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N
  position_target_global_int.afy = 0; ///< Y acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N
