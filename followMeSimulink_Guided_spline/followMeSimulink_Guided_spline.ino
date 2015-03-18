@@ -36,6 +36,9 @@ float navigationLawOutput [6];
 int pin = 12;
 unsigned long pwmIn = 0;
 
+int state = 0;
+int previous_state = 0;
+
 unsigned long simulinkExecutionStart = 0;
 unsigned long simulinkExecutionStop = 0;
 
@@ -82,7 +85,7 @@ void setup() {
 }
 
 void loop() { 
-  
+
   checkAvailableDataOnSerial(); 
   
   // SIMULINK TASK - 10 HZ
@@ -156,6 +159,28 @@ void loop() {
 }
 
 //////// FUNCTIONS /////////
+
+bool switchToFollowMe() {
+  if((pwmIn > 1300) && (pwmIn < 1600)) {
+    state = 1;
+    if(state != previous_state) {
+      previous_state = 1;
+      return true;}
+    else {return false;}
+  }
+  else if(pwmIn > 1700) {
+    state = 2;
+    if(state != previous_state) {
+      previous_state = 2;
+      return true;}
+    else {return false;} 
+  }
+  else {
+    previous_state = 0;
+    return false;}   
+}
+      
+  
 
  bool followMeActived_1() {
  if((pwmIn > 1300) && (pwmIn < 1600)) {return true;}
