@@ -3,9 +3,9 @@
  *
  * Code generated for Simulink model 'navigator'.
  *
- * Model version                  : 1.15
+ * Model version                  : 1.18
  * Simulink Coder version         : 8.5 (R2013b) 08-Aug-2013
- * C/C++ source code generated on : Fri Mar 06 16:20:22 2015
+ * C/C++ source code generated on : Wed Mar 18 16:57:44 2015
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -59,82 +59,82 @@ struct P_navigator_T_ {
                                         * Referenced by: '<S3>/initial_pos'
                                         */
   real_T initial_pos_Value_l[2];       /* Expression: LL0
-                                        * Referenced by: '<S15>/initial_pos'
+                                        * Referenced by: '<S17>/initial_pos'
                                         */
   real_T Constant5_Value;              /* Expression: 360
-                                        * Referenced by: '<S16>/Constant5'
+                                        * Referenced by: '<S18>/Constant5'
                                         */
   real_T Constant4_Value;              /* Expression: 180
-                                        * Referenced by: '<S16>/Constant4'
+                                        * Referenced by: '<S18>/Constant4'
                                         */
   real_T Gain3_Gain;                   /* Expression: 360
-                                        * Referenced by: '<S16>/Gain3'
+                                        * Referenced by: '<S18>/Gain3'
                                         */
   real_T Constant1_Value;              /* Expression: 180
-                                        * Referenced by: '<S16>/Constant1'
+                                        * Referenced by: '<S18>/Constant1'
                                         */
   real_T Gain_Gain;                    /* Expression: 180
-                                        * Referenced by: '<S16>/Gain'
+                                        * Referenced by: '<S18>/Gain'
                                         */
   real_T Gain1_Gain;                   /* Expression: 2
-                                        * Referenced by: '<S16>/Gain1'
+                                        * Referenced by: '<S18>/Gain1'
                                         */
   real_T Gain2_Gain;                   /* Expression: 2
-                                        * Referenced by: '<S16>/Gain2'
+                                        * Referenced by: '<S18>/Gain2'
                                         */
   real_T Constant3_Value;              /* Expression: 90
-                                        * Referenced by: '<S16>/Constant3'
+                                        * Referenced by: '<S18>/Constant3'
                                         */
   real_T Gain4_Gain;                   /* Expression: 180
-                                        * Referenced by: '<S16>/Gain4'
+                                        * Referenced by: '<S18>/Gain4'
                                         */
   real_T Constant2_Value;              /* Expression: 360
-                                        * Referenced by: '<S17>/Constant2'
+                                        * Referenced by: '<S19>/Constant2'
                                         */
   real_T Constant_Value;               /* Expression: 180
-                                        * Referenced by: '<S17>/Constant'
+                                        * Referenced by: '<S19>/Constant'
                                         */
   real_T Gain_Gain_h;                  /* Expression: 360
-                                        * Referenced by: '<S17>/Gain'
+                                        * Referenced by: '<S19>/Gain'
                                         */
   real_T UnitConversion_Gain;          /* Expression: slope
-                                        * Referenced by: '<S19>/Unit Conversion'
-                                        */
-  real_T Constant2_Value_o;            /* Expression: 1
-                                        * Referenced by: '<S20>/Constant2'
-                                        */
-  real_T Constant1_Value_b;            /* Expression: R
-                                        * Referenced by: '<S20>/Constant1'
-                                        */
-  real_T Constant_Value_e;             /* Expression: 1
-                                        * Referenced by: '<S23>/Constant'
-                                        */
-  real_T Constant_Value_o;             /* Expression: 1
-                                        * Referenced by: '<S25>/Constant'
-                                        */
-  real_T Constant_Value_om;            /* Expression: F
-                                        * Referenced by: '<S24>/Constant'
-                                        */
-  real_T f_Value;                      /* Expression: 1
-                                        * Referenced by: '<S24>/f'
-                                        */
-  real_T initial_latg_Value;           /* Expression: LL0(1)
-                                        * Referenced by: '<S15>/initial_latg'
-                                        */
-  real_T UnitConversion_Gain_o;        /* Expression: slope
-                                        * Referenced by: '<S22>/Unit Conversion'
-                                        */
-  real_T Constant_Value_b;             /* Expression: 1
-                                        * Referenced by: '<S20>/Constant'
-                                        */
-  real_T ref_pos_Value;                /* Expression: psi
-                                        * Referenced by: '<S18>/ref_pos'
-                                        */
-  real_T UnitConversion_Gain_b;        /* Expression: slope
                                         * Referenced by: '<S21>/Unit Conversion'
                                         */
+  real_T Constant2_Value_o;            /* Expression: 1
+                                        * Referenced by: '<S22>/Constant2'
+                                        */
+  real_T Constant1_Value_b;            /* Expression: R
+                                        * Referenced by: '<S22>/Constant1'
+                                        */
+  real_T Constant_Value_e;             /* Expression: 1
+                                        * Referenced by: '<S25>/Constant'
+                                        */
+  real_T Constant_Value_o;             /* Expression: 1
+                                        * Referenced by: '<S27>/Constant'
+                                        */
+  real_T Constant_Value_om;            /* Expression: F
+                                        * Referenced by: '<S26>/Constant'
+                                        */
+  real_T f_Value;                      /* Expression: 1
+                                        * Referenced by: '<S26>/f'
+                                        */
+  real_T initial_latg_Value;           /* Expression: LL0(1)
+                                        * Referenced by: '<S17>/initial_latg'
+                                        */
+  real_T UnitConversion_Gain_o;        /* Expression: slope
+                                        * Referenced by: '<S24>/Unit Conversion'
+                                        */
+  real_T Constant_Value_b;             /* Expression: 1
+                                        * Referenced by: '<S22>/Constant'
+                                        */
+  real_T ref_pos_Value;                /* Expression: psi
+                                        * Referenced by: '<S20>/ref_pos'
+                                        */
+  real_T UnitConversion_Gain_b;        /* Expression: slope
+                                        * Referenced by: '<S23>/Unit Conversion'
+                                        */
   real_T Constant3_Value_j;            /* Expression: 1
-                                        * Referenced by: '<S20>/Constant3'
+                                        * Referenced by: '<S22>/Constant3'
                                         */
   real_T Gain1_Gain_m;                 /* Expression: pi/180
                                         * Referenced by: '<S2>/Gain1'
@@ -143,82 +143,172 @@ struct P_navigator_T_ {
                                         * Referenced by: '<S1>/dt'
                                         */
   real_T ref_pos_Value_n;              /* Expression: psi
-                                        * Referenced by: '<S6>/ref_pos'
+                                        * Referenced by: '<S8>/ref_pos'
                                         */
   real_T UnitConversion_Gain_f;        /* Expression: slope
-                                        * Referenced by: '<S10>/Unit Conversion'
+                                        * Referenced by: '<S12>/Unit Conversion'
                                         */
   real_T dt1_Value;                    /* Expression: 0.5
                                         * Referenced by: '<S1>/dt1'
                                         */
   real_T Constant2_Value_f;            /* Expression: 1
-                                        * Referenced by: '<S9>/Constant2'
+                                        * Referenced by: '<S11>/Constant2'
                                         */
   real_T Constant1_Value_f;            /* Expression: R
-                                        * Referenced by: '<S9>/Constant1'
+                                        * Referenced by: '<S11>/Constant1'
                                         */
   real_T Constant_Value_k;             /* Expression: 1
-                                        * Referenced by: '<S12>/Constant'
-                                        */
-  real_T Constant_Value_kd;            /* Expression: 1
                                         * Referenced by: '<S14>/Constant'
                                         */
+  real_T Constant_Value_kd;            /* Expression: 1
+                                        * Referenced by: '<S16>/Constant'
+                                        */
   real_T Constant_Value_p;             /* Expression: F
-                                        * Referenced by: '<S13>/Constant'
+                                        * Referenced by: '<S15>/Constant'
                                         */
   real_T f_Value_b;                    /* Expression: 1
-                                        * Referenced by: '<S13>/f'
+                                        * Referenced by: '<S15>/f'
                                         */
   real_T initial_latg_Value_n;         /* Expression: LL0(1)
                                         * Referenced by: '<S3>/initial_latg'
                                         */
   real_T UnitConversion_Gain_h;        /* Expression: slope
-                                        * Referenced by: '<S11>/Unit Conversion'
+                                        * Referenced by: '<S13>/Unit Conversion'
                                         */
   real_T Constant_Value_c;             /* Expression: 1
-                                        * Referenced by: '<S9>/Constant'
+                                        * Referenced by: '<S11>/Constant'
                                         */
   real_T Constant3_Value_jt;           /* Expression: 1
-                                        * Referenced by: '<S9>/Constant3'
+                                        * Referenced by: '<S11>/Constant3'
                                         */
   real_T UnitConversion_Gain_g;        /* Expression: slope
-                                        * Referenced by: '<S8>/Unit Conversion'
+                                        * Referenced by: '<S10>/Unit Conversion'
                                         */
   real_T Constant5_Value_e;            /* Expression: 360
-                                        * Referenced by: '<S5>/Constant5'
+                                        * Referenced by: '<S7>/Constant5'
                                         */
   real_T Constant4_Value_g;            /* Expression: 180
-                                        * Referenced by: '<S5>/Constant4'
+                                        * Referenced by: '<S7>/Constant4'
                                         */
   real_T Gain3_Gain_l;                 /* Expression: 360
-                                        * Referenced by: '<S5>/Gain3'
+                                        * Referenced by: '<S7>/Gain3'
                                         */
   real_T Constant1_Value_g;            /* Expression: 180
-                                        * Referenced by: '<S5>/Constant1'
+                                        * Referenced by: '<S7>/Constant1'
                                         */
   real_T Gain_Gain_c;                  /* Expression: 180
-                                        * Referenced by: '<S5>/Gain'
+                                        * Referenced by: '<S7>/Gain'
                                         */
   real_T Gain1_Gain_d;                 /* Expression: 2
-                                        * Referenced by: '<S5>/Gain1'
+                                        * Referenced by: '<S7>/Gain1'
                                         */
   real_T Gain2_Gain_p;                 /* Expression: 2
-                                        * Referenced by: '<S5>/Gain2'
+                                        * Referenced by: '<S7>/Gain2'
                                         */
   real_T Constant3_Value_h;            /* Expression: 90
-                                        * Referenced by: '<S5>/Constant3'
+                                        * Referenced by: '<S7>/Constant3'
                                         */
   real_T Gain4_Gain_j;                 /* Expression: 180
-                                        * Referenced by: '<S5>/Gain4'
+                                        * Referenced by: '<S7>/Gain4'
                                         */
   real_T Constant2_Value_e;            /* Expression: 360
-                                        * Referenced by: '<S7>/Constant2'
+                                        * Referenced by: '<S9>/Constant2'
                                         */
   real_T Constant_Value_d;             /* Expression: 180
-                                        * Referenced by: '<S7>/Constant'
+                                        * Referenced by: '<S9>/Constant'
                                         */
   real_T Gain_Gain_j;                  /* Expression: 360
-                                        * Referenced by: '<S7>/Gain'
+                                        * Referenced by: '<S9>/Gain'
+                                        */
+  real_T initial_pos_Value_h[2];       /* Expression: LL0
+                                        * Referenced by: '<S28>/initial_pos'
+                                        */
+  real_T Constant5_Value_b;            /* Expression: 360
+                                        * Referenced by: '<S29>/Constant5'
+                                        */
+  real_T Constant4_Value_g4;           /* Expression: 180
+                                        * Referenced by: '<S29>/Constant4'
+                                        */
+  real_T Gain3_Gain_o;                 /* Expression: 360
+                                        * Referenced by: '<S29>/Gain3'
+                                        */
+  real_T Constant1_Value_d;            /* Expression: 180
+                                        * Referenced by: '<S29>/Constant1'
+                                        */
+  real_T Gain_Gain_k;                  /* Expression: 180
+                                        * Referenced by: '<S29>/Gain'
+                                        */
+  real_T Gain1_Gain_i;                 /* Expression: 2
+                                        * Referenced by: '<S29>/Gain1'
+                                        */
+  real_T Gain2_Gain_k;                 /* Expression: 2
+                                        * Referenced by: '<S29>/Gain2'
+                                        */
+  real_T Constant3_Value_c;            /* Expression: 90
+                                        * Referenced by: '<S29>/Constant3'
+                                        */
+  real_T Gain4_Gain_i;                 /* Expression: 180
+                                        * Referenced by: '<S29>/Gain4'
+                                        */
+  real_T Constant2_Value_h;            /* Expression: 360
+                                        * Referenced by: '<S30>/Constant2'
+                                        */
+  real_T Constant_Value_kc;            /* Expression: 180
+                                        * Referenced by: '<S30>/Constant'
+                                        */
+  real_T Gain_Gain_kt;                 /* Expression: 360
+                                        * Referenced by: '<S30>/Gain'
+                                        */
+  real_T UnitConversion_Gain_gs;       /* Expression: slope
+                                        * Referenced by: '<S32>/Unit Conversion'
+                                        */
+  real_T Constant2_Value_n;            /* Expression: 1
+                                        * Referenced by: '<S33>/Constant2'
+                                        */
+  real_T Constant1_Value_o;            /* Expression: R
+                                        * Referenced by: '<S33>/Constant1'
+                                        */
+  real_T Constant_Value_ks;            /* Expression: 1
+                                        * Referenced by: '<S36>/Constant'
+                                        */
+  real_T Constant_Value_m;             /* Expression: 1
+                                        * Referenced by: '<S38>/Constant'
+                                        */
+  real_T Constant_Value_n;             /* Expression: F
+                                        * Referenced by: '<S37>/Constant'
+                                        */
+  real_T f_Value_j;                    /* Expression: 1
+                                        * Referenced by: '<S37>/f'
+                                        */
+  real_T initial_latg_Value_i;         /* Expression: LL0(1)
+                                        * Referenced by: '<S28>/initial_latg'
+                                        */
+  real_T UnitConversion_Gain_i;        /* Expression: slope
+                                        * Referenced by: '<S35>/Unit Conversion'
+                                        */
+  real_T Constant_Value_f;             /* Expression: 1
+                                        * Referenced by: '<S33>/Constant'
+                                        */
+  real_T ref_pos_Value_c;              /* Expression: psi
+                                        * Referenced by: '<S31>/ref_pos'
+                                        */
+  real_T UnitConversion_Gain_c;        /* Expression: slope
+                                        * Referenced by: '<S34>/Unit Conversion'
+                                        */
+  real_T Constant3_Value_o;            /* Expression: 1
+                                        * Referenced by: '<S33>/Constant3'
+                                        */
+  real_T Saturation_UpperSat;          /* Expression: k_sat
+                                        * Referenced by: '<S6>/Saturation'
+                                        */
+  real_T Saturation_LowerSat;          /* Expression: 0
+                                        * Referenced by: '<S6>/Saturation'
+                                        */
+  real32_T Constant_Value_f1;          /* Computed Parameter: Constant_Value_f1
+                                        * Referenced by: '<S4>/Constant'
+                                        */
+  real32_T Constant_Value_kn;          /* Computed Parameter: Constant_Value_kn
+                                        * Referenced by: '<S5>/Constant'
                                         */
 };
 
@@ -307,27 +397,40 @@ extern "C" {
  * '<S2>'   : 'navigator/navigation_law/Degrees to Radians'
  * '<S3>'   : 'navigator/navigation_law/Flat Earth to LLA'
  * '<S4>'   : 'navigator/navigation_law/LLA_TO_earthFlat'
- * '<S5>'   : 'navigator/navigation_law/Flat Earth to LLA/Latitude  Between  +//- 90'
- * '<S6>'   : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset'
- * '<S7>'   : 'navigator/navigation_law/Flat Earth to LLA/Longitude Between +//-180'
- * '<S8>'   : 'navigator/navigation_law/Flat Earth to LLA/pos_deg'
- * '<S9>'   : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/Find Radian//Distance'
- * '<S10>'  : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/pos_deg'
- * '<S11>'  : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/Find Radian//Distance/Angle Conversion2'
- * '<S12>'  : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/Find Radian//Distance/denom'
- * '<S13>'  : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/Find Radian//Distance/e'
- * '<S14>'  : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/Find Radian//Distance/e^4'
- * '<S15>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth'
- * '<S16>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Latitude  Between  +//- 90'
- * '<S17>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Longitude Between +//-180'
- * '<S18>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem'
- * '<S19>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/pos_rad'
- * '<S20>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance'
- * '<S21>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/pos_deg'
- * '<S22>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance/Angle Conversion2'
- * '<S23>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance/denom'
- * '<S24>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance/e'
- * '<S25>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance/e^4'
+ * '<S5>'   : 'navigator/navigation_law/LLA_TO_earthFlat1'
+ * '<S6>'   : 'navigator/navigation_law/sat  '
+ * '<S7>'   : 'navigator/navigation_law/Flat Earth to LLA/Latitude  Between  +//- 90'
+ * '<S8>'   : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset'
+ * '<S9>'   : 'navigator/navigation_law/Flat Earth to LLA/Longitude Between +//-180'
+ * '<S10>'  : 'navigator/navigation_law/Flat Earth to LLA/pos_deg'
+ * '<S11>'  : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/Find Radian//Distance'
+ * '<S12>'  : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/pos_deg'
+ * '<S13>'  : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/Find Radian//Distance/Angle Conversion2'
+ * '<S14>'  : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/Find Radian//Distance/denom'
+ * '<S15>'  : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/Find Radian//Distance/e'
+ * '<S16>'  : 'navigator/navigation_law/Flat Earth to LLA/LongLat_offset/Find Radian//Distance/e^4'
+ * '<S17>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth'
+ * '<S18>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Latitude  Between  +//- 90'
+ * '<S19>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Longitude Between +//-180'
+ * '<S20>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem'
+ * '<S21>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/pos_rad'
+ * '<S22>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance'
+ * '<S23>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/pos_deg'
+ * '<S24>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance/Angle Conversion2'
+ * '<S25>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance/denom'
+ * '<S26>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance/e'
+ * '<S27>'  : 'navigator/navigation_law/LLA_TO_earthFlat/LLA to Flat Earth/Subsystem/Find Radian//Distance/e^4'
+ * '<S28>'  : 'navigator/navigation_law/LLA_TO_earthFlat1/LLA to Flat Earth'
+ * '<S29>'  : 'navigator/navigation_law/LLA_TO_earthFlat1/LLA to Flat Earth/Latitude  Between  +//- 90'
+ * '<S30>'  : 'navigator/navigation_law/LLA_TO_earthFlat1/LLA to Flat Earth/Longitude Between +//-180'
+ * '<S31>'  : 'navigator/navigation_law/LLA_TO_earthFlat1/LLA to Flat Earth/Subsystem'
+ * '<S32>'  : 'navigator/navigation_law/LLA_TO_earthFlat1/LLA to Flat Earth/pos_rad'
+ * '<S33>'  : 'navigator/navigation_law/LLA_TO_earthFlat1/LLA to Flat Earth/Subsystem/Find Radian//Distance'
+ * '<S34>'  : 'navigator/navigation_law/LLA_TO_earthFlat1/LLA to Flat Earth/Subsystem/pos_deg'
+ * '<S35>'  : 'navigator/navigation_law/LLA_TO_earthFlat1/LLA to Flat Earth/Subsystem/Find Radian//Distance/Angle Conversion2'
+ * '<S36>'  : 'navigator/navigation_law/LLA_TO_earthFlat1/LLA to Flat Earth/Subsystem/Find Radian//Distance/denom'
+ * '<S37>'  : 'navigator/navigation_law/LLA_TO_earthFlat1/LLA to Flat Earth/Subsystem/Find Radian//Distance/e'
+ * '<S38>'  : 'navigator/navigation_law/LLA_TO_earthFlat1/LLA to Flat Earth/Subsystem/Find Radian//Distance/e^4'
  */
 #endif                                 /* RTW_HEADER_navigator_h_ */
 

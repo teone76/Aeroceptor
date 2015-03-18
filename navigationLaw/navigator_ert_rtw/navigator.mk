@@ -2,7 +2,7 @@
 ## Makefile generated for Simulink model 'navigator'. 
 ## 
 ## Makefile     : navigator.mk
-## Generated on : Fri Mar 06 16:20:39 2015
+## Generated on : Wed Mar 18 16:57:47 2015
 ## MATLAB Coder version: 2.5 (R2013b)
 ## 
 ## Build Info:
@@ -33,7 +33,7 @@ MATLAB_ROOT               = C:\PROGRA~1\MATLAB\R2013b
 MATLAB_BIN                = C:\Program Files\MATLAB\R2013b\bin
 MATLAB_ARCH_BIN           = C:\Program Files\MATLAB\R2013b\bin\win64
 MASTER_ANCHOR_DIR         = 
-START_DIR                 = C:\Users\GIANLU~1\DOCUME~1\GitHub\Aeroceptor\navigationLaw
+START_DIR                 = D:\Users\Matteo\Documents\GitHub\Aeroceptor\navigationLaw
 ARCH                      = win64
 SOLVER                    = 
 SOLVER_OBJ                = 

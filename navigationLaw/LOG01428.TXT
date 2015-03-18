@@ -1,6 +1,3 @@
-Serial ready..
-
-Emax on serial3, F550 on serial1, 
 
 time , LAT_1 , LNG_1 , REL_ALT_1 , LAT_3 , LNG_3 , REL_ALT_3 , GND_SPD_3 , HDG_3 , DIST , CRS , CALC_LAT , CALC_LNG , execution time
 29751, 0.0000000, 0.0000000, 0.0, 0.0000000, 0.0000000, 1.2, 0.0, 0.0, 0.00, 0.00, 0.0000038, 0.0000000, 3240

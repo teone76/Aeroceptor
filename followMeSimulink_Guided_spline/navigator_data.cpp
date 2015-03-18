@@ -3,9 +3,9 @@
  *
  * Code generated for Simulink model 'navigator'.
  *
- * Model version                  : 1.15
+ * Model version                  : 1.18
  * Simulink Coder version         : 8.5 (R2013b) 08-Aug-2013
- * C/C++ source code generated on : Fri Mar 06 16:20:22 2015
+ * C/C++ source code generated on : Wed Mar 18 16:57:44 2015
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -28,83 +28,83 @@ P_navigator_T navigator_P = {
   { 44.2018928, 12.0625658 },
 
   /*  Expression: LL0
-   * Referenced by: '<S15>/initial_pos'
+   * Referenced by: '<S17>/initial_pos'
    */
   { 44.2018928, 12.0625658 },
   360.0,                               /* Expression: 360
-                                        * Referenced by: '<S16>/Constant5'
+                                        * Referenced by: '<S18>/Constant5'
                                         */
   180.0,                               /* Expression: 180
-                                        * Referenced by: '<S16>/Constant4'
+                                        * Referenced by: '<S18>/Constant4'
                                         */
   360.0,                               /* Expression: 360
-                                        * Referenced by: '<S16>/Gain3'
+                                        * Referenced by: '<S18>/Gain3'
                                         */
   180.0,                               /* Expression: 180
-                                        * Referenced by: '<S16>/Constant1'
+                                        * Referenced by: '<S18>/Constant1'
                                         */
   180.0,                               /* Expression: 180
-                                        * Referenced by: '<S16>/Gain'
+                                        * Referenced by: '<S18>/Gain'
                                         */
   2.0,                                 /* Expression: 2
-                                        * Referenced by: '<S16>/Gain1'
+                                        * Referenced by: '<S18>/Gain1'
                                         */
   2.0,                                 /* Expression: 2
-                                        * Referenced by: '<S16>/Gain2'
+                                        * Referenced by: '<S18>/Gain2'
                                         */
   90.0,                                /* Expression: 90
-                                        * Referenced by: '<S16>/Constant3'
+                                        * Referenced by: '<S18>/Constant3'
                                         */
   180.0,                               /* Expression: 180
-                                        * Referenced by: '<S16>/Gain4'
+                                        * Referenced by: '<S18>/Gain4'
                                         */
   360.0,                               /* Expression: 360
-                                        * Referenced by: '<S17>/Constant2'
+                                        * Referenced by: '<S19>/Constant2'
                                         */
   180.0,                               /* Expression: 180
-                                        * Referenced by: '<S17>/Constant'
+                                        * Referenced by: '<S19>/Constant'
                                         */
   360.0,                               /* Expression: 360
-                                        * Referenced by: '<S17>/Gain'
-                                        */
-  0.017453292519943295,                /* Expression: slope
-                                        * Referenced by: '<S19>/Unit Conversion'
-                                        */
-  1.0,                                 /* Expression: 1
-                                        * Referenced by: '<S20>/Constant2'
-                                        */
-  6.378137E+6,                         /* Expression: R
-                                        * Referenced by: '<S20>/Constant1'
-                                        */
-  1.0,                                 /* Expression: 1
-                                        * Referenced by: '<S23>/Constant'
-                                        */
-  1.0,                                 /* Expression: 1
-                                        * Referenced by: '<S25>/Constant'
-                                        */
-  0.0033528106647474805,               /* Expression: F
-                                        * Referenced by: '<S24>/Constant'
-                                        */
-  1.0,                                 /* Expression: 1
-                                        * Referenced by: '<S24>/f'
-                                        */
-  44.2018928,                          /* Expression: LL0(1)
-                                        * Referenced by: '<S15>/initial_latg'
-                                        */
-  0.017453292519943295,                /* Expression: slope
-                                        * Referenced by: '<S22>/Unit Conversion'
-                                        */
-  1.0,                                 /* Expression: 1
-                                        * Referenced by: '<S20>/Constant'
-                                        */
-  0.0,                                 /* Expression: psi
-                                        * Referenced by: '<S18>/ref_pos'
+                                        * Referenced by: '<S19>/Gain'
                                         */
   0.017453292519943295,                /* Expression: slope
                                         * Referenced by: '<S21>/Unit Conversion'
                                         */
   1.0,                                 /* Expression: 1
-                                        * Referenced by: '<S20>/Constant3'
+                                        * Referenced by: '<S22>/Constant2'
+                                        */
+  6.378137E+6,                         /* Expression: R
+                                        * Referenced by: '<S22>/Constant1'
+                                        */
+  1.0,                                 /* Expression: 1
+                                        * Referenced by: '<S25>/Constant'
+                                        */
+  1.0,                                 /* Expression: 1
+                                        * Referenced by: '<S27>/Constant'
+                                        */
+  0.0033528106647474805,               /* Expression: F
+                                        * Referenced by: '<S26>/Constant'
+                                        */
+  1.0,                                 /* Expression: 1
+                                        * Referenced by: '<S26>/f'
+                                        */
+  44.2018928,                          /* Expression: LL0(1)
+                                        * Referenced by: '<S17>/initial_latg'
+                                        */
+  0.017453292519943295,                /* Expression: slope
+                                        * Referenced by: '<S24>/Unit Conversion'
+                                        */
+  1.0,                                 /* Expression: 1
+                                        * Referenced by: '<S22>/Constant'
+                                        */
+  0.0,                                 /* Expression: psi
+                                        * Referenced by: '<S20>/ref_pos'
+                                        */
+  0.017453292519943295,                /* Expression: slope
+                                        * Referenced by: '<S23>/Unit Conversion'
+                                        */
+  1.0,                                 /* Expression: 1
+                                        * Referenced by: '<S22>/Constant3'
                                         */
   0.017453292519943295,                /* Expression: pi/180
                                         * Referenced by: '<S2>/Gain1'
@@ -113,82 +113,174 @@ P_navigator_T navigator_P = {
                                         * Referenced by: '<S1>/dt'
                                         */
   0.0,                                 /* Expression: psi
-                                        * Referenced by: '<S6>/ref_pos'
+                                        * Referenced by: '<S8>/ref_pos'
                                         */
   0.017453292519943295,                /* Expression: slope
-                                        * Referenced by: '<S10>/Unit Conversion'
+                                        * Referenced by: '<S12>/Unit Conversion'
                                         */
   0.5,                                 /* Expression: 0.5
                                         * Referenced by: '<S1>/dt1'
                                         */
   1.0,                                 /* Expression: 1
-                                        * Referenced by: '<S9>/Constant2'
+                                        * Referenced by: '<S11>/Constant2'
                                         */
   6.378137E+6,                         /* Expression: R
-                                        * Referenced by: '<S9>/Constant1'
-                                        */
-  1.0,                                 /* Expression: 1
-                                        * Referenced by: '<S12>/Constant'
+                                        * Referenced by: '<S11>/Constant1'
                                         */
   1.0,                                 /* Expression: 1
                                         * Referenced by: '<S14>/Constant'
                                         */
+  1.0,                                 /* Expression: 1
+                                        * Referenced by: '<S16>/Constant'
+                                        */
   0.0033528106647474805,               /* Expression: F
-                                        * Referenced by: '<S13>/Constant'
+                                        * Referenced by: '<S15>/Constant'
                                         */
   1.0,                                 /* Expression: 1
-                                        * Referenced by: '<S13>/f'
+                                        * Referenced by: '<S15>/f'
                                         */
   44.2018928,                          /* Expression: LL0(1)
                                         * Referenced by: '<S3>/initial_latg'
                                         */
   0.017453292519943295,                /* Expression: slope
-                                        * Referenced by: '<S11>/Unit Conversion'
+                                        * Referenced by: '<S13>/Unit Conversion'
                                         */
   1.0,                                 /* Expression: 1
-                                        * Referenced by: '<S9>/Constant'
+                                        * Referenced by: '<S11>/Constant'
                                         */
   1.0,                                 /* Expression: 1
-                                        * Referenced by: '<S9>/Constant3'
+                                        * Referenced by: '<S11>/Constant3'
                                         */
   57.295779513082323,                  /* Expression: slope
-                                        * Referenced by: '<S8>/Unit Conversion'
+                                        * Referenced by: '<S10>/Unit Conversion'
                                         */
   360.0,                               /* Expression: 360
-                                        * Referenced by: '<S5>/Constant5'
+                                        * Referenced by: '<S7>/Constant5'
                                         */
   180.0,                               /* Expression: 180
-                                        * Referenced by: '<S5>/Constant4'
+                                        * Referenced by: '<S7>/Constant4'
                                         */
   360.0,                               /* Expression: 360
-                                        * Referenced by: '<S5>/Gain3'
+                                        * Referenced by: '<S7>/Gain3'
                                         */
   180.0,                               /* Expression: 180
-                                        * Referenced by: '<S5>/Constant1'
+                                        * Referenced by: '<S7>/Constant1'
                                         */
   180.0,                               /* Expression: 180
-                                        * Referenced by: '<S5>/Gain'
+                                        * Referenced by: '<S7>/Gain'
                                         */
   2.0,                                 /* Expression: 2
-                                        * Referenced by: '<S5>/Gain1'
+                                        * Referenced by: '<S7>/Gain1'
                                         */
   2.0,                                 /* Expression: 2
-                                        * Referenced by: '<S5>/Gain2'
+                                        * Referenced by: '<S7>/Gain2'
                                         */
   90.0,                                /* Expression: 90
-                                        * Referenced by: '<S5>/Constant3'
+                                        * Referenced by: '<S7>/Constant3'
                                         */
   180.0,                               /* Expression: 180
-                                        * Referenced by: '<S5>/Gain4'
+                                        * Referenced by: '<S7>/Gain4'
                                         */
   360.0,                               /* Expression: 360
-                                        * Referenced by: '<S7>/Constant2'
+                                        * Referenced by: '<S9>/Constant2'
                                         */
   180.0,                               /* Expression: 180
-                                        * Referenced by: '<S7>/Constant'
+                                        * Referenced by: '<S9>/Constant'
                                         */
-  360.0                                /* Expression: 360
-                                        * Referenced by: '<S7>/Gain'
+  360.0,                               /* Expression: 360
+                                        * Referenced by: '<S9>/Gain'
+                                        */
+
+  /*  Expression: LL0
+   * Referenced by: '<S28>/initial_pos'
+   */
+  { 44.2018928, 12.0625658 },
+  360.0,                               /* Expression: 360
+                                        * Referenced by: '<S29>/Constant5'
+                                        */
+  180.0,                               /* Expression: 180
+                                        * Referenced by: '<S29>/Constant4'
+                                        */
+  360.0,                               /* Expression: 360
+                                        * Referenced by: '<S29>/Gain3'
+                                        */
+  180.0,                               /* Expression: 180
+                                        * Referenced by: '<S29>/Constant1'
+                                        */
+  180.0,                               /* Expression: 180
+                                        * Referenced by: '<S29>/Gain'
+                                        */
+  2.0,                                 /* Expression: 2
+                                        * Referenced by: '<S29>/Gain1'
+                                        */
+  2.0,                                 /* Expression: 2
+                                        * Referenced by: '<S29>/Gain2'
+                                        */
+  90.0,                                /* Expression: 90
+                                        * Referenced by: '<S29>/Constant3'
+                                        */
+  180.0,                               /* Expression: 180
+                                        * Referenced by: '<S29>/Gain4'
+                                        */
+  360.0,                               /* Expression: 360
+                                        * Referenced by: '<S30>/Constant2'
+                                        */
+  180.0,                               /* Expression: 180
+                                        * Referenced by: '<S30>/Constant'
+                                        */
+  360.0,                               /* Expression: 360
+                                        * Referenced by: '<S30>/Gain'
+                                        */
+  0.017453292519943295,                /* Expression: slope
+                                        * Referenced by: '<S32>/Unit Conversion'
+                                        */
+  1.0,                                 /* Expression: 1
+                                        * Referenced by: '<S33>/Constant2'
+                                        */
+  6.378137E+6,                         /* Expression: R
+                                        * Referenced by: '<S33>/Constant1'
+                                        */
+  1.0,                                 /* Expression: 1
+                                        * Referenced by: '<S36>/Constant'
+                                        */
+  1.0,                                 /* Expression: 1
+                                        * Referenced by: '<S38>/Constant'
+                                        */
+  0.0033528106647474805,               /* Expression: F
+                                        * Referenced by: '<S37>/Constant'
+                                        */
+  1.0,                                 /* Expression: 1
+                                        * Referenced by: '<S37>/f'
+                                        */
+  44.2018928,                          /* Expression: LL0(1)
+                                        * Referenced by: '<S28>/initial_latg'
+                                        */
+  0.017453292519943295,                /* Expression: slope
+                                        * Referenced by: '<S35>/Unit Conversion'
+                                        */
+  1.0,                                 /* Expression: 1
+                                        * Referenced by: '<S33>/Constant'
+                                        */
+  0.0,                                 /* Expression: psi
+                                        * Referenced by: '<S31>/ref_pos'
+                                        */
+  0.017453292519943295,                /* Expression: slope
+                                        * Referenced by: '<S34>/Unit Conversion'
+                                        */
+  1.0,                                 /* Expression: 1
+                                        * Referenced by: '<S33>/Constant3'
+                                        */
+  1.0,                                 /* Expression: k_sat
+                                        * Referenced by: '<S6>/Saturation'
+                                        */
+  0.0,                                 /* Expression: 0
+                                        * Referenced by: '<S6>/Saturation'
+                                        */
+  0.0F,                                /* Computed Parameter: Constant_Value_f1
+                                        * Referenced by: '<S4>/Constant'
+                                        */
+  0.0F                                 /* Computed Parameter: Constant_Value_kn
+                                        * Referenced by: '<S5>/Constant'
                                         */
 };
 
