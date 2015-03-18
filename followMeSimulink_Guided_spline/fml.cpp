@@ -12,7 +12,7 @@
 
 // costruttore
 //
-FmlDroneInterface::FmlDroneInterface(char* droneName,int droneId, int droneType, int droneAutopilot, int gcsId, int serialPort)
+FmlDroneInterface::FmlDroneInterface(char* droneName,unsigned int droneId, int droneType, int droneAutopilot, unsigned int gcsId, int serialPort)
 {
   name = droneName;
   id = droneId;
@@ -311,15 +311,120 @@ void FmlDroneInterface::getDataStream(int param_id) {
     }
  }
 
+/*void FmlDroneInterface::sendNavGuided() 
+{
+  uint8_t buf[MAVLINK_MAX_PACKET_LEN];
+  
+ command_long.param1 = 1; ///< Parameter 1, as defined by MAV_CMD enum.
+ command_long.param2 = 0; ///< Parameter 2, as defined by MAV_CMD enum.
+ command_long.param3 = 0; ///< Parameter 3, as defined by MAV_CMD enum.
+ command_long.param4 = 0; ///< Parameter 4, as defined by MAV_CMD enum.
+ command_long.param5 = 0; ///< Parameter 5, as defined by MAV_CMD enum.
+ command_long.param6 = 0; ///< Parameter 6, as defined by MAV_CMD enum.
+ command_long.param7 = 0; ///< Parameter 7, as defined by MAV_CMD enum.
+ command_long.command = 92; //MAV_CMD_NAV_GUIDED_ENABLE; ///< Command ID, as defined by MAV_CMD enum.
+ command_long.target_system = id; ///< System which should execute the command
+ command_long.target_component = id; ///< Component which should execute the command, 0 for all components
+ command_long.confirmation = 0; ///< 0: First transmission of this command. 1-255: Confirmation transmissions (e.g. for kill command)
+ 
+ mavlink_msg_command_long_pack(gcs_id, gcs_id, &msg, command_long.target_system, command_long.target_component, command_long.command, command_long.confirmation, command_long.param1, command_long.param2, command_long.param3, command_long.param4, command_long.param5, command_long.param6, command_long.param7);
+
+     // Copy the message to send buffer 
+    uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
+	
+    // Send the message (.write sends as bytes) 	
+    if(serial_port == 1) {
+      Serial1.write(buf, len); 
+      /*Serial.println("");
+      Serial.println("send waypoint to serial1");
+      Serial.println("lat    lng    rel_alt");
+      Serial.print(mission_item.x, 7);
+      Serial.print("    ");
+      Serial.print(mission_item.y, 7);
+      Serial.print("    ");
+      Serial.println(mission_item.z, 7);
+    }     
+    else if(serial_port == 2) { 
+      Serial2.write(buf, len); 
+      /*Serial.println("");
+      Serial.println("send waypoint to serial2"); 
+      Serial.println("lat    lng    rel_alt");
+      Serial.print(mission_item.x, 7);
+      Serial.print("    ");
+      Serial.print(mission_item.y, 7);
+      Serial.print("    ");
+      Serial.println(mission_item.z, 7);      
+    }      
+    else {
+    //Serial.println("Serial port error"); 
+    }   
+    //mission_item.seq = mission_item.seq +1;    //DA CONTROLLARE
+} */
+
+void FmlDroneInterface::sendMissionItemNavWaypoint()
+{
+    uint8_t buf[MAVLINK_MAX_PACKET_LEN];
+    //Define items for mission_item messages
+    //mission_item.seq; //sequence
+    mission_item.frame = MAV_FRAME_GLOBAL_RELATIVE_ALT; // The coordinate system of the MISSION
+    mission_item.current = 2; // current = 2 is a flag to tell us this is a "guided mode" waypoint and not for the mission
+    mission_item.autocontinue = 1; // autocontinue to next wp
+    mission_item.command = MAV_CMD_NAV_WAYPOINT; // The scheduled action for the MISSION. see MAV_CMD in common.xml MAVLink specs.
+    mission_item.param1 = 0; // Hold time in decimal seconds. (ignored by fixed wing, time to stay at MISSION for rotary wing)
+    mission_item.param2 = 0; // Acceptance radius in meters (if the sphere with this radius is hit, the MISSION counts as reached)
+    mission_item.param3 = 0; // 0 to pass through the WP, if > 0 radius in meters to pass by WP. Positive value for clockwise orbit, negative value for counter-clockwise orbit. Allows trajectory control.
+    mission_item.param4 = 0; // Desired yaw angle at MISSION (rotary wing)   
+    
+    mission_item.x = rif_location.lat();
+    mission_item.y = rif_location.lng();    
+    mission_item.z = rif_location.relAlt(); //meters
+    
+    // Pack the message
+    // uint16_t mavlink_msg_mission_item_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg, uint8_t target_system, uint8_t target_component, uint16_t seq, uint8_t frame,
+    //                                            uint16_t command, uint8_t current, uint8_t autocontinue, float param1, float param2, float param3, float param4, float x, float y, float z)
+    mavlink_msg_mission_item_pack(gcs_id, gcs_id, &msg, id, id, mission_item.seq, mission_item.frame, mission_item.command, mission_item.current, mission_item.autocontinue, mission_item.param1, mission_item.param2, mission_item.param3, mission_item.param4, mission_item.x, mission_item.y, mission_item.z);
+      
+    // Copy the message to send buffer 
+    uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
+	
+    // Send the message (.write sends as bytes) 	
+    if(serial_port == 1) {
+      Serial1.write(buf, len); 
+      /*Serial.println("");
+      Serial.println("send waypoint to serial1");
+      Serial.println("lat    lng    rel_alt");
+      Serial.print(mission_item.x, 7);
+      Serial.print("    ");
+      Serial.print(mission_item.y, 7);
+      Serial.print("    ");
+      Serial.println(mission_item.z, 7);*/
+    }     
+    else if(serial_port == 2) { 
+      Serial2.write(buf, len); 
+      /*Serial.println("");
+      Serial.println("send waypoint to serial2"); 
+      Serial.println("lat    lng    rel_alt");
+      Serial.print(mission_item.x, 7);
+      Serial.print("    ");
+      Serial.print(mission_item.y, 7);
+      Serial.print("    ");
+      Serial.println(mission_item.z, 7);*/      
+    }      
+    else {
+    //Serial.println("Serial port error"); 
+    }   
+    //mission_item.seq = mission_item.seq +1;    //DA CONTROLLARE
+}
+
 void FmlDroneInterface::sendPositionTargetGlobalInt()
 {
     uint8_t buf[MAVLINK_MAX_PACKET_LEN];
-    //Serial.print(MAVLINK_MAX_PACKET_LEN);
- position_target_global_int.time_boot_ms = millis(); ///< Timestamp in milliseconds since system boot. The rationale for the timestamp in the setpoint is to allow the system to compensate for the transport delay of the setpoint. This allows the system to compensate processing latency.
- position_target_global_int.lat_int = 44,12345;//rif_location.lat(); ///< X Position in WGS84 frame in 1e7 * meters
- position_target_global_int.lon_int = 12,11111;//rif_location.lng(); ///< Y Position in WGS84 frame in 1e7 * meters
- position_target_global_int.alt = rif_location.relAlt(); ///< Altitude in meters in WGS84 altitude, not AMSL if absolute or relative, above terrain if GLOBAL_TERRAIN_ALT_INT
- position_target_global_int.vx = 0; //rif_location.vx();   ///< X velocity in NED frame in meter / s
+    //Serial.print(MAVLINK_MAX_PACKET_LEN); 
+ position_target_global_int.time_boot_ms = 0; //millis(); ///< Timestamp in milliseconds since system boot. The rationale for the timestamp in the setpoint is to allow the system to compensate for the transport delay of the setpoint. This allows the system to compensate processing latency.
+ position_target_global_int.lat_int = 0; //rif_location.lat(); ///< X Position in WGS84 frame in 1e7 * meters
+ position_target_global_int.lon_int = 0; //rif_location.lng(); ///< Y Position in WGS84 frame in 1e7 * meters
+ position_target_global_int.alt = 0; //rif_location.relAlt(); ///< Altitude in meters in WGS84 altitude, not AMSL if absolute or relative, above terrain if GLOBAL_TERRAIN_ALT_INT
+ position_target_global_int.vx = 1; //rif_location.vx();   ///< X velocity in NED frame in meter / s
  position_target_global_int.vy = 0; //rif_location.vy();   ///< Y velocity in NED frame in meter / s
  position_target_global_int.vz = 0; ///< Z velocity in NED frame in meter / s
  position_target_global_int.afx = 0; ///< X acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N
@@ -327,16 +432,36 @@ void FmlDroneInterface::sendPositionTargetGlobalInt()
  position_target_global_int.afz = 0; ///< Z acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N
  position_target_global_int.yaw = 0; //rif_location.hdg();  ///< yaw setpoint in rad
  position_target_global_int.yaw_rate = 0; ///< yaw rate setpoint in rad/s
- position_target_global_int.type_mask = 0b0000110111111000; ///< Bitmask to indicate which dimensions should be ignored by the vehicle: a value of 0b0000000000000000 or 0b0000001000000000 indicates that none of the setpoint dimensions should be ignored. If bit 10 is set the floats afx afy afz should be interpreted as force instead of acceleration. Mapping: bit 1: x, bit 2: y, bit 3: z, bit 4: vx, bit 5: vy, bit 6: vz, bit 7: ax, bit 8: ay, bit 9: az, bit 10: is force setpoint, bit 11: yaw, bit 12: yaw rate
+ position_target_global_int.type_mask = 0b0000000111000111; ///< Bitmask to indicate which dimensions should be ignored by the vehicle: a value of 0b0000000000000000 or 0b0000001000000000 indicates that none of the setpoint dimensions should be ignored. If bit 10 is set the floats afx afy afz should be interpreted as force instead of acceleration. Mapping: bit 1: x, bit 2: y, bit 3: z, bit 4: vx, bit 5: vy, bit 6: vz, bit 7: ax, bit 8: ay, bit 9: az, bit 10: is force setpoint, bit 11: yaw, bit 12: yaw rate
  position_target_global_int.target_system; ///< System ID
  position_target_global_int.target_component; ///< Component ID
  position_target_global_int.coordinate_frame = 6; ///< Valid options are: MAV_FRAME_GLOBAL_INT = 5, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT = 6, MAV_FRAME_GLOBAL_TERRAIN_ALT_INT = 11
+ 
+/* position_target_local_ned.time_boot_ms = millis(); ///< Timestamp in milliseconds since system boot
+ position_target_local_ned.x = 0; ///< X Position in NED frame in meters
+ position_target_local_ned.y = 0; ///< Y Position in NED frame in meters
+ position_target_local_ned.z = 0; ///< Z Position in NED frame in meters (note, altitude is negative in NED)
+ position_target_local_ned.vx = 1; ///< X velocity in NED frame in meter / s
+ position_target_local_ned.vy = 0; ///< Y velocity in NED frame in meter / s
+ position_target_local_ned.vz = 0; ///< Z velocity in NED frame in meter / s
+ position_target_local_ned.afx = 0; ///< X acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N
+ position_target_local_ned.afy = 0; ///< Y acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N
+ position_target_local_ned.afz = 0; ///< Z acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N
+ position_target_local_ned.yaw = 0; ///< yaw setpoint in rad
+ position_target_local_ned.yaw_rate = 0; ///< yaw rate setpoint in rad/s
+ position_target_local_ned.type_mask = 0b0000000111000111; ///< Bitmask to indicate which dimensions should be ignored by the vehicle: a value of 0b0000000000000000 or 0b0000001000000000 indicates that none of the setpoint dimensions should be ignored. If bit 10 is set the floats afx afy afz should be interpreted as force instead of acceleration. Mapping: bit 1: x, bit 2: y, bit 3: z, bit 4: vx, bit 5: vy, bit 6: vz, bit 7: ax, bit 8: ay, bit 9: az, bit 10: is force setpoint, bit 11: yaw, bit 12: yaw rate
+ position_target_local_ned.target_system = id; ///< System ID
+ position_target_local_ned.target_component = id; ///< Component ID
+ position_target_local_ned.coordinate_frame = 1; ///< Valid options are: MAV_FRAME_LOCAL_NED = 1, MAV_FRAME_LOCAL_OFFSET_NED = 7, MAV_FRAME_BODY_NED = 8, MAV_FRAME_BODY_OFFSET_NED = 9 */
     
     // Pack the message
     // mavlink_msg_set_position_target_global_int_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
     //					                                       uint32_t time_boot_ms, uint8_t target_system, uint8_t target_component, uint8_t coordinate_frame, uint16_t type_mask, int32_t lat_int, int32_t lon_int, float alt, float vx, float vy, float vz, float afx, float afy, float afz, float yaw, float yaw_rate)
     mavlink_msg_set_position_target_global_int_pack(gcs_id, gcs_id, &msg, position_target_global_int.time_boot_ms, id, id, position_target_global_int.coordinate_frame, position_target_global_int.type_mask, position_target_global_int.lat_int, position_target_global_int.lon_int, position_target_global_int.alt, position_target_global_int.vx, position_target_global_int.vy, position_target_global_int.vz, position_target_global_int.afx, position_target_global_int.afy, position_target_global_int.afz, position_target_global_int.yaw, position_target_global_int.yaw_rate);
-      
+    
+    // mavlink_msg_set_position_target_local_ned_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
+    //						       uint32_t time_boot_ms, uint8_t target_system, uint8_t target_component, uint8_t coordinate_frame, uint16_t type_mask, float x, float y, float z, float vx, float vy, float vz, float afx, float afy, float afz, float yaw, float yaw_rate)
+   // mavlink_msg_set_position_target_local_ned_pack(gcs_id, gcs_id, &msg, position_target_local_ned.time_boot_ms, id, id, position_target_local_ned.coordinate_frame, position_target_local_ned.type_mask, position_target_local_ned.x, position_target_local_ned.y, position_target_local_ned.z, position_target_local_ned.vx, position_target_local_ned.vy, position_target_local_ned.vz, position_target_local_ned.afx, position_target_local_ned.afy, position_target_local_ned.afz, position_target_local_ned.yaw, position_target_local_ned.yaw_rate);   
     // Copy the message to send buffer 
     uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
     

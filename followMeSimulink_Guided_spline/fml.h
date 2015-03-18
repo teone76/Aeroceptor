@@ -5,6 +5,7 @@
 #include "../GCS_MAVLink/include/mavlink/v1.0/common/mavlink.h"// Mavlink interface
 #include "../GCS_MAVLink/include/mavlink/v1.0/ardupilotmega/ardupilotmega.h"
 #include "../GCS_MAVLink/include/mavlink/v1.0/common/mavlink_msg_set_position_target_global_int.h"
+#include "../GCS_MAVLink/include/mavlink/v1.0/common/mavlink_msg_set_position_target_local_ned.h"
 #include "../GCS_MAVLink/include/mavlink/v1.0/ardupilotmega/mavlink.h"
 #include "../GCS_MAVLink/include/mavlink/v1.0/common/common.h" 
 
@@ -86,7 +87,7 @@ class FmlDroneInterface
 {
 public:
 
-  FmlDroneInterface(char* name,int id, int type, int autopilot, int gcs_id, int serial_port);
+  FmlDroneInterface(char* name,unsigned int id, int type, int autopilot,unsigned int gcs_id, int serial_port);
   void encode(char c); // process one character received from GPS
  
  /* double distanceBetweenDrone(FmlDrone drone);
@@ -105,7 +106,9 @@ public:
   bool isGpsFixed();
   bool isDroneConnected();  
   void sendMavMsgHeartbeat();
+  void sendMissionItemNavWaypoint();
   void sendPositionTargetGlobalInt();
+  //void sendNavGuided();
   void getDataStream(int param_id);
   void setRifLatitude(float rifLatitude);
   void setRifLongitude(float rifLongitude);
@@ -141,10 +144,13 @@ private:
   mavlink_message_t msg;
   mavlink_status_t status;
   mavlink_heartbeat_t heartbeat;
+  mavlink_mission_item_t mission_item; 
   mavlink_global_position_int_t global_position_int;
   mavlink_vfr_hud_t vfr_hud; 
   mavlink_set_position_target_global_int_t position_target_global_int; 
-  mavlink_set_position_target_global_int_t packet;
+  //mavlink_set_position_target_local_ned_t position_target_local_ned;
+  //mavlink_command_long_t command_long;
+ // mavlink_set_position_target_global_int_t packet;
   mavlink_request_data_stream_t request_data_stream;
   mavlink_gps_raw_int_t gps_raw_int;
   mavlink_command_ack_t command_ack;

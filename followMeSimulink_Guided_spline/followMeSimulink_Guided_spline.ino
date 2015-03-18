@@ -34,7 +34,7 @@ float navigationLawOutput [6];
 
 //pin input from RX
 int pin = 12;
-unsigned long pwmin = 0;
+unsigned long pwmIn = 0;
 
 unsigned long simulinkExecutionStart = 0;
 unsigned long simulinkExecutionStop = 0;
@@ -100,6 +100,7 @@ void loop() {
     // Invio del heatbeat a tutti i multirotori
     sendHeartbeat();  
     sendRequest(); 
+    //multirotor_1.sendNavGuided();
   }  
 
      
@@ -133,15 +134,17 @@ void loop() {
     // Aggiornamento dei reference point dei multirotore
     updateDronePositionReference();
       
-    //Serial.println(pwmin);
-    if(followMeActived()) {          
+    //Serial.println(pwmIn);
+    if(followMeActived_1()) {          
       sendWaypoints();
-      //Serial.println("///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
+    }
+    else if (followMeActived_2()) {
+      sendSplineWaypoints();
     }
     printAllData();   
     
     // Command input from RX 
-    pwmin = pulseIn(pin, HIGH, 20000); 
+    pwmIn = pulseIn(pin, HIGH, 20000); 
   }
   
     // LED TASK - 2 HZ 
@@ -154,8 +157,13 @@ void loop() {
 
 //////// FUNCTIONS /////////
 
- bool followMeActived() {
- if(pwmin < 1200) {return true;}
+ bool followMeActived_1() {
+ if((pwmIn > 1300) && (pwmIn < 1600)) {return true;}
+ else {return false;} 
+}
+
+ bool followMeActived_2() {
+ if(pwmIn > 1700) {return true;}
  else {return false;} 
 }
 
@@ -203,8 +211,13 @@ void updateDronePositionReference()
   multirotor_2.setRifYaw(rover.getHeading());
 }
 
-
 void sendWaypoints()
+{
+  multirotor_1.sendMissionItemNavWaypoint();
+  multirotor_2.sendMissionItemNavWaypoint();
+}
+
+void sendSplineWaypoints()
 {
   multirotor_1.sendPositionTargetGlobalInt();
   multirotor_2.sendPositionTargetGlobalInt();
@@ -255,7 +268,8 @@ void printAllData()
 
 void updateLed() {
   
-  if(followMeActived()) {ledMessage1.setMessage('A',blue,previous,previous,previous);}
+  if(followMeActived_1()) {ledMessage1.setMessage('A',blue,previous,previous,previous);}
+  else if (followMeActived_2()) {ledMessage1.setMessage('A',azure,previous,previous,previous);}
   else {ledMessage1.setMessage('A',none,previous,previous,previous);}
   if(rover.isDroneConnected()) {ledMessage1.setMessage('A',previous,none,previous,previous);}
   else {ledMessage1.setMessage('A',previous,white,previous,previous);}
