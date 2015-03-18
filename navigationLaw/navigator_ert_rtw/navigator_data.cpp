@@ -3,9 +3,9 @@
  *
  * Code generated for Simulink model 'navigator'.
  *
- * Model version                  : 1.18
+ * Model version                  : 1.23
  * Simulink Coder version         : 8.5 (R2013b) 08-Aug-2013
- * C/C++ source code generated on : Wed Mar 18 16:57:44 2015
+ * C/C++ source code generated on : Wed Mar 18 18:11:14 2015
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -22,6 +22,17 @@
 
 /* Block parameters (auto storage) */
 P_navigator_T navigator_P = {
+  /*  Expression: [0 0 0]
+   * Referenced by: '<S1>/Constant1'
+   */
+  { 0.0, 0.0, 0.0 },
+  0.5,                                 /* Expression: k_sat
+                                        * Referenced by: '<S6>/Saturation'
+                                        */
+  0.0,                                 /* Expression: 0
+                                        * Referenced by: '<S6>/Saturation'
+                                        */
+
   /*  Expression: LL0
    * Referenced by: '<S3>/initial_pos'
    */
@@ -270,11 +281,8 @@ P_navigator_T navigator_P = {
   1.0,                                 /* Expression: 1
                                         * Referenced by: '<S33>/Constant3'
                                         */
-  1.0,                                 /* Expression: k_sat
-                                        * Referenced by: '<S6>/Saturation'
-                                        */
-  0.0,                                 /* Expression: 0
-                                        * Referenced by: '<S6>/Saturation'
+  1.5,                                 /* Expression: 1.5
+                                        * Referenced by: '<S1>/Switch'
                                         */
   0.0F,                                /* Computed Parameter: Constant_Value_f1
                                         * Referenced by: '<S4>/Constant'

@@ -3,9 +3,9 @@
  *
  * Code generated for Simulink model 'navigator'.
  *
- * Model version                  : 1.18
+ * Model version                  : 1.23
  * Simulink Coder version         : 8.5 (R2013b) 08-Aug-2013
- * C/C++ source code generated on : Wed Mar 18 16:57:44 2015
+ * C/C++ source code generated on : Wed Mar 18 18:11:14 2015
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -55,6 +55,15 @@ typedef struct {
 
 /* Parameters (auto storage) */
 struct P_navigator_T_ {
+  real_T Constant1_Value[3];           /* Expression: [0 0 0]
+                                        * Referenced by: '<S1>/Constant1'
+                                        */
+  real_T Saturation_UpperSat;          /* Expression: k_sat
+                                        * Referenced by: '<S6>/Saturation'
+                                        */
+  real_T Saturation_LowerSat;          /* Expression: 0
+                                        * Referenced by: '<S6>/Saturation'
+                                        */
   real_T initial_pos_Value[2];         /* Expression: LL0
                                         * Referenced by: '<S3>/initial_pos'
                                         */
@@ -70,7 +79,7 @@ struct P_navigator_T_ {
   real_T Gain3_Gain;                   /* Expression: 360
                                         * Referenced by: '<S18>/Gain3'
                                         */
-  real_T Constant1_Value;              /* Expression: 180
+  real_T Constant1_Value_h;            /* Expression: 180
                                         * Referenced by: '<S18>/Constant1'
                                         */
   real_T Gain_Gain;                    /* Expression: 180
@@ -298,11 +307,8 @@ struct P_navigator_T_ {
   real_T Constant3_Value_o;            /* Expression: 1
                                         * Referenced by: '<S33>/Constant3'
                                         */
-  real_T Saturation_UpperSat;          /* Expression: k_sat
-                                        * Referenced by: '<S6>/Saturation'
-                                        */
-  real_T Saturation_LowerSat;          /* Expression: 0
-                                        * Referenced by: '<S6>/Saturation'
+  real_T Switch_Threshold;             /* Expression: 1.5
+                                        * Referenced by: '<S1>/Switch'
                                         */
   real32_T Constant_Value_f1;          /* Computed Parameter: Constant_Value_f1
                                         * Referenced by: '<S4>/Constant'
