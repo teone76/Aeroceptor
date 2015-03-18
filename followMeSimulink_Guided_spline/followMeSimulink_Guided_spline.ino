@@ -37,7 +37,8 @@ int pin = 12;
 unsigned long pwmIn = 0;
 
 int state = 0;
-int previous_state = 0;
+
+float dLat,dLon = 0;
 
 unsigned long simulinkExecutionStart = 0;
 unsigned long simulinkExecutionStop = 0;
@@ -117,14 +118,14 @@ void loop() {
   navigator_U.In[3] = rover.getGroundSpeed();
   navigator_U.In[4] = rover.getHeading();
   
-  navigator_U.In[5] = multirotor_1.getLatitude();
-  navigator_U.In[6] = multirotor_1.getLongitude();
+  navigator_U.In[5] = multirotor_1.getLatitude() + dLat;
+  navigator_U.In[6] = multirotor_1.getLongitude() + dLon;
   navigator_U.In[7] = multirotor_1.getRelativeAltitude();
   navigator_U.In[8] = multirotor_1.getGroundSpeed();
   navigator_U.In[9] = multirotor_1.getHeading();  
 
-  navigator_U.In[10] = multirotor_2.getLatitude();
-  navigator_U.In[11] = multirotor_2.getLongitude();
+  navigator_U.In[10] = multirotor_2.getLatitude()  + dLat;
+  navigator_U.In[11] = multirotor_2.getLongitude() + dLon;
   navigator_U.In[12] = multirotor_2.getRelativeAltitude();
   navigator_U.In[13] = multirotor_2.getGroundSpeed();
   navigator_U.In[14] = multirotor_2.getHeading();
@@ -148,6 +149,10 @@ void loop() {
     
     // Command input from RX 
     pwmIn = pulseIn(pin, HIGH, 20000); 
+    if switchedToState2() {
+      dLat = rover.getLatitude() - multirotor_1.getLatitude();
+      dLon = rover.getLongitude() - multirotor_1.getLongitude();
+    }
   }
   
     // LED TASK - 2 HZ 
@@ -160,24 +165,17 @@ void loop() {
 
 //////// FUNCTIONS /////////
 
-bool switchToFollowMe() {
-  if((pwmIn > 1300) && (pwmIn < 1600)) {
-    state = 1;
-    if(state != previous_state) {
-      previous_state = 1;
-      return true;}
-    else {return false;}
-  }
-  else if(pwmIn > 1700) {
-    state = 2;
-    if(state != previous_state) {
-      previous_state = 2;
-      return true;}
-    else {return false;} 
+bool switchedToState2() {
+  if (pwmIn > 1700) {
+    if (state != 2){ 
+      state = 2;
+      return true;    
+    } else return false;
   }
   else {
-    previous_state = 0;
-    return false;}   
+    state = 0;
+    return false;
+  }
 }
       
   
