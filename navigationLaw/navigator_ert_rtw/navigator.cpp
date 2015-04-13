@@ -3,9 +3,9 @@
  *
  * Code generated for Simulink model 'navigator'.
  *
- * Model version                  : 1.23
+ * Model version                  : 1.31
  * Simulink Coder version         : 8.5 (R2013b) 08-Aug-2013
- * C/C++ source code generated on : Wed Mar 18 18:11:14 2015
+ * C/C++ source code generated on : Mon Apr 13 11:18:35 2015
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -112,17 +112,21 @@ real_T rt_atan2d_snf(real_T u0, real_T u1)
 void navigator_step(void)
 {
   real_T rtb_DataTypeConversion1[15];
+  real_T rtb_Sum1_j;
+  real_T rtb_Px_k;
+  real_T rtb_UnitConversion_eg;
+  real_T rtb_Gain;
   real_T rtb_SinCos_o2;
-  real_T rtb_Px_l;
-  real_T rtb_SinCos_o1;
-  real_T rtb_Pz;
   real_T rtb_UnitConversion;
-  real_T rtb_Sum1_k;
-  real_T rtb_Sum_o;
+  real_T rtb_Py;
+  real_T rtb_Px;
+  real_T rtb_SinCos_o1;
   real_T rtb_Py_c;
+  real_T rtb_Pz;
   int16_T i;
-  real32_T rtb_DataTypeConversion_idx;
-  real32_T rtb_DataTypeConversion_idx_0;
+  real32_T rtb_XYZ_idx;
+  real32_T rtb_XYZ_idx_0;
+  real_T rtb_PositionError_idx;
   real_T rtb_UnitConversion_g_idx;
   real_T rtb_UnitConversion_g_idx_0;
 
@@ -135,619 +139,628 @@ void navigator_step(void)
 
   /* End of DataTypeConversion: '<S1>/Data Type Conversion1' */
 
-  /* Math: '<S18>/Math Function1' incorporates:
-   *  Constant: '<S18>/Constant5'
+  /* Math: '<S19>/Math Function1' incorporates:
+   *  Constant: '<S19>/Constant5'
    */
-  rtb_SinCos_o2 = rt_remd_snf(rtb_DataTypeConversion1[0],
+  rtb_Sum1_j = rt_remd_snf(rtb_DataTypeConversion1[0],
     navigator_P.Constant5_Value);
 
-  /* Product: '<S18>/Product2' incorporates:
-   *  Constant: '<S18>/Constant4'
+  /* Product: '<S19>/Product2' incorporates:
+   *  Constant: '<S19>/Constant4'
    */
-  rtb_UnitConversion_g_idx = rtb_SinCos_o2 / navigator_P.Constant4_Value;
+  rtb_PositionError_idx = rtb_Sum1_j / navigator_P.Constant4_Value;
 
-  /* Rounding: '<S18>/Rounding Function1' */
-  if (rtb_UnitConversion_g_idx < 0.0) {
-    rtb_UnitConversion_g_idx = ceil(rtb_UnitConversion_g_idx);
+  /* Rounding: '<S19>/Rounding Function1' */
+  if (rtb_PositionError_idx < 0.0) {
+    rtb_PositionError_idx = ceil(rtb_PositionError_idx);
   } else {
-    rtb_UnitConversion_g_idx = floor(rtb_UnitConversion_g_idx);
+    rtb_PositionError_idx = floor(rtb_PositionError_idx);
   }
 
-  /* Sum: '<S18>/Sum1' incorporates:
-   *  Gain: '<S18>/Gain3'
-   *  Rounding: '<S18>/Rounding Function1'
+  /* Sum: '<S19>/Sum1' incorporates:
+   *  Gain: '<S19>/Gain3'
+   *  Rounding: '<S19>/Rounding Function1'
    */
-  rtb_SinCos_o2 -= navigator_P.Gain3_Gain * rtb_UnitConversion_g_idx;
-
-  /* Product: '<S18>/Product' incorporates:
-   *  Constant: '<S18>/Constant1'
-   */
-  rtb_Px_l = rtb_SinCos_o2 / navigator_P.Constant1_Value_h;
-
-  /* Rounding: '<S18>/Rounding Function' */
-  if (rtb_Px_l < 0.0) {
-    rtb_UnitConversion_g_idx = ceil(rtb_Px_l);
-  } else {
-    rtb_UnitConversion_g_idx = floor(rtb_Px_l);
-  }
-
-  /* Gain: '<S18>/Gain1' */
-  rtb_Px_l *= navigator_P.Gain1_Gain;
-
-  /* Product: '<S18>/Product1' */
-  rtb_Px_l *= rtb_Px_l;
-
-  /* Sqrt: '<S18>/sqrt' */
-  rtb_Px_l = sqrt(rtb_Px_l);
-
-  /* Rounding: '<S18>/Rounding Function2' */
-  if (rtb_Px_l < 0.0) {
-    rtb_Px_l = ceil(rtb_Px_l);
-  } else {
-    rtb_Px_l = floor(rtb_Px_l);
-  }
-
-  /* End of Rounding: '<S18>/Rounding Function2' */
-
-  /* Gain: '<S18>/Gain2' */
-  rtb_Px_l *= navigator_P.Gain2_Gain;
-
-  /* Sum: '<S18>/Sum2' incorporates:
-   *  Constant: '<S18>/Constant3'
-   *  Gain: '<S18>/Gain'
-   *  Math: '<S18>/Math Function2'
-   *  Product: '<S18>/Product3'
-   *  Rounding: '<S18>/Rounding Function'
-   */
-  rtb_SinCos_o2 = (rtb_SinCos_o2 - navigator_P.Gain_Gain *
-                   rtb_UnitConversion_g_idx) - rtb_Px_l * rt_remd_snf
-    (rtb_SinCos_o2, navigator_P.Constant3_Value);
-
-  /* Math: '<S19>/Math Function2' incorporates:
-   *  Constant: '<S19>/Constant2'
-   *  DataTypeConversion: '<S18>/Data Type Conversion'
-   *  Gain: '<S18>/Gain4'
-   *  Logic: '<S18>/Logical Operator1'
-   *  Sum: '<S18>/Sum3'
-   */
-  rtb_SinCos_o1 = rt_remd_snf((real_T)(rtb_Px_l != 0.0) * navigator_P.Gain4_Gain
-    + rtb_DataTypeConversion1[1], navigator_P.Constant2_Value);
+  rtb_Sum1_j -= navigator_P.Gain3_Gain * rtb_PositionError_idx;
 
   /* Product: '<S19>/Product' incorporates:
-   *  Constant: '<S19>/Constant'
+   *  Constant: '<S19>/Constant1'
    */
-  rtb_UnitConversion_g_idx = rtb_SinCos_o1 / navigator_P.Constant_Value;
+  rtb_Px_k = rtb_Sum1_j / navigator_P.Constant1_Value_h;
 
   /* Rounding: '<S19>/Rounding Function' */
-  if (rtb_UnitConversion_g_idx < 0.0) {
-    rtb_UnitConversion_g_idx = ceil(rtb_UnitConversion_g_idx);
+  if (rtb_Px_k < 0.0) {
+    rtb_PositionError_idx = ceil(rtb_Px_k);
   } else {
-    rtb_UnitConversion_g_idx = floor(rtb_UnitConversion_g_idx);
+    rtb_PositionError_idx = floor(rtb_Px_k);
   }
 
+  /* Gain: '<S19>/Gain1' */
+  rtb_Px_k *= navigator_P.Gain1_Gain;
+
+  /* Product: '<S19>/Product1' */
+  rtb_Px_k *= rtb_Px_k;
+
+  /* Sqrt: '<S19>/sqrt' */
+  rtb_Px_k = sqrt(rtb_Px_k);
+
+  /* Rounding: '<S19>/Rounding Function2' */
+  if (rtb_Px_k < 0.0) {
+    rtb_Px_k = ceil(rtb_Px_k);
+  } else {
+    rtb_Px_k = floor(rtb_Px_k);
+  }
+
+  /* End of Rounding: '<S19>/Rounding Function2' */
+
+  /* Gain: '<S19>/Gain2' */
+  rtb_Px_k *= navigator_P.Gain2_Gain;
+
   /* Sum: '<S19>/Sum2' incorporates:
+   *  Constant: '<S19>/Constant3'
    *  Gain: '<S19>/Gain'
+   *  Math: '<S19>/Math Function2'
+   *  Product: '<S19>/Product3'
    *  Rounding: '<S19>/Rounding Function'
    */
-  rtb_SinCos_o1 -= navigator_P.Gain_Gain_h * rtb_UnitConversion_g_idx;
+  rtb_Sum1_j = (rtb_Sum1_j - navigator_P.Gain_Gain * rtb_PositionError_idx) -
+    rtb_Px_k * rt_remd_snf(rtb_Sum1_j, navigator_P.Constant3_Value);
 
-  /* Gain: '<S21>/Unit Conversion' incorporates:
-   *  Constant: '<S17>/initial_pos'
-   *  Sum: '<S17>/Sum1'
+  /* Math: '<S20>/Math Function2' incorporates:
+   *  Constant: '<S20>/Constant2'
+   *  DataTypeConversion: '<S19>/Data Type Conversion'
+   *  Gain: '<S19>/Gain4'
+   *  Logic: '<S19>/Logical Operator1'
+   *  Sum: '<S19>/Sum3'
    */
-  rtb_UnitConversion_g_idx = (rtb_SinCos_o2 - navigator_P.initial_pos_Value_l[0])
-    * navigator_P.UnitConversion_Gain;
-  rtb_UnitConversion_g_idx_0 = (rtb_SinCos_o1 - navigator_P.initial_pos_Value_l
-    [1]) * navigator_P.UnitConversion_Gain;
+  rtb_UnitConversion_eg = rt_remd_snf((real_T)(rtb_Px_k != 0.0) *
+    navigator_P.Gain4_Gain + rtb_DataTypeConversion1[1],
+    navigator_P.Constant2_Value);
 
-  /* Sum: '<S26>/Sum' incorporates:
-   *  Constant: '<S26>/Constant'
-   *  Constant: '<S26>/f'
+  /* Product: '<S20>/Product' incorporates:
+   *  Constant: '<S20>/Constant'
    */
-  rtb_SinCos_o1 = navigator_P.f_Value - navigator_P.Constant_Value_om;
+  rtb_PositionError_idx = rtb_UnitConversion_eg / navigator_P.Constant_Value;
 
-  /* Sqrt: '<S27>/sqrt' incorporates:
+  /* Rounding: '<S20>/Rounding Function' */
+  if (rtb_PositionError_idx < 0.0) {
+    rtb_PositionError_idx = ceil(rtb_PositionError_idx);
+  } else {
+    rtb_PositionError_idx = floor(rtb_PositionError_idx);
+  }
+
+  /* Sum: '<S20>/Sum2' incorporates:
+   *  Gain: '<S20>/Gain'
+   *  Rounding: '<S20>/Rounding Function'
+   */
+  rtb_UnitConversion_eg -= navigator_P.Gain_Gain_h * rtb_PositionError_idx;
+
+  /* Gain: '<S22>/Unit Conversion' incorporates:
+   *  Constant: '<S18>/initial_pos'
+   *  Sum: '<S18>/Sum1'
+   */
+  rtb_UnitConversion_g_idx = (rtb_Sum1_j - navigator_P.initial_pos_Value_l[0]) *
+    navigator_P.UnitConversion_Gain;
+  rtb_UnitConversion_g_idx_0 = (rtb_UnitConversion_eg -
+    navigator_P.initial_pos_Value_l[1]) * navigator_P.UnitConversion_Gain;
+
+  /* Sum: '<S27>/Sum' incorporates:
    *  Constant: '<S27>/Constant'
-   *  Product: '<S27>/Product1'
-   *  Sum: '<S27>/Sum1'
+   *  Constant: '<S27>/f'
    */
-  rtb_SinCos_o1 = sqrt(navigator_P.Constant_Value_o - rtb_SinCos_o1 *
-                       rtb_SinCos_o1);
+  rtb_UnitConversion_eg = navigator_P.f_Value - navigator_P.Constant_Value_om;
+
+  /* Sqrt: '<S28>/sqrt' incorporates:
+   *  Constant: '<S28>/Constant'
+   *  Product: '<S28>/Product1'
+   *  Sum: '<S28>/Sum1'
+   */
+  rtb_UnitConversion_eg = sqrt(navigator_P.Constant_Value_o -
+    rtb_UnitConversion_eg * rtb_UnitConversion_eg);
+
+  /* Gain: '<S25>/Unit Conversion' incorporates:
+   *  Constant: '<S18>/initial_latg'
+   */
+  rtb_Px_k = navigator_P.UnitConversion_Gain_o * navigator_P.initial_latg_Value;
+
+  /* Trigonometry: '<S26>/Trigonometric Function1' */
+  rtb_Sum1_j = sin(rtb_Px_k);
+
+  /* Sum: '<S26>/Sum1' incorporates:
+   *  Constant: '<S26>/Constant'
+   *  Product: '<S26>/Product1'
+   */
+  rtb_Sum1_j = navigator_P.Constant_Value_e - rtb_UnitConversion_eg *
+    rtb_UnitConversion_eg * rtb_Sum1_j * rtb_Sum1_j;
+
+  /* Product: '<S23>/Product1' incorporates:
+   *  Constant: '<S23>/Constant1'
+   *  Sqrt: '<S23>/sqrt'
+   */
+  rtb_SinCos_o2 = navigator_P.Constant1_Value_b / sqrt(rtb_Sum1_j);
+
+  /* Product: '<S21>/dNorth' incorporates:
+   *  Constant: '<S23>/Constant'
+   *  Constant: '<S23>/Constant2'
+   *  Product: '<S23>/Product2'
+   *  Product: '<S23>/Product3'
+   *  Sum: '<S23>/Sum1'
+   *  Trigonometry: '<S23>/Trigonometric Function1'
+   */
+  rtb_UnitConversion_eg = rtb_UnitConversion_g_idx / rt_atan2d_snf
+    (navigator_P.Constant2_Value_o, (navigator_P.Constant_Value_b -
+      rtb_UnitConversion_eg * rtb_UnitConversion_eg) * rtb_SinCos_o2 /
+     rtb_Sum1_j);
 
   /* Gain: '<S24>/Unit Conversion' incorporates:
-   *  Constant: '<S17>/initial_latg'
-   */
-  rtb_Px_l = navigator_P.UnitConversion_Gain_o * navigator_P.initial_latg_Value;
-
-  /* Trigonometry: '<S25>/Trigonometric Function1' */
-  rtb_SinCos_o2 = sin(rtb_Px_l);
-
-  /* Sum: '<S25>/Sum1' incorporates:
-   *  Constant: '<S25>/Constant'
-   *  Product: '<S25>/Product1'
-   */
-  rtb_SinCos_o2 = navigator_P.Constant_Value_e - rtb_SinCos_o1 * rtb_SinCos_o1 *
-    rtb_SinCos_o2 * rtb_SinCos_o2;
-
-  /* Product: '<S22>/Product1' incorporates:
-   *  Constant: '<S22>/Constant1'
-   *  Sqrt: '<S22>/sqrt'
-   */
-  rtb_Pz = navigator_P.Constant1_Value_b / sqrt(rtb_SinCos_o2);
-
-  /* Product: '<S20>/dNorth' incorporates:
-   *  Constant: '<S22>/Constant'
-   *  Constant: '<S22>/Constant2'
-   *  Product: '<S22>/Product2'
-   *  Product: '<S22>/Product3'
-   *  Sum: '<S22>/Sum1'
-   *  Trigonometry: '<S22>/Trigonometric Function1'
-   */
-  rtb_SinCos_o1 = rtb_UnitConversion_g_idx / rt_atan2d_snf
-    (navigator_P.Constant2_Value_o, (navigator_P.Constant_Value_b -
-      rtb_SinCos_o1 * rtb_SinCos_o1) * rtb_Pz / rtb_SinCos_o2);
-
-  /* Gain: '<S23>/Unit Conversion' incorporates:
-   *  Constant: '<S20>/ref_pos'
+   *  Constant: '<S21>/ref_pos'
    */
   rtb_UnitConversion = navigator_P.UnitConversion_Gain_b *
     navigator_P.ref_pos_Value;
 
-  /* Trigonometry: '<S20>/SinCos' */
-  rtb_SinCos_o2 = sin(rtb_UnitConversion);
-  rtb_Sum1_k = cos(rtb_UnitConversion);
+  /* Trigonometry: '<S21>/SinCos' */
+  rtb_Sum1_j = sin(rtb_UnitConversion);
+  rtb_Py = cos(rtb_UnitConversion);
 
-  /* Product: '<S20>/dEast' incorporates:
-   *  Constant: '<S22>/Constant3'
-   *  Product: '<S22>/Product4'
-   *  Trigonometry: '<S22>/Trigonometric Function'
-   *  Trigonometry: '<S22>/Trigonometric Function2'
+  /* Product: '<S21>/dEast' incorporates:
+   *  Constant: '<S23>/Constant3'
+   *  Product: '<S23>/Product4'
+   *  Trigonometry: '<S23>/Trigonometric Function'
+   *  Trigonometry: '<S23>/Trigonometric Function2'
    */
-  rtb_Pz = 1.0 / rt_atan2d_snf(navigator_P.Constant3_Value_j, rtb_Pz * cos
-    (rtb_Px_l)) * rtb_UnitConversion_g_idx_0;
+  rtb_SinCos_o2 = 1.0 / rt_atan2d_snf(navigator_P.Constant3_Value_j,
+    rtb_SinCos_o2 * cos(rtb_Px_k)) * rtb_UnitConversion_g_idx_0;
 
-  /* Gain: '<S2>/Gain1' */
-  rtb_Px_l = navigator_P.Gain1_Gain_m * rtb_DataTypeConversion1[4];
+  /* Sum: '<S21>/Sum2' incorporates:
+   *  Product: '<S21>/x*cos'
+   *  Product: '<S21>/y*sin'
+   */
+  rtb_Px_k = rtb_UnitConversion_eg * rtb_Py + rtb_SinCos_o2 * rtb_Sum1_j;
+
+  /* Gain: '<S40>/Gain1' */
+  rtb_Px = navigator_P.Gain1_Gain_m * rtb_DataTypeConversion1[4];
 
   /* Sum: '<S1>/Sum' incorporates:
-   *  Constant: '<S1>/dt'
-   *  Product: '<S1>/Product'
-   *  Product: '<S1>/Product2'
-   *  Product: '<S20>/x*cos'
-   *  Product: '<S20>/y*sin'
-   *  Sum: '<S20>/Sum2'
-   *  Trigonometry: '<S1>/Trigonometric Function'
+   *  Constant: '<S6>/dt'
+   *  Product: '<S6>/Product'
+   *  Product: '<S6>/Product2'
+   *  Trigonometry: '<S6>/Trigonometric Function'
    */
-  rtb_Sum_o = (rtb_SinCos_o1 * rtb_Sum1_k + rtb_Pz * rtb_SinCos_o2) +
-    rtb_DataTypeConversion1[3] * cos(rtb_Px_l) * navigator_P.dt_Value;
-
-  /* Gain: '<S12>/Unit Conversion' incorporates:
-   *  Constant: '<S8>/ref_pos'
-   */
-  rtb_UnitConversion_g_idx = navigator_P.UnitConversion_Gain_f *
-    navigator_P.ref_pos_Value_n;
-
-  /* Trigonometry: '<S8>/SinCos' */
-  rtb_Py_c = sin(rtb_UnitConversion_g_idx);
-  rtb_UnitConversion = cos(rtb_UnitConversion_g_idx);
-
-  /* Sum: '<S1>/Sum1' incorporates:
-   *  Constant: '<S1>/dt1'
-   *  Product: '<S1>/Product1'
-   *  Product: '<S1>/Product3'
-   *  Product: '<S20>/x*sin'
-   *  Product: '<S20>/y*cos'
-   *  Sum: '<S20>/Sum3'
-   *  Trigonometry: '<S1>/Trigonometric Function1'
-   */
-  rtb_Sum1_k = (rtb_Pz * rtb_Sum1_k - rtb_SinCos_o1 * rtb_SinCos_o2) +
-    rtb_DataTypeConversion1[3] * sin(rtb_Px_l) * navigator_P.dt1_Value;
-
-  /* Sum: '<S15>/Sum' incorporates:
-   *  Constant: '<S15>/Constant'
-   *  Constant: '<S15>/f'
-   */
-  rtb_Pz = navigator_P.f_Value_b - navigator_P.Constant_Value_p;
-
-  /* Sqrt: '<S16>/sqrt' incorporates:
-   *  Constant: '<S16>/Constant'
-   *  Product: '<S16>/Product1'
-   *  Sum: '<S16>/Sum1'
-   */
-  rtb_Pz = sqrt(navigator_P.Constant_Value_kd - rtb_Pz * rtb_Pz);
+  rtb_SinCos_o1 = rtb_DataTypeConversion1[3] * cos(rtb_Px) *
+    navigator_P.dt_Value + rtb_Px_k;
 
   /* Gain: '<S13>/Unit Conversion' incorporates:
+   *  Constant: '<S9>/ref_pos'
+   */
+  rtb_Gain = navigator_P.UnitConversion_Gain_f * navigator_P.ref_pos_Value_n;
+
+  /* Trigonometry: '<S9>/SinCos' */
+  rtb_Pz = sin(rtb_Gain);
+  rtb_Py_c = cos(rtb_Gain);
+
+  /* Sum: '<S21>/Sum3' incorporates:
+   *  Product: '<S21>/x*sin'
+   *  Product: '<S21>/y*cos'
+   */
+  rtb_Py = rtb_SinCos_o2 * rtb_Py - rtb_UnitConversion_eg * rtb_Sum1_j;
+
+  /* Sum: '<S1>/Sum1' incorporates:
+   *  Constant: '<S6>/dt1'
+   *  Product: '<S6>/Product1'
+   *  Product: '<S6>/Product3'
+   *  Trigonometry: '<S6>/Trigonometric Function1'
+   */
+  rtb_Px = rtb_DataTypeConversion1[3] * sin(rtb_Px) * navigator_P.dt1_Value +
+    rtb_Py;
+
+  /* Sum: '<S16>/Sum' incorporates:
+   *  Constant: '<S16>/Constant'
+   *  Constant: '<S16>/f'
+   */
+  rtb_SinCos_o2 = navigator_P.f_Value_b - navigator_P.Constant_Value_p;
+
+  /* Sqrt: '<S17>/sqrt' incorporates:
+   *  Constant: '<S17>/Constant'
+   *  Product: '<S17>/Product1'
+   *  Sum: '<S17>/Sum1'
+   */
+  rtb_SinCos_o2 = sqrt(navigator_P.Constant_Value_kd - rtb_SinCos_o2 *
+                       rtb_SinCos_o2);
+
+  /* Gain: '<S14>/Unit Conversion' incorporates:
    *  Constant: '<S3>/initial_latg'
    */
-  rtb_SinCos_o1 = navigator_P.UnitConversion_Gain_h *
+  rtb_UnitConversion_eg = navigator_P.UnitConversion_Gain_h *
     navigator_P.initial_latg_Value_n;
 
-  /* Trigonometry: '<S14>/Trigonometric Function1' */
-  rtb_Px_l = sin(rtb_SinCos_o1);
+  /* Trigonometry: '<S15>/Trigonometric Function1' */
+  rtb_Sum1_j = sin(rtb_UnitConversion_eg);
 
-  /* Sum: '<S14>/Sum1' incorporates:
-   *  Constant: '<S14>/Constant'
-   *  Product: '<S14>/Product1'
+  /* Sum: '<S15>/Sum1' incorporates:
+   *  Constant: '<S15>/Constant'
+   *  Product: '<S15>/Product1'
    */
-  rtb_Px_l = navigator_P.Constant_Value_k - rtb_Pz * rtb_Pz * rtb_Px_l *
-    rtb_Px_l;
+  rtb_Sum1_j = navigator_P.Constant_Value_k - rtb_SinCos_o2 * rtb_SinCos_o2 *
+    rtb_Sum1_j * rtb_Sum1_j;
 
-  /* Product: '<S11>/Product1' incorporates:
-   *  Constant: '<S11>/Constant1'
-   *  Sqrt: '<S11>/sqrt'
+  /* Product: '<S12>/Product1' incorporates:
+   *  Constant: '<S12>/Constant1'
+   *  Sqrt: '<S12>/sqrt'
    */
-  rtb_SinCos_o2 = navigator_P.Constant1_Value_f / sqrt(rtb_Px_l);
+  rtb_UnitConversion = navigator_P.Constant1_Value_f / sqrt(rtb_Sum1_j);
 
   /* Sum: '<S3>/Sum' incorporates:
-   *  Constant: '<S11>/Constant3'
+   *  Constant: '<S12>/Constant3'
    *  Constant: '<S3>/initial_pos'
-   *  Gain: '<S10>/Unit Conversion'
-   *  Product: '<S11>/Product4'
-   *  Product: '<S8>/rad long '
-   *  Product: '<S8>/x*sin'
-   *  Product: '<S8>/y*cos'
-   *  Sum: '<S8>/Sum1'
-   *  Trigonometry: '<S11>/Trigonometric Function'
-   *  Trigonometry: '<S11>/Trigonometric Function2'
+   *  Gain: '<S11>/Unit Conversion'
+   *  Product: '<S12>/Product4'
+   *  Product: '<S9>/rad long '
+   *  Product: '<S9>/x*sin'
+   *  Product: '<S9>/y*cos'
+   *  Sum: '<S9>/Sum1'
+   *  Trigonometry: '<S12>/Trigonometric Function'
+   *  Trigonometry: '<S12>/Trigonometric Function2'
    */
-  rtb_UnitConversion_g_idx_0 = (rtb_Sum_o * rtb_Py_c + rtb_Sum1_k *
-    rtb_UnitConversion) * rt_atan2d_snf(navigator_P.Constant3_Value_jt,
-    rtb_SinCos_o2 * cos(rtb_SinCos_o1)) * navigator_P.UnitConversion_Gain_g +
+  rtb_UnitConversion_g_idx_0 = (rtb_SinCos_o1 * rtb_Pz + rtb_Px * rtb_Py_c) *
+    rt_atan2d_snf(navigator_P.Constant3_Value_jt, rtb_UnitConversion * cos
+                  (rtb_UnitConversion_eg)) * navigator_P.UnitConversion_Gain_g +
     navigator_P.initial_pos_Value[1];
 
-  /* Math: '<S7>/Math Function1' incorporates:
-   *  Constant: '<S11>/Constant'
-   *  Constant: '<S11>/Constant2'
+  /* Math: '<S8>/Math Function1' incorporates:
+   *  Constant: '<S12>/Constant'
+   *  Constant: '<S12>/Constant2'
    *  Constant: '<S3>/initial_pos'
-   *  Constant: '<S7>/Constant5'
-   *  Gain: '<S10>/Unit Conversion'
-   *  Product: '<S11>/Product2'
-   *  Product: '<S11>/Product3'
-   *  Product: '<S8>/rad lat'
-   *  Product: '<S8>/x*cos'
-   *  Product: '<S8>/y*sin'
-   *  Sum: '<S11>/Sum1'
+   *  Constant: '<S8>/Constant5'
+   *  Gain: '<S11>/Unit Conversion'
+   *  Product: '<S12>/Product2'
+   *  Product: '<S12>/Product3'
+   *  Product: '<S9>/rad lat'
+   *  Product: '<S9>/x*cos'
+   *  Product: '<S9>/y*sin'
+   *  Sum: '<S12>/Sum1'
    *  Sum: '<S3>/Sum'
-   *  Sum: '<S8>/Sum'
-   *  Trigonometry: '<S11>/Trigonometric Function1'
+   *  Sum: '<S9>/Sum'
+   *  Trigonometry: '<S12>/Trigonometric Function1'
    */
   rtb_UnitConversion = rt_remd_snf(rt_atan2d_snf(navigator_P.Constant2_Value_f,
-                                    (navigator_P.Constant_Value_c - rtb_Pz *
-    rtb_Pz) * rtb_SinCos_o2 / rtb_Px_l) * (rtb_Sum_o * rtb_UnitConversion -
-    rtb_Sum1_k * rtb_Py_c) * navigator_P.UnitConversion_Gain_g +
-    navigator_P.initial_pos_Value[0], navigator_P.Constant5_Value_e);
+                                    (navigator_P.Constant_Value_c -
+    rtb_SinCos_o2 * rtb_SinCos_o2) * rtb_UnitConversion / rtb_Sum1_j) *
+    (rtb_SinCos_o1 * rtb_Py_c - rtb_Px * rtb_Pz) *
+    navigator_P.UnitConversion_Gain_g + navigator_P.initial_pos_Value[0],
+    navigator_P.Constant5_Value_e);
 
-  /* Product: '<S7>/Product2' incorporates:
-   *  Constant: '<S7>/Constant4'
+  /* Product: '<S8>/Product2' incorporates:
+   *  Constant: '<S8>/Constant4'
    */
-  rtb_UnitConversion_g_idx = rtb_UnitConversion / navigator_P.Constant4_Value_g;
+  rtb_PositionError_idx = rtb_UnitConversion / navigator_P.Constant4_Value_g;
 
-  /* Rounding: '<S7>/Rounding Function1' */
-  if (rtb_UnitConversion_g_idx < 0.0) {
-    rtb_UnitConversion_g_idx = ceil(rtb_UnitConversion_g_idx);
+  /* Rounding: '<S8>/Rounding Function1' */
+  if (rtb_PositionError_idx < 0.0) {
+    rtb_PositionError_idx = ceil(rtb_PositionError_idx);
   } else {
-    rtb_UnitConversion_g_idx = floor(rtb_UnitConversion_g_idx);
+    rtb_PositionError_idx = floor(rtb_PositionError_idx);
   }
 
-  /* Sum: '<S7>/Sum1' incorporates:
-   *  Gain: '<S7>/Gain3'
-   *  Rounding: '<S7>/Rounding Function1'
+  /* Sum: '<S8>/Sum1' incorporates:
+   *  Gain: '<S8>/Gain3'
+   *  Rounding: '<S8>/Rounding Function1'
    */
-  rtb_UnitConversion -= navigator_P.Gain3_Gain_l * rtb_UnitConversion_g_idx;
+  rtb_UnitConversion -= navigator_P.Gain3_Gain_l * rtb_PositionError_idx;
 
-  /* Product: '<S7>/Product' incorporates:
-   *  Constant: '<S7>/Constant1'
+  /* Product: '<S8>/Product' incorporates:
+   *  Constant: '<S8>/Constant1'
    */
   rtb_Py_c = rtb_UnitConversion / navigator_P.Constant1_Value_g;
 
-  /* Rounding: '<S7>/Rounding Function' */
+  /* Rounding: '<S8>/Rounding Function' */
   if (rtb_Py_c < 0.0) {
-    rtb_UnitConversion_g_idx = ceil(rtb_Py_c);
+    rtb_PositionError_idx = ceil(rtb_Py_c);
   } else {
-    rtb_UnitConversion_g_idx = floor(rtb_Py_c);
+    rtb_PositionError_idx = floor(rtb_Py_c);
   }
 
-  /* Gain: '<S7>/Gain1' */
+  /* Gain: '<S8>/Gain1' */
   rtb_Py_c *= navigator_P.Gain1_Gain_d;
 
-  /* Product: '<S7>/Product1' */
+  /* Product: '<S8>/Product1' */
   rtb_Py_c *= rtb_Py_c;
 
-  /* Sqrt: '<S7>/sqrt' */
+  /* Sqrt: '<S8>/sqrt' */
   rtb_Py_c = sqrt(rtb_Py_c);
 
-  /* Rounding: '<S7>/Rounding Function2' */
+  /* Rounding: '<S8>/Rounding Function2' */
   if (rtb_Py_c < 0.0) {
     rtb_Py_c = ceil(rtb_Py_c);
   } else {
     rtb_Py_c = floor(rtb_Py_c);
   }
 
-  /* End of Rounding: '<S7>/Rounding Function2' */
+  /* End of Rounding: '<S8>/Rounding Function2' */
 
-  /* Gain: '<S7>/Gain2' */
+  /* Gain: '<S8>/Gain2' */
   rtb_Py_c *= navigator_P.Gain2_Gain_p;
 
-  /* Sum: '<S7>/Sum2' incorporates:
-   *  Constant: '<S7>/Constant3'
-   *  Gain: '<S7>/Gain'
-   *  Math: '<S7>/Math Function2'
-   *  Product: '<S7>/Product3'
-   *  Rounding: '<S7>/Rounding Function'
+  /* Sum: '<S8>/Sum2' incorporates:
+   *  Constant: '<S8>/Constant3'
+   *  Gain: '<S8>/Gain'
+   *  Math: '<S8>/Math Function2'
+   *  Product: '<S8>/Product3'
+   *  Rounding: '<S8>/Rounding Function'
    */
   rtb_UnitConversion = (rtb_UnitConversion - navigator_P.Gain_Gain_c *
-                        rtb_UnitConversion_g_idx) - rtb_Py_c * rt_remd_snf
+                        rtb_PositionError_idx) - rtb_Py_c * rt_remd_snf
     (rtb_UnitConversion, navigator_P.Constant3_Value_h);
 
-  /* Math: '<S9>/Math Function2' incorporates:
-   *  Constant: '<S9>/Constant2'
-   *  DataTypeConversion: '<S7>/Data Type Conversion'
-   *  Gain: '<S7>/Gain4'
-   *  Logic: '<S7>/Logical Operator1'
-   *  Sum: '<S7>/Sum3'
+  /* Math: '<S10>/Math Function2' incorporates:
+   *  Constant: '<S10>/Constant2'
+   *  DataTypeConversion: '<S8>/Data Type Conversion'
+   *  Gain: '<S8>/Gain4'
+   *  Logic: '<S8>/Logical Operator1'
+   *  Sum: '<S8>/Sum3'
    */
   rtb_Py_c = rt_remd_snf((real_T)(rtb_Py_c != 0.0) * navigator_P.Gain4_Gain_j +
     rtb_UnitConversion_g_idx_0, navigator_P.Constant2_Value_e);
 
-  /* Product: '<S9>/Product' incorporates:
-   *  Constant: '<S9>/Constant'
+  /* Product: '<S10>/Product' incorporates:
+   *  Constant: '<S10>/Constant'
    */
-  rtb_UnitConversion_g_idx = rtb_Py_c / navigator_P.Constant_Value_d;
+  rtb_PositionError_idx = rtb_Py_c / navigator_P.Constant_Value_d;
 
-  /* Rounding: '<S9>/Rounding Function' */
-  if (rtb_UnitConversion_g_idx < 0.0) {
-    rtb_UnitConversion_g_idx = ceil(rtb_UnitConversion_g_idx);
+  /* Rounding: '<S10>/Rounding Function' */
+  if (rtb_PositionError_idx < 0.0) {
+    rtb_PositionError_idx = ceil(rtb_PositionError_idx);
   } else {
-    rtb_UnitConversion_g_idx = floor(rtb_UnitConversion_g_idx);
+    rtb_PositionError_idx = floor(rtb_PositionError_idx);
   }
 
-  /* Sum: '<S9>/Sum2' incorporates:
-   *  Gain: '<S9>/Gain'
-   *  Rounding: '<S9>/Rounding Function'
+  /* Sum: '<S10>/Sum2' incorporates:
+   *  Gain: '<S10>/Gain'
+   *  Rounding: '<S10>/Rounding Function'
    */
-  rtb_Py_c -= navigator_P.Gain_Gain_j * rtb_UnitConversion_g_idx;
+  rtb_Py_c -= navigator_P.Gain_Gain_j * rtb_PositionError_idx;
 
   /* DataTypeConversion: '<S1>/Data Type Conversion' */
-  rtb_DataTypeConversion_idx = (real32_T)rtb_UnitConversion;
-  rtb_DataTypeConversion_idx_0 = (real32_T)rtb_Py_c;
+  rtb_XYZ_idx = (real32_T)rtb_UnitConversion;
+  rtb_XYZ_idx_0 = (real32_T)rtb_Py_c;
 
-  /* Math: '<S29>/Math Function1' incorporates:
-   *  Constant: '<S29>/Constant5'
+  /* Math: '<S30>/Math Function1' incorporates:
+   *  Constant: '<S30>/Constant5'
    */
   rtb_Py_c = rt_remd_snf(rtb_DataTypeConversion1[5],
     navigator_P.Constant5_Value_b);
 
-  /* Product: '<S29>/Product2' incorporates:
-   *  Constant: '<S29>/Constant4'
+  /* Product: '<S30>/Product2' incorporates:
+   *  Constant: '<S30>/Constant4'
    */
-  rtb_UnitConversion_g_idx = rtb_Py_c / navigator_P.Constant4_Value_g4;
+  rtb_PositionError_idx = rtb_Py_c / navigator_P.Constant4_Value_g4;
 
-  /* Rounding: '<S29>/Rounding Function1' */
-  if (rtb_UnitConversion_g_idx < 0.0) {
-    rtb_UnitConversion_g_idx = ceil(rtb_UnitConversion_g_idx);
+  /* Rounding: '<S30>/Rounding Function1' */
+  if (rtb_PositionError_idx < 0.0) {
+    rtb_PositionError_idx = ceil(rtb_PositionError_idx);
   } else {
-    rtb_UnitConversion_g_idx = floor(rtb_UnitConversion_g_idx);
+    rtb_PositionError_idx = floor(rtb_PositionError_idx);
   }
 
-  /* Sum: '<S29>/Sum1' incorporates:
-   *  Gain: '<S29>/Gain3'
-   *  Rounding: '<S29>/Rounding Function1'
+  /* Sum: '<S30>/Sum1' incorporates:
+   *  Gain: '<S30>/Gain3'
+   *  Rounding: '<S30>/Rounding Function1'
    */
-  rtb_Py_c -= navigator_P.Gain3_Gain_o * rtb_UnitConversion_g_idx;
+  rtb_Py_c -= navigator_P.Gain3_Gain_o * rtb_PositionError_idx;
 
-  /* Product: '<S29>/Product' incorporates:
-   *  Constant: '<S29>/Constant1'
+  /* Product: '<S30>/Product' incorporates:
+   *  Constant: '<S30>/Constant1'
    */
   rtb_Pz = rtb_Py_c / navigator_P.Constant1_Value_d;
 
-  /* Rounding: '<S29>/Rounding Function' */
+  /* Rounding: '<S30>/Rounding Function' */
   if (rtb_Pz < 0.0) {
-    rtb_UnitConversion_g_idx = ceil(rtb_Pz);
+    rtb_PositionError_idx = ceil(rtb_Pz);
   } else {
-    rtb_UnitConversion_g_idx = floor(rtb_Pz);
+    rtb_PositionError_idx = floor(rtb_Pz);
   }
 
-  /* Gain: '<S29>/Gain1' */
+  /* Gain: '<S30>/Gain1' */
   rtb_Pz *= navigator_P.Gain1_Gain_i;
 
-  /* Product: '<S29>/Product1' */
+  /* Product: '<S30>/Product1' */
   rtb_Pz *= rtb_Pz;
 
-  /* Sqrt: '<S29>/sqrt' */
+  /* Sqrt: '<S30>/sqrt' */
   rtb_Pz = sqrt(rtb_Pz);
 
-  /* Rounding: '<S29>/Rounding Function2' */
+  /* Rounding: '<S30>/Rounding Function2' */
   if (rtb_Pz < 0.0) {
     rtb_Pz = ceil(rtb_Pz);
   } else {
     rtb_Pz = floor(rtb_Pz);
   }
 
-  /* End of Rounding: '<S29>/Rounding Function2' */
+  /* End of Rounding: '<S30>/Rounding Function2' */
 
-  /* Gain: '<S29>/Gain2' */
+  /* Gain: '<S30>/Gain2' */
   rtb_Pz *= navigator_P.Gain2_Gain_k;
 
-  /* Sum: '<S29>/Sum2' incorporates:
-   *  Constant: '<S29>/Constant3'
-   *  Gain: '<S29>/Gain'
-   *  Math: '<S29>/Math Function2'
-   *  Product: '<S29>/Product3'
-   *  Rounding: '<S29>/Rounding Function'
+  /* Sum: '<S30>/Sum2' incorporates:
+   *  Constant: '<S30>/Constant3'
+   *  Gain: '<S30>/Gain'
+   *  Math: '<S30>/Math Function2'
+   *  Product: '<S30>/Product3'
+   *  Rounding: '<S30>/Rounding Function'
    */
-  rtb_Py_c = (rtb_Py_c - navigator_P.Gain_Gain_k * rtb_UnitConversion_g_idx) -
+  rtb_Py_c = (rtb_Py_c - navigator_P.Gain_Gain_k * rtb_PositionError_idx) -
     rtb_Pz * rt_remd_snf(rtb_Py_c, navigator_P.Constant3_Value_c);
 
-  /* Math: '<S30>/Math Function2' incorporates:
-   *  Constant: '<S30>/Constant2'
-   *  DataTypeConversion: '<S29>/Data Type Conversion'
-   *  Gain: '<S29>/Gain4'
-   *  Logic: '<S29>/Logical Operator1'
-   *  Sum: '<S29>/Sum3'
+  /* Math: '<S31>/Math Function2' incorporates:
+   *  Constant: '<S31>/Constant2'
+   *  DataTypeConversion: '<S30>/Data Type Conversion'
+   *  Gain: '<S30>/Gain4'
+   *  Logic: '<S30>/Logical Operator1'
+   *  Sum: '<S30>/Sum3'
    */
   rtb_Pz = rt_remd_snf((real_T)(rtb_Pz != 0.0) * navigator_P.Gain4_Gain_i +
                        rtb_DataTypeConversion1[6], navigator_P.Constant2_Value_h);
 
-  /* Product: '<S30>/Product' incorporates:
-   *  Constant: '<S30>/Constant'
+  /* Product: '<S31>/Product' incorporates:
+   *  Constant: '<S31>/Constant'
    */
-  rtb_UnitConversion_g_idx = rtb_Pz / navigator_P.Constant_Value_kc;
+  rtb_PositionError_idx = rtb_Pz / navigator_P.Constant_Value_kc;
 
-  /* Rounding: '<S30>/Rounding Function' */
-  if (rtb_UnitConversion_g_idx < 0.0) {
-    rtb_UnitConversion_g_idx = ceil(rtb_UnitConversion_g_idx);
+  /* Rounding: '<S31>/Rounding Function' */
+  if (rtb_PositionError_idx < 0.0) {
+    rtb_PositionError_idx = ceil(rtb_PositionError_idx);
   } else {
-    rtb_UnitConversion_g_idx = floor(rtb_UnitConversion_g_idx);
+    rtb_PositionError_idx = floor(rtb_PositionError_idx);
   }
 
-  /* Sum: '<S30>/Sum2' incorporates:
-   *  Gain: '<S30>/Gain'
-   *  Rounding: '<S30>/Rounding Function'
+  /* Sum: '<S31>/Sum2' incorporates:
+   *  Gain: '<S31>/Gain'
+   *  Rounding: '<S31>/Rounding Function'
    */
-  rtb_Pz -= navigator_P.Gain_Gain_kt * rtb_UnitConversion_g_idx;
+  rtb_Pz -= navigator_P.Gain_Gain_kt * rtb_PositionError_idx;
 
-  /* Gain: '<S32>/Unit Conversion' incorporates:
-   *  Constant: '<S28>/initial_pos'
-   *  Sum: '<S28>/Sum1'
+  /* Gain: '<S33>/Unit Conversion' incorporates:
+   *  Constant: '<S29>/initial_pos'
+   *  Sum: '<S29>/Sum1'
    */
   rtb_UnitConversion_g_idx = (rtb_Py_c - navigator_P.initial_pos_Value_h[0]) *
     navigator_P.UnitConversion_Gain_gs;
   rtb_UnitConversion_g_idx_0 = (rtb_Pz - navigator_P.initial_pos_Value_h[1]) *
     navigator_P.UnitConversion_Gain_gs;
 
-  /* Sum: '<S37>/Sum' incorporates:
-   *  Constant: '<S37>/Constant'
-   *  Constant: '<S37>/f'
+  /* Sum: '<S38>/Sum' incorporates:
+   *  Constant: '<S38>/Constant'
+   *  Constant: '<S38>/f'
    */
   rtb_Py_c = navigator_P.f_Value_j - navigator_P.Constant_Value_n;
 
-  /* Sqrt: '<S38>/sqrt' incorporates:
-   *  Constant: '<S38>/Constant'
-   *  Product: '<S38>/Product1'
-   *  Sum: '<S38>/Sum1'
+  /* Sqrt: '<S39>/sqrt' incorporates:
+   *  Constant: '<S39>/Constant'
+   *  Product: '<S39>/Product1'
+   *  Sum: '<S39>/Sum1'
    */
   rtb_Py_c = sqrt(navigator_P.Constant_Value_m - rtb_Py_c * rtb_Py_c);
 
-  /* Gain: '<S35>/Unit Conversion' incorporates:
-   *  Constant: '<S28>/initial_latg'
+  /* Gain: '<S36>/Unit Conversion' incorporates:
+   *  Constant: '<S29>/initial_latg'
    */
   rtb_Pz = navigator_P.UnitConversion_Gain_i * navigator_P.initial_latg_Value_i;
 
-  /* Trigonometry: '<S36>/Trigonometric Function1' */
+  /* Trigonometry: '<S37>/Trigonometric Function1' */
   rtb_SinCos_o1 = sin(rtb_Pz);
 
-  /* Sum: '<S36>/Sum1' incorporates:
-   *  Constant: '<S36>/Constant'
-   *  Product: '<S36>/Product1'
+  /* Sum: '<S37>/Sum1' incorporates:
+   *  Constant: '<S37>/Constant'
+   *  Product: '<S37>/Product1'
    */
   rtb_SinCos_o1 = navigator_P.Constant_Value_ks - rtb_Py_c * rtb_Py_c *
     rtb_SinCos_o1 * rtb_SinCos_o1;
 
-  /* Product: '<S33>/Product1' incorporates:
-   *  Constant: '<S33>/Constant1'
-   *  Sqrt: '<S33>/sqrt'
+  /* Product: '<S34>/Product1' incorporates:
+   *  Constant: '<S34>/Constant1'
+   *  Sqrt: '<S34>/sqrt'
    */
-  rtb_Px_l = navigator_P.Constant1_Value_o / sqrt(rtb_SinCos_o1);
+  rtb_Px = navigator_P.Constant1_Value_o / sqrt(rtb_SinCos_o1);
 
-  /* Product: '<S31>/dNorth' incorporates:
-   *  Constant: '<S33>/Constant'
-   *  Constant: '<S33>/Constant2'
-   *  Product: '<S33>/Product2'
-   *  Product: '<S33>/Product3'
-   *  Sum: '<S33>/Sum1'
-   *  Trigonometry: '<S33>/Trigonometric Function1'
+  /* Product: '<S32>/dNorth' incorporates:
+   *  Constant: '<S34>/Constant'
+   *  Constant: '<S34>/Constant2'
+   *  Product: '<S34>/Product2'
+   *  Product: '<S34>/Product3'
+   *  Sum: '<S34>/Sum1'
+   *  Trigonometry: '<S34>/Trigonometric Function1'
    */
   rtb_Py_c = rtb_UnitConversion_g_idx / rt_atan2d_snf
     (navigator_P.Constant2_Value_n, (navigator_P.Constant_Value_f - rtb_Py_c *
-      rtb_Py_c) * rtb_Px_l / rtb_SinCos_o1);
+      rtb_Py_c) * rtb_Px / rtb_SinCos_o1);
 
-  /* Gain: '<S34>/Unit Conversion' incorporates:
-   *  Constant: '<S31>/ref_pos'
+  /* Gain: '<S35>/Unit Conversion' incorporates:
+   *  Constant: '<S32>/ref_pos'
    */
-  rtb_UnitConversion_g_idx = navigator_P.UnitConversion_Gain_c *
-    navigator_P.ref_pos_Value_c;
+  rtb_Gain = navigator_P.UnitConversion_Gain_c * navigator_P.ref_pos_Value_c;
 
-  /* Trigonometry: '<S31>/SinCos' */
-  rtb_SinCos_o1 = sin(rtb_UnitConversion_g_idx);
-  rtb_SinCos_o2 = cos(rtb_UnitConversion_g_idx);
+  /* Trigonometry: '<S32>/SinCos' */
+  rtb_SinCos_o1 = sin(rtb_Gain);
+  rtb_SinCos_o2 = cos(rtb_Gain);
 
-  /* Product: '<S31>/dEast' incorporates:
-   *  Constant: '<S33>/Constant3'
-   *  Product: '<S33>/Product4'
-   *  Trigonometry: '<S33>/Trigonometric Function'
-   *  Trigonometry: '<S33>/Trigonometric Function2'
+  /* Product: '<S32>/dEast' incorporates:
+   *  Constant: '<S34>/Constant3'
+   *  Product: '<S34>/Product4'
+   *  Trigonometry: '<S34>/Trigonometric Function'
+   *  Trigonometry: '<S34>/Trigonometric Function2'
    */
-  rtb_Pz = 1.0 / rt_atan2d_snf(navigator_P.Constant3_Value_o, rtb_Px_l * cos
+  rtb_Pz = 1.0 / rt_atan2d_snf(navigator_P.Constant3_Value_o, rtb_Px * cos
     (rtb_Pz)) * rtb_UnitConversion_g_idx_0;
 
   /* Sum: '<S1>/Sum2' incorporates:
-   *  Product: '<S31>/x*cos'
-   *  Product: '<S31>/x*sin'
-   *  Product: '<S31>/y*cos'
-   *  Product: '<S31>/y*sin'
-   *  Sum: '<S31>/Sum2'
-   *  Sum: '<S31>/Sum3'
+   *  Product: '<S32>/x*cos'
+   *  Product: '<S32>/x*sin'
+   *  Product: '<S32>/y*cos'
+   *  Product: '<S32>/y*sin'
+   *  Sum: '<S32>/Sum2'
+   *  Sum: '<S32>/Sum3'
    */
-  rtb_UnitConversion_g_idx_0 = rtb_Sum_o - (rtb_Py_c * rtb_SinCos_o2 + rtb_Pz *
+  rtb_PositionError_idx = rtb_Px_k - (rtb_Py_c * rtb_SinCos_o2 + rtb_Pz *
     rtb_SinCos_o1);
-  rtb_Px_l = rtb_Sum1_k - (rtb_Pz * rtb_SinCos_o2 - rtb_Py_c * rtb_SinCos_o1);
+  rtb_UnitConversion_g_idx = rtb_Py - (rtb_Pz * rtb_SinCos_o2 - rtb_Py_c *
+    rtb_SinCos_o1);
 
-  /* Switch: '<S1>/Switch' incorporates:
-   *  Constant: '<S1>/Constant1'
+  /* Switch: '<S2>/Switch' incorporates:
+   *  Constant: '<S2>/Constant1'
    *  Constant: '<S4>/Constant'
    *  Constant: '<S5>/Constant'
-   *  DotProduct: '<S1>/Dot Product'
-   *  Product: '<S6>/Divide'
-   *  Product: '<S6>/Product'
-   *  Sqrt: '<S1>/Sqrt'
-   *  Sum: '<S17>/Sum'
+   *  DotProduct: '<S2>/Dot Product'
+   *  Product: '<S7>/Divide'
+   *  Product: '<S7>/Product'
+   *  Sqrt: '<S2>/Sqrt'
+   *  Sum: '<S18>/Sum'
    *  Sum: '<S1>/Sum2'
-   *  Sum: '<S28>/Sum'
-   *  UnaryMinus: '<S17>/Ze2height'
-   *  UnaryMinus: '<S28>/Ze2height'
+   *  Sum: '<S29>/Sum'
+   *  UnaryMinus: '<S18>/Ze2height'
+   *  UnaryMinus: '<S29>/Ze2height'
    */
-  if (sqrt(rtb_UnitConversion_g_idx_0 * rtb_UnitConversion_g_idx_0 + rtb_Px_l *
-           rtb_Px_l) >= navigator_P.Switch_Threshold) {
-    /* Sqrt: '<S6>/Sqrt' incorporates:
-     *  DotProduct: '<S6>/Dot Product'
+  if (sqrt(rtb_PositionError_idx * rtb_PositionError_idx +
+           rtb_UnitConversion_g_idx * rtb_UnitConversion_g_idx) >=
+      navigator_P.Switch_Threshold) {
+    /* Sqrt: '<S7>/Sqrt' incorporates:
+     *  DotProduct: '<S7>/Dot Product'
      */
-    rtb_UnitConversion_g_idx = sqrt(rtb_UnitConversion_g_idx_0 *
-      rtb_UnitConversion_g_idx_0 + rtb_Px_l * rtb_Px_l);
+    rtb_Gain = sqrt(rtb_PositionError_idx * rtb_PositionError_idx +
+                    rtb_UnitConversion_g_idx * rtb_UnitConversion_g_idx);
 
-    /* Saturate: '<S6>/Saturation' */
-    if (rtb_UnitConversion_g_idx >= navigator_P.Saturation_UpperSat) {
+    /* Saturate: '<S7>/Saturation' */
+    if (rtb_Gain >= navigator_P.Saturation_UpperSat) {
       rtb_UnitConversion = navigator_P.Saturation_UpperSat;
-    } else if (rtb_UnitConversion_g_idx <= navigator_P.Saturation_LowerSat) {
+    } else if (rtb_Gain <= navigator_P.Saturation_LowerSat) {
       rtb_UnitConversion = navigator_P.Saturation_LowerSat;
     } else {
-      rtb_UnitConversion = rtb_UnitConversion_g_idx;
+      rtb_UnitConversion = rtb_Gain;
     }
 
-    /* End of Saturate: '<S6>/Saturation' */
-    rtb_UnitConversion_g_idx_0 = rtb_UnitConversion_g_idx_0 /
-      rtb_UnitConversion_g_idx * rtb_UnitConversion;
-    rtb_Px_l = rtb_Px_l / rtb_UnitConversion_g_idx * rtb_UnitConversion;
-    rtb_UnitConversion_g_idx = -(rtb_DataTypeConversion1[2] +
+    /* End of Saturate: '<S7>/Saturation' */
+    rtb_Px = rtb_PositionError_idx / rtb_Gain * rtb_UnitConversion;
+    rtb_UnitConversion_g_idx = rtb_UnitConversion_g_idx / rtb_Gain *
+      rtb_UnitConversion;
+    rtb_PositionError_idx = -(rtb_DataTypeConversion1[2] +
       navigator_P.Constant_Value_f1) - (-(rtb_DataTypeConversion1[7] +
       navigator_P.Constant_Value_kn));
   } else {
-    rtb_UnitConversion_g_idx_0 = navigator_P.Constant1_Value[0];
-    rtb_Px_l = navigator_P.Constant1_Value[1];
-    rtb_UnitConversion_g_idx = navigator_P.Constant1_Value[2];
+    rtb_Px = navigator_P.Constant1_Value[0];
+    rtb_UnitConversion_g_idx = navigator_P.Constant1_Value[1];
+    rtb_PositionError_idx = navigator_P.Constant1_Value[2];
   }
 
-  /* End of Switch: '<S1>/Switch' */
+  /* End of Switch: '<S2>/Switch' */
 
   /* Outport: '<Root>/Out' incorporates:
    *  DataTypeConversion: '<S1>/Data Type Conversion'
    *  DataTypeConversion: '<S1>/Data Type Conversion2'
    */
-  navigator_Y.Out[0] = rtb_DataTypeConversion_idx;
-  navigator_Y.Out[1] = rtb_DataTypeConversion_idx_0;
+  navigator_Y.Out[0] = rtb_XYZ_idx;
+  navigator_Y.Out[1] = rtb_XYZ_idx_0;
   navigator_Y.Out[2] = (real32_T)rtb_DataTypeConversion1[7];
-  navigator_Y.Out[3] = (real32_T)rtb_UnitConversion_g_idx_0;
-  navigator_Y.Out[4] = (real32_T)rtb_Px_l;
-  navigator_Y.Out[5] = (real32_T)rtb_UnitConversion_g_idx;
+  navigator_Y.Out[3] = (real32_T)rtb_Px;
+  navigator_Y.Out[4] = (real32_T)rtb_UnitConversion_g_idx;
+  navigator_Y.Out[5] = (real32_T)rtb_PositionError_idx;
 }
 
 /* Model initialize function */

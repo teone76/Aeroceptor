@@ -18,7 +18,9 @@ FmlNav navigator("ATmega2560");
 FmlMsgLed ledMessage1("mLed1");
 
 unsigned long mavTimer = millis();
-unsigned long mavInterval = 1000;
+unsigned long mavTimerSlow = millis();
+unsigned long mavInterval_1 = 1000;
+unsigned long mavInterval_2 = 5000;
 
 unsigned long ledTimer = millis();
 unsigned long ledInterval = 500;
@@ -100,11 +102,18 @@ void loop() {
   }
   
   // MAVLINK TASK - 1 HZ 
-  if(millis() - mavTimer > mavInterval)
+  if(millis() - mavTimer > mavInterval_1)
   { 
     mavTimer = millis();  
-    // Invio del heatbeat a tutti i multirotori
+    // Send Heartbeat to all
     sendHeartbeat();  
+    //multirotor_1.sendNavGuided();
+  }  
+  
+  // MAVLINK TASK - 0,2 HZ 
+  if(millis() - mavTimerSlow > mavInterval_2)
+  { 
+    mavTimerSlow = millis();   
     sendRequest(); 
     //multirotor_1.sendNavGuided();
   }  
@@ -145,7 +154,7 @@ void loop() {
       sendWaypoints();
     }
     else if (followMeActived_2()) {
-      sendSplineWaypoints();
+      sendVelocityTarget();
     }
     printAllData();   
     
@@ -204,14 +213,14 @@ void  sendRequest()
   //rover.getDataStream(Fml_data_stream_all);
   multirotor_1.getDataStream(Fml_gps_status);
   multirotor_1.getDataStream(Fml_global_position);
-  multirotor_2.getDataStream(Fml_gps_status);
-  multirotor_2.getDataStream(Fml_global_position);
+  //multirotor_2.getDataStream(Fml_gps_status);
+  //multirotor_2.getDataStream(Fml_global_position);
 }
 
 void sendHeartbeat()
 {
   multirotor_1.sendMavMsgHeartbeat();
-  multirotor_2.sendMavMsgHeartbeat();   
+  //multirotor_2.sendMavMsgHeartbeat();   
 }
 
 
@@ -221,8 +230,8 @@ void updateDronePositionReference()
   multirotor_1.setRifLatitude(navigator_Y.Out[0]);
   multirotor_1.setRifLongitude(navigator_Y.Out[1]);
   multirotor_1.setRifRelAltitude(navigator_Y.Out[2]);
-  multirotor_1.setRifVx(/*0.5*navigator_Y.Out[3] + */rover.getVx());   ///////////////////////////////////////
-  multirotor_1.setRifVy(/*0.5*navigator_Y.Out[4] + */rover.getVy());   ///////////////////////////////////////
+  multirotor_1.setRifVx(navigator_Y.Out[3] + rover.getVx());   ///////////////////////////////////////
+  multirotor_1.setRifVy(navigator_Y.Out[4] + rover.getVy());   ///////////////////////////////////////
   
   //multirotor_2.setRifLatitude(navigator_Y.Out[3]);
   //multirotor_2.setRifLongitude(navigator_Y.Out[4]);
@@ -241,13 +250,13 @@ void updateDronePositionReference()
 void sendWaypoints()
 {
   multirotor_1.sendMissionItemNavWaypoint();
-  multirotor_2.sendMissionItemNavWaypoint();
+  //multirotor_2.sendMissionItemNavWaypoint();
 }
 
-void sendSplineWaypoints()
+void sendVelocityTarget()
 {
   multirotor_1.sendPositionTargetGlobalInt();
-  multirotor_2.sendPositionTargetGlobalInt();
+  //multirotor_2.sendPositionTargetGlobalInt();
 }
 
 void printAllData()
