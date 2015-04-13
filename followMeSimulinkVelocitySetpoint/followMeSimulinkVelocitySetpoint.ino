@@ -114,8 +114,8 @@ void loop() {
   if(rover.isLocationUpdated() /*&& rover.isOtherUpdated()*/)
   { 
       // Set model inputs  
-  navigator_U.In[0] = rover.getLatitude() - dLat;
-  navigator_U.In[1] = rover.getLongitude() - dLon;
+  navigator_U.In[0] = rover.getLatitude(); //- dLat;
+  navigator_U.In[1] = rover.getLongitude(); //- dLon;
   navigator_U.In[2] = rover.getRelativeAltitude();
   navigator_U.In[3] = rover.getGroundSpeed();
   navigator_U.In[4] = rover.getHeading();
@@ -126,8 +126,8 @@ void loop() {
   navigator_U.In[8] = multirotor_1.getGroundSpeed();
   navigator_U.In[9] = multirotor_1.getHeading();  
 
-  navigator_U.In[10] = multirotor_2.getLatitude()  + dLat;
-  navigator_U.In[11] = multirotor_2.getLongitude() + dLon;
+  navigator_U.In[10] = multirotor_2.getLatitude(); // + dLat;
+  navigator_U.In[11] = multirotor_2.getLongitude(); // + dLon;
   navigator_U.In[12] = multirotor_2.getRelativeAltitude();
   navigator_U.In[13] = multirotor_2.getGroundSpeed();
   navigator_U.In[14] = multirotor_2.getHeading();
@@ -221,8 +221,8 @@ void updateDronePositionReference()
   multirotor_1.setRifLatitude(navigator_Y.Out[0]);
   multirotor_1.setRifLongitude(navigator_Y.Out[1]);
   multirotor_1.setRifRelAltitude(navigator_Y.Out[2]);
-  multirotor_1.setRifVx(0.5*navigator_Y.Out[3] + rover.getVx());
-  multirotor_1.setRifVy(0.5*navigator_Y.Out[4] + rover.getVy());
+  multirotor_1.setRifVx(/*0.5*navigator_Y.Out[3] + */rover.getVx());   ///////////////////////////////////////
+  multirotor_1.setRifVy(/*0.5*navigator_Y.Out[4] + */rover.getVy());   ///////////////////////////////////////
   
   //multirotor_2.setRifLatitude(navigator_Y.Out[3]);
   //multirotor_2.setRifLongitude(navigator_Y.Out[4]);
