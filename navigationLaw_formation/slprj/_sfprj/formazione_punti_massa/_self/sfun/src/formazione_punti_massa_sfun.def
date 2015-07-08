@@ -1,0 +1,3 @@
+LIBRARY formazione_punti_massa_sfun.mexw64
+EXPORTS
+mexFunction

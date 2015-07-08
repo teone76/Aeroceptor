@@ -274,16 +274,21 @@ void FmlDroneInterface::sendMavMsgHeartbeat()
         Serial2.write(buf, len); 
         /*Serial.println("");
         Serial.println("send heartbeat to serial2"); */}
+      else if(serial_port == 3) { 
+        Serial3.write(buf, len); 
+        /*Serial.println("");
+        Serial.println("send data request to serial3");*/      
+      }         
       else {
-    //Serial.println("Serial port error"); 
+        //Serial.println("Serial port error"); 
       }    
 }
 
-void FmlDroneInterface::getDataStream(int param_id) {
+void FmlDroneInterface::getDataStream(int param_id, int rate) {
 
    uint8_t buf[MAVLINK_MAX_PACKET_LEN];  
    request_data_stream.req_stream_id = param_id;  // 2:gps_status,  6: global position
-   request_data_stream.req_message_rate = 3;
+   request_data_stream.req_message_rate = rate;
    request_data_stream.start_stop = 1;    
     mavlink_msg_request_data_stream_pack(gcs_id, gcs_id, &msg, id, id, request_data_stream.req_stream_id, request_data_stream.req_message_rate, request_data_stream.start_stop);    
    
@@ -304,7 +309,7 @@ void FmlDroneInterface::getDataStream(int param_id) {
     else if(serial_port == 3) { 
       Serial3.write(buf, len); 
       /*Serial.println("");
-      Serial.println("send data request to serial2");*/      
+      Serial.println("send data request to serial3");*/      
     }          
     else {
     //Serial.println("Serial port error"); 
@@ -514,6 +519,36 @@ void FmlDroneInterface::sendPositionTargetGlobalInt()
     //Serial.println("Serial port error"); 
     }   
     //mission_item.seq = mission_item.seq +1;    //DA CONTROLLARE
+}
+
+void FmlDroneInterface::sendConditionYaw(float yawdeg, float degxsec, float dir)
+{
+    uint8_t buf[MAVLINK_MAX_PACKET_LEN];
+    //Serial.print(MAVLINK_MAX_PACKET_LEN);command_long
+    command_long.command = MAV_CMD_CONDITION_YAW;   
+    command_long.confirmation = 0;               
+    command_long.param1 = yawdeg;	         //target angle: [0-360], 0 is north
+    command_long.param2 = degxsec;               //speed during yaw change:[deg per second]
+    command_long.param3 = dir;                   //direction: negative: counter clockwise, positive: clockwise [-1,1]   
+    command_long.param4 = 0;                     //relative offset or absolute angle: [ 1,0]
+    command_long.param5 = 0;                     //Empty
+    command_long.param6 = 0;                     //Empty
+    command_long.param7 = 0;                     //Empty
+    
+    mavlink_msg_command_long_pack(gcs_id, gcs_id, &msg, id, id, command_long.command, command_long.confirmation, command_long.param1, command_long.param2, command_long.param3, command_long.param4, command_long.param5, command_long.param6, command_long.param7);
+    
+    uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
+	
+    // Send the message (.write sends as bytes) 	
+    if(serial_port == 1) {
+      Serial1.write(buf, len); 
+    }     
+    else if(serial_port == 2) { 
+      Serial2.write(buf, len);    
+    }      
+    else {
+    //Serial.println("Serial port error"); 
+    }     
 }
 
 void FmlLocation::commit()

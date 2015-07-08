@@ -108,8 +108,9 @@ public:
   void sendMavMsgHeartbeat();
   void sendMissionItemNavWaypoint();
   void sendPositionTargetGlobalInt();
+  void sendConditionYaw(float yawdeg, float degxsec, float dir);
   //void sendNavGuided();
-  void getDataStream(int param_id);
+  void getDataStream(int param_id, int rate);
   void setRifLatitude(float rifLatitude);
   void setRifLongitude(float rifLongitude);
   void setRifRelAltitude(float rifRelAltitude);
@@ -149,7 +150,7 @@ private:
   mavlink_vfr_hud_t vfr_hud; 
   mavlink_set_position_target_global_int_t position_target_global_int; 
   //mavlink_set_position_target_local_ned_t position_target_local_ned;
-  //mavlink_command_long_t command_long;
+  mavlink_command_long_t command_long;
  // mavlink_set_position_target_global_int_t packet;
   mavlink_request_data_stream_t request_data_stream;
   mavlink_gps_raw_int_t gps_raw_int;
